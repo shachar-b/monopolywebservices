@@ -76,9 +76,14 @@ public class City extends Asset {
 	 */
 	public void BuyHouse(Player player)
 	{
+                Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
+                        "house numer "+numHouses+1+" has been built at "+name, player.getName(), player.getCurrentPosition()));
+                Monopoly.addEvent(EventImpl.createNewPaymentEvent(player.getName(), EventImpl.EventTypes.Payment, "pay "+cost,
+                        player.getName(), true, false, "game", costOfHouse));
 		player.ChangeBalance(costOfHouse, GameManager.SUBTRACT);
 		numHouses++;
-		GameManager.CurrentUI.notifyPlayerBoughtHouse(player, this);
+//		GameManager.CurrentUI.notifyPlayerBoughtHouse(player, this);
+                
 		fireEvent("user bought house at "+this.getName()); // if anything changed notify Listeners
 	}
 

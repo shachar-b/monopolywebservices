@@ -141,12 +141,15 @@ public abstract class Player extends InnerChangeListenableClass {
 		{
 			if(amount>Balance)//Can have balance of zero - but not negative balance
 			{
+                                Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
+                                        EventImpl.EventTypes.PlayerLost, "the player "+ Name+ " is out of funds so he lost", Name));
 				GameManager.currentGame.removePlayerFromGame(this);//if false remove from game
 				fireEvent("removed");
 				return Balance;//returns the amount of money taken
 			}
 			else
 			{
+                                //TODO;paymaent events?
 				Balance-=amount;
 				fireEvent("taken");
 				return amount;

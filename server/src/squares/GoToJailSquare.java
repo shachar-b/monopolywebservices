@@ -1,6 +1,8 @@
 package squares;
 
+import monopoly.EventImpl;
 import monopoly.GameManager;
+import monopoly.Monopoly;
 import players.Player;
 
 /**
@@ -19,10 +21,13 @@ public class GoToJailSquare extends Square {
 	 */
 	@Override
 	public void playerArrived(Player player) {
-		GameManager.CurrentUI.notifyPlayerLandsOnGoToJail(player);
+		
 		//Don't be stupid: CHECK FOR BUGS (V1.0)
 		player.setGoOnNextTurn(false);
+                Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(), EventImpl.EventTypes.GoToJail,
+                        "player "+player.getName()+" was thrown to jail!", player.getName()));
 		GameManager.currentGame.gotoNextSquareOfType(player, JailSlashFreePassSquare.class, false);
+                //next state whold be called inside the prison
 	}
 
 }

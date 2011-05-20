@@ -12,6 +12,7 @@ import monopoly.results.GameDetailsResult;
 import monopoly.results.IDResult;
 import monopoly.results.MonopolyResult;
 import monopoly.results.PlayerDetailsResult;
+import players.Player;
 
 /**
  *
@@ -170,6 +171,33 @@ public class MonopolyGame {
         //validate evendID against last eventID
         //validate playerID against games players and players state
         //validate asset from eventID
-        return new MonopolyResult(true, "No Buy!");
+         Player p =GameManager.currentGame.getCurrentActivePlayer();
+         if(!Monopoly.isLastEventID(eventID))
+         {
+             System.err.println("???faild cuse event list empty || event is invalid");
+             return new MonopolyResult(true, "the event id given is not valid");
+         }         
+         else
+         {
+             if(p.getID()!=playerID)//if the player isnt active he wont be the current one !
+             {
+                System.err.println("???faild cuse player id is invalid");
+                return new MonopolyResult(true, "the player id given dont belong to the current active player");
+
+             }
+             else//do it
+             {
+                 GameManager.currentGame.buyWhatYouAreSittingOn();
+                 return new MonopolyResult(false, "yay!");
+             }
+    
+    
+    
+            
+            
+            
+        }
+        
+        
     }
 }

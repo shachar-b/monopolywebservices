@@ -20,11 +20,8 @@ public class JailSlashFreePassSquare extends Square {
 	@Override
 	public void playerArrived(Player player)
 	{
-		if (player.getGoOnNextTurn()==true)
-		{
-			GameManager.CurrentUI.notifyPlayerLandsOnJailFreePass(player);
-			// nothing to do - player is on free pass
-		}
+            //ends the turn- the only
+		GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
 
 	}
 
@@ -55,7 +52,7 @@ public class JailSlashFreePassSquare extends Square {
 		player.setGoOnNextTurn(true);
 		GameManager.currentGame.getSurprise().add(player.getGetOutOfJailFreeCardPlaceHolder());
 		player.setGetOutOfJailFreeCardPlaceHolder(null);
-		GameManager.CurrentUI.notifyJailAction(player, jailActions.USED_CARD);
+//		GameManager.CurrentUI.notifyJailAction(player, jailActions.USED_CARD);
 	}
 
 	/**

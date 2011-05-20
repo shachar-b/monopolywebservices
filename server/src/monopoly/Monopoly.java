@@ -19,8 +19,11 @@ import java.util.Collections;
  */
 public class Monopoly {
 
-    private static int eventID=0;
-    private static ArrayList<Event> eventList = new ArrayList<Event>();
+    private static  ArrayList<Event> eventList = new ArrayList<Event>();
+
+    static int generateEventId() {
+        return eventList.size();
+    }
     private String gameName;
     private ArrayList<Player> gamePlayers;
     private ShaffledDeck surprise = new ShaffledDeck();
@@ -34,55 +37,21 @@ public class Monopoly {
     private int state = 0;
     private boolean gameRunning = false;
 
-    private Thread stateMechThread = new Thread(new Runnable() {
-        /* (non-Javadoc)
-         * @see doComputerRound() documentation
-         */
-        @Override
-        public void run() {
-                   currentPlayerSquare = gameBoard.get(currentActivePlayer.getCurrentPosition());
-            switch (state) {
-                case 0:
-                    state++;//next state is roll die
-                    if (currentPlayerSquare instanceof JailSlashFreePassSquare) {
-                        if (currentActivePlayer.hasGetOutOfJailFreeCard()
-                                && !currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException("state machine problem");
-                            }
-                            state = 2;//nothing more to do in this turn
-                            eventDispatch(currentActivePlayer.getID(), "getOutOfJail");
-                            break;
+    public final int START =0;
+    public final int DIE =1;
+    public  final int ENDTURN =2;
 
-                        }
-                    }
-                case 1:
-                    state++;//next state is 2- (buy decesions are made outside the state mech
-                    if (currentPlayerSquare instanceof JailSlashFreePassSquare || currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {//dont do it only on parking- if GOJC was used this wont be reached
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException("state machine problem");
-                        }
-                        eventDispatch(currentActivePlayer.getID(), "rollDie");
-                        break;
-                    }
-                
-                case 2://case end turn
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException("state machine problem");
-                    }
-                    state = 0;//restart state machine for next player
-                    break;
-            }
-        }
-    });
+//    private Thread stateMechThread = new Thread(new Runnable() {
+//        /* (non-Javadoc)
+//         * @see doComputerRound() documentation
+//         */
+//        @Override
+//        public void run() {
+//             
+//        }
+//        
+//    });
     public Monopoly(String gameName, ArrayList<Player> players) {
-        eventID = 0; //Resets events and eventList prior to game creation.
         eventList = new ArrayList<Event>();
         this.gameName = gameName;
         gamePlayers = new ArrayList<Player>(players);
@@ -136,11 +105,69 @@ public class Monopoly {
      * The function also resets the state when the player is done.
      */
     private void doRound() {
-        stateMechThread.start();
+        //stateMechThread.run();      
+        currentPlayerSquare = gameBoard.get(currentActivePlayer.getCurrentPosition());
+            switch (state) {
+                case START:
+                    state++;//next state is roll die
+                    if (currentPlayerSquare instanceof JailSlashFreePassSquare) {
+                        if (currentActivePlayer.hasGetOutOfJailFreeCard()
+                                && !currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException("state machine problem");
+                            }
+                            state = ENDTURN;//nothing more to do in this turn
+                            eventDispatch(currentActivePlayer.getID(), "getOutOfJail");
+                            break;
+
+                        }
+                    }
+                case DIE:
+                    state++;//next state is 2- (buy decesions are made outside the state mech
+                    if (currentPlayerSquare instanceof JailSlashFreePassSquare || currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {//dont do it only on parking- if GOJC was used this wont be reached
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException("state machine problem");
+                        }
+                        eventDispatch(currentActivePlayer.getID(), "throwDie");
+                        break;
+                    }
+                
+                case ENDTURN://case end turn
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException("state machine problem");
+                    }
+                    state = START;//restart state machine for next player
+                    break;
+            }
     }
 
     public static int getCurrentEventID() {
-        return eventID;
+        if(eventList.isEmpty())
+            return -1;
+        else
+            return eventList.get(eventList.size()-1).getEventID();
+    }
+    
+    public static boolean isLastEventID(int ID)
+    {
+        if(Monopoly.eventList.isEmpty()  )
+            return false;
+        else
+        {
+            EventImpl lastEvent=(EventImpl)Monopoly.eventList.get(Monopoly.eventList.size()-1);
+            if(ID!=lastEvent.getEventID() )
+            {//eventID is good
+                return false;
+            }
+            else
+                return true;
+        }
     }
 
     public static void addEvent(Event e) {
@@ -253,7 +280,7 @@ public class Monopoly {
             surprise.add(player.getGetOutOfJailFreeCardPlaceHolder());
         }
         gamePlayers.remove(player);
-        GameManager.CurrentUI.notifyPlayerLeftGame(player);
+//        GameManager.CurrentUI.notifyPlayerLeftGame(player);
         if (player == getCurrentActivePlayer()) {
             endTurn();
         } else if (!gameAborted)//No need to do the following if a new game was started in the middle of a current one.\
@@ -311,9 +338,11 @@ public class Monopoly {
             playerIndex = 0;
             roundNumber++;
         }
-        Player p = gamePlayers.get(playerIndex);
+            currentActivePlayer = gamePlayers.get(playerIndex);
+        
         if (getActualNumPlayers() != 1) {
-            GameManager.CurrentUI.notifyNewRound(p, roundNumber, gameBoard.get(p.getCurrentPosition()));
+//            GameManager.CurrentUI.notifyNewRound(p, roundNumber, gameBoard.get(p.getCurrentPosition()));
+            eventDispatch(currentActivePlayer.getID(), "start");
         }
     }
 
@@ -327,6 +356,7 @@ public class Monopoly {
         if (currentPlayerSquare instanceof JailSlashFreePassSquare && !currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {
             boolean hasDouble = checkForDouble();
             ((JailSlashFreePassSquare) currentPlayerSquare).release(currentActivePlayer, hasDouble);
+            eventDispatch(currentActivePlayer.getID(), "endTurn");
         } else if (gameBoard.get(currentActivePlayer.getCurrentPosition()).shouldPlayerMove(currentActivePlayer)) {
             int[] result = Dice.rollDie();
             int dieSum = result[0] + result[1];
@@ -340,6 +370,7 @@ public class Monopoly {
      */
     private void buyHouse() {
         ((City) currentPlayerSquare).BuyHouse(getCurrentActivePlayer());
+        state=2;
     }
 
     /**
@@ -393,6 +424,7 @@ public class Monopoly {
     public void eventDispatch(int playerID,String message) {
         currentActivePlayer = gamePlayers.get(playerIndex);
         currentPlayerSquare = gameBoard.get(getCurrentActivePlayer().getCurrentPosition());
+        System.err.println("/n/n!!! "+message +" !!/n/n");
         if (playerID != currentActivePlayer.getID()) {
             if(message.equals("forfeit"))
             {
@@ -404,13 +436,16 @@ public class Monopoly {
             }
         } else {
             if (!stopGame && message.equals("start")) {
+                state=START;
                 doRound();
             } else if (message.equals("forfeit")) {
                 forfeit();
             } else if (message.equals("endTurn")) {
+                state=START;
                 endTurn();
             } else if (message.equals("getOutOfJail")) {
                 useGetOutOfJail();
+                state=ENDTURN;
                 if (!stopGame )//go on next state
                 {
                     doRound();
@@ -419,12 +454,14 @@ public class Monopoly {
                 buyHouse();
                 if (!stopGame )//go on next state
                 {
+                    state=ENDTURN;
                     doRound();
                 }
             } else if (message.equals("buyAsset")) {
                 buyAsset();
                 if (!stopGame )//go on next state
                 {
+                    state=ENDTURN;
                     doRound();
                 }
             } else if (message.equals("throwDie")) {
@@ -444,5 +481,17 @@ public class Monopoly {
     private void forfeit(int playerID) {
         throw new UnsupportedOperationException("Not yet implemented");
 
+    }
+
+    void buyWhatYouAreSittingOn() {
+        Asset curr=(Asset)  gameBoard.get(currentActivePlayer.getCurrentPosition());
+       if(curr.getOwner()==GameManager.assetKeeper)
+       {
+           eventDispatch(currentActivePlayer.getID(), "buyAsset");
+       }
+       else
+       {
+           eventDispatch(currentActivePlayer.getID(), "buyHouse");
+       }
     }
 }
