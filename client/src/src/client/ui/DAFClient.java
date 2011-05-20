@@ -117,7 +117,7 @@ public class DAFClient extends javax.swing.JPanel {
         if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()) {
             MonopolyResult buyResult = Server.getInstance().buy(0, event.getEventID(), false);
             if (buyResult.isError()) {
-                jTextArea1.append("Buy returned Error!");
+                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
             } else {
                 jTextArea1.append("Buy returned successfuly!");
             }
