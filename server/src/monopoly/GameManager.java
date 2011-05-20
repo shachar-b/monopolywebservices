@@ -20,7 +20,7 @@ public class GameManager {
 	public static final Player assetKeeper = null; //This is the "Kupa"
 	public static final String MoneySign = "$"; //This is the currency symbol
 	public static Monopoly currentGame;
-	public static IUI CurrentUI;
+	//public static IUI CurrentUI;
 	public static boolean useAutomaticDiceRoll=false;
 	public static final Font DefaultFont=new Font("Serif", Font.BOLD, 10);
         private static final String resourcePath = "resources/";

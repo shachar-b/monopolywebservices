@@ -7,6 +7,8 @@ import monopoly.GameManager;
 import players.Player;
 import cards.ActionCard;
 import cards.ShaffledDeck;
+import monopoly.EventImpl;
+import monopoly.Monopoly;
 
 /**
  * public class ActionCardSquare extends Square
@@ -46,12 +48,23 @@ public class ActionCardSquare extends Square {
 	public void playerArrived(Player player) {
             ShaffledDeck currDeck=(sign==1?GameManager.currentGame.getSurprise():GameManager.currentGame.getCallUp());
 		ActionCard currCard = currDeck.takeCard();
-		GameManager.CurrentUI.notifyPlayerGotCard(player, currCard);
-
+                
+               
 		if (currCard.isGetOutOfJailFreeCard())
-			player.setGetOutOfJailFreeCardPlaceHolder(currCard);
+                {
+                    Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
+                            EventImpl.EventTypes.GetOutOfJailCard, "the player "+player.getName()+" got a get out of jail free card", player.getName()));
+                    player.setGetOutOfJailFreeCardPlaceHolder(currCard);
+                    GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+                }
 		else
-			currCard.doCard(player);
+                {
+                    EventImpl.EventTypes type=(currCard.isSurprise())? EventImpl.EventTypes.SurpriseCard:EventImpl.EventTypes.WarrantCard;
+                    String message= "player "+player.getName()+ " got the card "+currCard;
+                    Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(), 
+                            type, "player", player.getName()));
+                    currCard.doCard(player);
+                }
 	}
 
 	/**

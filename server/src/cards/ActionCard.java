@@ -113,6 +113,10 @@ public class ActionCard {
 			else { // get from Treasury
 				player.ChangeBalance(amount,sign);
 			}
+                        if (goOnNext == null)
+                        {
+                            GameManager.currentGame.eventDispatch(player.getID(), "endTurn");                            			
+                        }
 		}
 	}
 }

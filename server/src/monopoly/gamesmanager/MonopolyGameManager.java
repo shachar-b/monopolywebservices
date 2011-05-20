@@ -160,6 +160,7 @@ public class MonopolyGameManager {
         private int computerizedPlayers;
         private boolean useAutomaticDiceRoll;
         private ArrayList<Player> players;
+        private int currPlayerID;
 
         public GameDetails(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
             this.gameName = gameName;
@@ -167,6 +168,7 @@ public class MonopolyGameManager {
             this.computerizedPlayers = computerizedPlayers;
             this.useAutomaticDiceRoll = useAutomaticDiceRoll;
             this.players = new ArrayList<Player>();
+            currPlayerID=0;
         }
 
         public boolean isGameStarted() {
@@ -178,12 +180,13 @@ public class MonopolyGameManager {
         }
 
         public int joinPlayer(String playerName, boolean isHuman) {
-            if (isHuman){
-                this.players.add(new HumanPlayer(playerName));
+            if (isHuman){ //TODO:ask shachar if we should use players.size insted of id
+                this.players.add(new HumanPlayer(playerName,currPlayerID));
             }
             else{
-                this.players.add(new ComputerPlayer(playerName));
+                this.players.add(new ComputerPlayer(playerName,currPlayerID));
             }
+            currPlayerID++;
             
             if (isGameActive()) {
                 initNewGameSequence();
@@ -194,7 +197,6 @@ public class MonopolyGameManager {
 
         private void initNewGameSequence() {
             //TODO : Maybe add thread
-            EventImpl.resetEventIdCount();
             Monopoly newGame = new Monopoly(gameName,players);
             GameManager.currentGame = newGame;
             EventImpl genEvent = (EventImpl) EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameStart, "Game " + gameName + " is starting.");

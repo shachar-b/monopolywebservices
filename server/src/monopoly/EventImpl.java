@@ -13,7 +13,7 @@ public class EventImpl implements Event{
 
 
 
-    private static int NextEventID=0;
+    
     private String gameName = "";
     private int eventID = 0;
     private int timeoutCount = 0;
@@ -38,14 +38,11 @@ public class EventImpl implements Event{
         this.eventMessage = eventMessage;
     }
 
-    public static synchronized void resetEventIdCount()
-    {
-        NextEventID=0;
-    }
+    
     private static synchronized  int generateEventId()
     {
 
-        return NextEventID++;
+        return Monopoly.generateEventId();
     }
 
     /*
