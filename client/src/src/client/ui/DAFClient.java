@@ -15,6 +15,7 @@ import comm.MonopolyResult;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.text.DefaultCaret;
+import src.client.PlayerDetails;
 import src.client.Server;
 import src.client.eventPoller;
 import src.client.ui.utils.EventTypes;
@@ -26,13 +27,15 @@ import src.client.ui.utils.EventTypes;
 public class DAFClient extends javax.swing.JPanel {
 
     private Timer feeder;
+    private String p;
 
     /** Creates new form DAFClient */
-    public DAFClient() {
+    public DAFClient(String p) {
         initComponents();
         jTextArea1.setEditable(false);
         ((DefaultCaret) jTextArea1.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE); //Set AutoScroll for textual console.
         startEventFeederTask();
+        this.p=p;
 
     }
 
@@ -114,17 +117,17 @@ public class DAFClient extends javax.swing.JPanel {
     public void handelEvent(Event event) {
         stopRefreshTask();
         printEventToConsole(event);
-        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()) {
+        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(p)) {
             MonopolyResult buyResult = Server.getInstance().buy(0, event.getEventID(), false);
             if (buyResult.isError()) {
                 jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
             } else {
-                jTextArea1.append("Buy returned successfuly!");
+                jTextArea1.append("Buy returned successfuly!\n");
             }
-        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()) {
+        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(p)) {
             MonopolyResult buyResult = Server.getInstance().buy(0, event.getEventID(), false);
             if (buyResult.isError()) {
-                jTextArea1.append("Buy returned Error!");
+                jTextArea1.append("Buy returned Error!\n");
             } else {
                 jTextArea1.append("Buy returned successfuly!");
             }
