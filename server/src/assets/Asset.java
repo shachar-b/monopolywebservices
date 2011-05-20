@@ -74,6 +74,7 @@ public abstract class Asset extends Square {
                         player.getName(), true, false, "game", cost));
         player.ChangeBalance(cost, GameManager.SUBTRACT);
         setOwner(player);
+        GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
 //        GameManager.CurrentUI.notifyPlayerBoughtAsset(player, this);
     }
 

@@ -67,6 +67,7 @@ public class MonopolyGame {
                 return MonopolyResult.error("Only one game is supported, game " + gameManager.getGamesNames().toString() + " is on.");
         }
         else{
+            Monopoly.resetEventQueue();
             gameManager.addGame(gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
             if (checkGameLegitimacy(humanPlayers, computerizedPlayers)){
                 for (int i=0; i<computerizedPlayers; i++)

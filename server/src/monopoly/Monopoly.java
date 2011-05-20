@@ -24,6 +24,10 @@ public class Monopoly {
     static int generateEventId() {
         return eventList.size();
     }
+
+    static void resetEventQueue() {
+        eventList = new ArrayList<Event>();
+    }
     private String gameName;
     private ArrayList<Player> gamePlayers;
     private ShaffledDeck surprise = new ShaffledDeck();
@@ -193,7 +197,6 @@ public class Monopoly {
      * @return true IFF the last die throw was a double.
      */
     public boolean checkForDouble() {
-        //TODO : should we roll anew, or should we keep last roll outcomes?
         int[] result = Dice.rollDie();
         return (result[0] == result[1]);
     }
@@ -232,7 +235,7 @@ public class Monopoly {
             playerPos = playerPos % GameManager.NUMBER_OF_SQUARES;
         }
         player.setCurrentPosition(playerPos);
-        addEvent(EventImpl.createNewMoveEvent(gameName, EventImpl.EventTypes.GameStart, gameName, player.getName(), true, player.getLastKnownPosition(), player.getCurrentPosition()));
+        addEvent(EventImpl.createNewMoveEvent(gameName, EventImpl.EventTypes.Move, gameName, player.getName(), true, player.getLastKnownPosition(), player.getCurrentPosition()));
         gameBoard.get(playerPos).playerArrived(player);
     }
 
