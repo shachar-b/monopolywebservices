@@ -83,7 +83,7 @@ public class City extends Asset {
 		player.ChangeBalance(costOfHouse, GameManager.SUBTRACT);
 		numHouses++;
 //		GameManager.CurrentUI.notifyPlayerBoughtHouse(player, this);
-                
+                GameManager.currentGame.eventDispatch(player.getID(),"endTurn");
 		fireEvent("user bought house at "+this.getName()); // if anything changed notify Listeners
 	}
 
