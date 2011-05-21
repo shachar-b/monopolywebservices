@@ -192,7 +192,7 @@ public class MonopolyGameManager {
                 initNewGameSequence();
             }
 
-            return this.players.size();
+            return currPlayerID-1;
         }
 
         private void initNewGameSequence() {
