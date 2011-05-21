@@ -106,12 +106,14 @@ public class DAFClient extends javax.swing.JPanel {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextArea jTextArea1;
+    private  javax.swing.JTextArea jTextArea1;
     // End of variables declaration
 
     private void printEventToConsole(Event e) {
         String message = "Received event : ID " + e.getEventID() + " , Type " + e.getEventType() + " , " + e.getEventMessage().getValue();
         jTextArea1.append(message+"\n");
+        jTextArea1.validate();
+        jTextArea1.repaint();
     }
 
     public void handelEvent(Event event) {
@@ -119,18 +121,19 @@ public class DAFClient extends javax.swing.JPanel {
         printEventToConsole(event);
         if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameMannger.clientName)) {
             MonopolyResult buyResult = Server.getInstance().buy(GameMannger.clientPlayerID, event.getEventID(), false);
-            if (buyResult.isError()) {
-                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
-            } else {
-                jTextArea1.append("Buy returned successfuly!\n");
-            }
+//            if (buyResult.isError()) {
+//                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
+//            } else {
+//                jTextArea1.append("Buy returned successfuly!\n");
+//            }
+            
         } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameMannger.clientName)) {
             MonopolyResult buyResult = Server.getInstance().buy(GameMannger.clientPlayerID, event.getEventID(), false);
-            if (buyResult.isError()) {
-                jTextArea1.append("Buy returned Error!\n");
-            } else {
-                jTextArea1.append("Buy returned successfuly!");
-            }
+//            if (buyResult.isError()) {
+//                jTextArea1.append("Buy returned Error!\n");
+//            } else {
+//                jTextArea1.append("Buy returned successfuly!");
+//            }
         }
         /*  switch (event.getEventID().intValue())
         {
