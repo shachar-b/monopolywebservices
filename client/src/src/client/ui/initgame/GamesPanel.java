@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import src.client.GameMannger;
 
 /**
  *
@@ -328,7 +329,9 @@ public class GamesPanel extends javax.swing.JPanel {
         if (playerName!=null)
         {
             clientAlreadyJoined=true;
-            Server.getInstance().joinPlayer (gameName, playerName);
+            GameMannger.clientPlayerID=Server.getInstance().joinPlayer (gameName, playerName);
+            GameMannger.clientName=playerName;
+            GameMannger.currentJoinedGame=gameName;
             playersListModel.clear();
         }
         startRefreshTask();

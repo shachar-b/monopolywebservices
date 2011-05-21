@@ -37,7 +37,7 @@ public class MonitorGameStartTask extends TimerTask {
            Event given=eventPoller.EventQueue.remove();
            if(given.getEventType()==EventTypes.GameStart.getCode() )//&& given.getGameName().toString()==gameName)
            {
-               DAFClient client1 = new DAFClient(playerName);
+               DAFClient client1 = new DAFClient();
                client1.setVisible(true);
                frameToClose.setContentPane(client1);
                frameToClose.setTitle("DAFClient - " + gameName + " : " + playerName);
