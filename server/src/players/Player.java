@@ -313,7 +313,7 @@ public abstract class Player extends InnerChangeListenableClass {
      * @return the ID
      */
     public int getID() {
-        System.err.println(Name + " is up "+ID);
+        System.err.println(Name + " is up "+ID+" at "+GameManager.currentGame.getGameBoard().get(CurrentPosition).getName());
         return ID;
        
     }

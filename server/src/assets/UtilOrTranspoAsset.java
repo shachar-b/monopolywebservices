@@ -7,6 +7,8 @@ import javax.management.RuntimeErrorException;
 
 import listeners.innerChangeEventListener.InnerChangeEventListner;
 import listeners.innerChangeEventListener.InnerChangeEvet;
+import monopoly.GameManager;
+import players.Player;
 
 
 
@@ -21,6 +23,16 @@ import listeners.innerChangeEventListener.InnerChangeEvet;
 public class UtilOrTranspoAsset extends Asset {
 
 	private int basicRental;
+        
+        @Override
+        public void playerArrived(Player player)
+        {
+            super.playerArrived(player);
+            if(owner==player)//nothing to do here
+            {
+                GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+            }
+        }
 
 	/**
 	 * method UtilOrTranspoAsset(AssetGroup group, String name, int cost, int basic)

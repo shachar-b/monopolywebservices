@@ -60,10 +60,12 @@ public abstract class Asset extends Square {
     public void playerArrived(Player player) {
         if (owner == GameManager.assetKeeper) {
            player.buyDecision(this);
-            } else if (owner != player) {
+            } 
+        else if (owner != player) {
 //            GameManager.CurrentUI.notifyPlayerPaysRent(player, this, owner);
             int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT);
             this.owner.ChangeBalance(amountRcvd, GameManager.ADD);
+            GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
         }
     }
 
