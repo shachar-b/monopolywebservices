@@ -62,6 +62,10 @@ public class City extends Asset {
 		{
                     player.buyHouseDecision(this);
                 }
+                else if(owner==player) //the player owns this but isnt able to do anything
+                {
+                    GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+                }
 
 
 

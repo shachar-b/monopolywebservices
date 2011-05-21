@@ -235,7 +235,10 @@ public class Monopoly {
             playerPos = playerPos % GameManager.NUMBER_OF_SQUARES;
         }
         player.setCurrentPosition(playerPos);
-        addEvent(EventImpl.createNewMoveEvent(gameName, EventImpl.EventTypes.Move, gameName, player.getName(), true, player.getLastKnownPosition(), player.getCurrentPosition()));
+        String message= "player "+player.getName()+" moved from "+GameManager.currentGame.getGameBoard().get(player.getLastKnownPosition()).getName()+
+                        " to "+ GameManager.currentGame.getGameBoard().get(player.getCurrentPosition()).getName();
+        addEvent(EventImpl.createNewMoveEvent(gameName, EventImpl.EventTypes.Move,
+                message, player.getName(), true, player.getLastKnownPosition(), player.getCurrentPosition()));
         gameBoard.get(playerPos).playerArrived(player);
     }
 
