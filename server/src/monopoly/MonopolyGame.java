@@ -182,7 +182,7 @@ public class MonopolyGame {
          {
              if(p.getID()!=playerID)//if the player isnt active he wont be the current one !
              {
-                System.err.println("???faild cuse player id is invalid");
+                System.err.println("???faild cuse player id is invalid " +p.getID()+"!="+playerID);
                 return new MonopolyResult(true, "the player id given dont belong to the current active player");
 
              }
