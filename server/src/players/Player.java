@@ -68,7 +68,7 @@ public abstract class Player extends InnerChangeListenableClass {
 	public void buyDecision(Asset asset)
          {
             Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName()
-                    ,  EventImpl.EventTypes.PromptPlayerToBuyAsset, "buy asset "+this.getName()+"?"
+                    ,  EventImpl.EventTypes.PromptPlayerToBuyAsset, getName()+",buy asset "+asset.getName()+"?"
                     , getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
 	
         }
@@ -84,7 +84,7 @@ public abstract class Player extends InnerChangeListenableClass {
 	public void buyHouseDecision(City asset)
 	{
 		Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName()
-                    ,  EventImpl.EventTypes.PromptPlayerToBuyHouse, "buy House at "+this.getName()+"?"
+                    ,  EventImpl.EventTypes.PromptPlayerToBuyHouse, this.getName()+",buy House at "+asset.getName()+"?"
                     , getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
 	}
 
@@ -117,6 +117,7 @@ public abstract class Player extends InnerChangeListenableClass {
 	public void setGoOnNextTurn(boolean goOnNextTurn) {
 		GoOnNextTurn = goOnNextTurn;
 	}
+
 
 	/**
 	 * method boolean getGoOnNextTurn()

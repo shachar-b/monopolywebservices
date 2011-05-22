@@ -39,7 +39,7 @@ public class EventImpl implements Event{
     }
 
     
-    private static synchronized  int generateEventId()
+    private static /*synchronized*/  int generateEventId()
     {
 
         return Monopoly.generateEventId();
