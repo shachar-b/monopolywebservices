@@ -18,13 +18,7 @@ public interface Offerable {
 	 */
 	public String getName();
 
-	/**
-	 * method setOwner(Player owner) -sets the given player as the owner of the Item
-	 * public
-	 * @param owner - a valid Player
-	 * @post this.owner=owne
-	 */
-	public void setOwner(Player owner);
+	
 
 	/** 
 	 * method getType() -get the OfferType

@@ -6,8 +6,7 @@ package src.client;
 
 import java.awt.Font;
 import src.players.Player;
-import ui.IUI;
-
+import src.ui.IUI;
 /**
  *
  * @author omer
