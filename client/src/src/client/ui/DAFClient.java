@@ -15,8 +15,7 @@ import comm.MonopolyResult;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.text.DefaultCaret;
-import src.client.GameMannger;
-import src.client.PlayerDetails;
+import src.client.GameManager;
 import src.client.Server;
 import src.client.eventPoller;
 import src.client.ui.utils.EventTypes;
@@ -46,7 +45,7 @@ public class DAFClient extends javax.swing.JPanel {
         feeder = Server.getInstance().startPolling("EventFeeder Timer", new eventFeeder(), 0, 1);
     }
 
-    private void stopRefreshTask() {
+    private void stopEventFeederTask() {
         if (feeder != null) {
             feeder.cancel();
         }
@@ -117,18 +116,18 @@ public class DAFClient extends javax.swing.JPanel {
     }
 
     public void handelEvent(Event event) {
-        stopRefreshTask();
+        stopEventFeederTask();
         printEventToConsole(event);
-        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameMannger.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameMannger.clientPlayerID, event.getEventID(), false);
+        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
+            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
 //            if (buyResult.isError()) {
 //                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
 //            } else {
 //                jTextArea1.append("Buy returned successfuly!\n");
 //            }
             
-        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameMannger.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameMannger.clientPlayerID, event.getEventID(), false);
+        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
+            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
 //            if (buyResult.isError()) {
 //                jTextArea1.append("Buy returned Error!\n");
 //            } else {

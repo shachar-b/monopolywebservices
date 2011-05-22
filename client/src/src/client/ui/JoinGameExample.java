@@ -24,7 +24,7 @@ public class JoinGameExample {
         eventPollerTimer = Server.getInstance().startPolling("Event polling timer", new eventPoller(), 0, 2);
     }
 
-    private static void stopEventPollingTask() {
+    public static void stopEventPollingTask() { //TODO : maybe make not public?
         if (eventPollerTimer != null)
             eventPollerTimer.cancel();
     }
