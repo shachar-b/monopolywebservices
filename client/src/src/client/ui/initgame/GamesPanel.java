@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import src.client.GameMannger;
+import src.client.GameManager;
 
 /**
  *
@@ -329,15 +329,14 @@ public class GamesPanel extends javax.swing.JPanel {
         if (playerName!=null)
         {
             clientAlreadyJoined=true;
-            GameMannger.clientPlayerID=Server.getInstance().joinPlayer (gameName, playerName);
-            GameMannger.clientName=playerName;
-            GameMannger.currentJoinedGame=gameName;
+            GameManager.clientPlayerID=Server.getInstance().joinPlayer (gameName, playerName);
+            GameManager.clientName=playerName;
+            GameManager.currentJoinedGame=gameName;
             playersListModel.clear();
         }
         startRefreshTask();
         startGamePlayersTask(gameName);
-        startGameMonRefreshTask(gameName,playerName);
-       
+        startGameMonRefreshTask(gameName,playerName);       
     }//GEN-LAST:event_joinGameButtonActionPerformed
 
     private static final int MAX_NUMBER_OF_PLAYERS = 6;

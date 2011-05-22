@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -7,7 +8,6 @@ package src.client.ui.initgame;
 
 import comm.Event;
 import java.util.TimerTask;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import src.client.eventPoller;
 import src.client.ui.DAFClient;
@@ -44,7 +44,8 @@ public class MonitorGameStartTask extends TimerTask {
                frameToClose.pack();
                frameToClose.validate();
                frameToClose.repaint();
-
+               
+               this.cancel(); //Game started, no need to continue monitoring game start.
            }
        }
     }
