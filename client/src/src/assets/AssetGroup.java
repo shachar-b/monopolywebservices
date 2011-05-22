@@ -30,6 +30,7 @@ public abstract class AssetGroup extends InnerChangeListenableClass implements C
 	protected String nameOfGroup;
         
         
+     
         
         
 	/**
