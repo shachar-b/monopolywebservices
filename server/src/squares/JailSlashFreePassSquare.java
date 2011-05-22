@@ -52,6 +52,7 @@ public class JailSlashFreePassSquare extends Square {
 		player.setGoOnNextTurn(true);
 		GameManager.currentGame.getSurprise().add(player.getGetOutOfJailFreeCardPlaceHolder());
 		player.setGetOutOfJailFreeCardPlaceHolder(null);
+                GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
 //		GameManager.CurrentUI.notifyJailAction(player, jailActions.USED_CARD);
 	}
 
