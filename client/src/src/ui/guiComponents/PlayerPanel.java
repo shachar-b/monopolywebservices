@@ -246,7 +246,6 @@ public void ClickBuyHouseButton()
 	private void useJailFreeCardActionPerformed(ActionEvent e) {
 		useJailFreeCard.setEnabled(false);
 		EndTurn.setEnabled(true);
-		Dice.getGameDice().setButtonEnabled(false);
 		fireEvent(new GameActionEvent(this, "getOutOfJail"));
 	}
 

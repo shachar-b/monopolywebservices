@@ -46,10 +46,11 @@ public class Dice extends GameActionsListenableClass {
         this.add(eastPane, BorderLayout.EAST);
         this.add(text, BorderLayout.CENTER);
     }
-        /**
-         * public void makeItRoll()
-         * starts the dice roll outcome
-         */
+
+    /**
+     * public void makeItRoll()
+     * starts the dice roll outcome
+     */
     public void makeItRoll(int serverOutcome1, int serverOutcome2) {
         Timer timer = new Timer();
         GameActionEventListener performWhenDone = new GameActionEventListener() {
