@@ -57,4 +57,7 @@ public interface Event {
     public boolean isPaymemtFromUser();
     public String getPaymentToPlayerName();
     public int getPaymentAmount();
+
+
+
 }

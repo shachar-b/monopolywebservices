@@ -25,7 +25,7 @@ public class Monopoly {
         return eventList.size();
     }
 
-    static void resetEventQueue() {
+    public static void resetEventQueue() {
         eventList = new ArrayList<Event>();
     }
     private String gameName;
@@ -147,6 +147,7 @@ public class Monopoly {
                         throw new RuntimeException("state machine problem");
                     }
                     state = START;//restart state machine for next player
+                    eventDispatch(currentActivePlayer.getID(), "endTurn");
                     break;
             }
     }
