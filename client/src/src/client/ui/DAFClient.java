@@ -17,7 +17,6 @@ import java.util.TimerTask;
 import javax.swing.text.DefaultCaret;
 import src.client.GameManager;
 import src.client.Server;
-import src.client.eventPoller;
 import src.client.ui.utils.EventTypes;
 
 /**
@@ -26,7 +25,7 @@ import src.client.ui.utils.EventTypes;
  */
 public class DAFClient extends javax.swing.JPanel {
 
-    private Timer feeder;
+    private Timer feederTimer;
 
     /** Creates new form DAFClient */
     public DAFClient() {
@@ -39,15 +38,15 @@ public class DAFClient extends javax.swing.JPanel {
     }
 
     private void startEventFeederTask() {
-        if (feeder != null) {
-            feeder.cancel();
+        if (feederTimer != null) {
+            feederTimer.cancel();
         }
-        feeder = Server.getInstance().startPolling("EventFeeder Timer", new eventFeeder(), 0, 1);
+        feederTimer = Server.getInstance().startPolling("EventFeeder Timer", new EventFeeder(), 0, 1);
     }
 
     private void stopEventFeederTask() {
-        if (feeder != null) {
-            feeder.cancel();
+        if (feederTimer != null) {
+            feederTimer.cancel();
         }
     }
 
@@ -116,7 +115,6 @@ public class DAFClient extends javax.swing.JPanel {
     }
 
     public void handelEvent(Event event) {
-        stopEventFeederTask();
         printEventToConsole(event);
         if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
             MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
@@ -178,15 +176,14 @@ public class DAFClient extends javax.swing.JPanel {
         case 20:
         break;
         }*/
-        startEventFeederTask();
     }
 
-    private class eventFeeder extends TimerTask {
+    private class EventFeeder extends TimerTask {
 
         @Override
         public void run() {
-            if (!eventPoller.EventQueue.isEmpty()) {
-                handelEvent(eventPoller.EventQueue.remove());
+            if (!Server.getInstance().isEventQueueEmpty()) {
+                handelEvent(Server.getInstance().popEventFromQueue());
             }
         }
     }
