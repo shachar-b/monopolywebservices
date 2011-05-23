@@ -30,6 +30,7 @@ public class MonopolyGameManager {
         String returnVal = "";
         if (isGameExists(gameName)) {
             game = null;
+            Monopoly.resetEventQueue();
             returnVal = "Removed game " + gameName;
         } else if (game == null) {
             returnVal = "No game running!";
