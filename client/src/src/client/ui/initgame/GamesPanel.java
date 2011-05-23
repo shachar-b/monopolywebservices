@@ -336,7 +336,7 @@ public class GamesPanel extends javax.swing.JPanel {
         }
         startRefreshTask();
         startGamePlayersTask(gameName);
-        startGameMonRefreshTask(gameName,playerName);       
+        startGameMonRefreshTask(gameName,playerName);
     }//GEN-LAST:event_joinGameButtonActionPerformed
 
     private static final int MAX_NUMBER_OF_PLAYERS = 6;
