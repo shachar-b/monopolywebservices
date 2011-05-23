@@ -39,7 +39,7 @@ public class SqurePanelFactory {
 	 */
 	public static SquarePanel  makeCorrectSqurePanel(Square represent,boolean isHover)
 	{
-		String SquareIconsFolder = GameManager.IMAGES_FOLDER+"SquareIcons/";
+		String SquareIconsFolder = GameManager.IMAGES_FOLDER+"/SquareIcons/";
 		if((represent instanceof Asset))
 		{
 			return new AssetSquarePanel((Asset) represent,isHover);

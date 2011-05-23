@@ -35,7 +35,7 @@ public class UI implements IUI {
 	{
 		SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run() {
+                public void run() {
                 frame = new MainWindow();
                 frame.setExtendedState(Frame.MAXIMIZED_BOTH);
                 frame.setVisible(true);
