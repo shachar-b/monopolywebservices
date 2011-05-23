@@ -9,10 +9,12 @@ package src.client.ui.initgame;
 import comm.Event;
 import java.util.TimerTask;
 import javax.swing.JFrame;
+import src.client.GameManager;
 import src.client.Server;
-import src.client.eventPoller;
+import src.client.XMLInitializer;
 import src.client.ui.DAFClient;
 import src.client.ui.utils.EventTypes;
+import src.ui.guiComponents.MainWindow;
 
 /**
  *
@@ -20,11 +22,11 @@ import src.client.ui.utils.EventTypes;
  */
 public class MonitorGameStartTask extends TimerTask {
 
-    JFrame frameToClose;
+    JFrame masterFrame;
     private final String gameName;
     private final String playerName;
-    public MonitorGameStartTask(JFrame frameToClose,String gameName, String playerName) {
-        this.frameToClose=frameToClose;
+    public MonitorGameStartTask(JFrame masterFrame,String gameName, String playerName) {
+        this.masterFrame=masterFrame;
         this.gameName=gameName;
         this.playerName = playerName;
     }
@@ -38,14 +40,17 @@ public class MonitorGameStartTask extends TimerTask {
            Event given=Server.getInstance().popEventFromQueue();
            if(given.getEventType()==EventTypes.GameStart.getCode() )//&& given.getGameName().toString()==gameName)
            {
-               DAFClient client1 = new DAFClient();
-               client1.setVisible(true);
-               frameToClose.setContentPane(client1);
-               frameToClose.setTitle("DAFClient - " + gameName + " : " + playerName);
-               frameToClose.pack();
-               frameToClose.validate();
-               frameToClose.repaint();
-               
+               //DAFClient client1 = new DAFClient();
+               GameManager gman = GameManager.createShit();//new window will be opend here
+               masterFrame.dispose();
+//               MainWindow client1 = new MainWindow();
+//               client1.setVisible(true);
+//               masterFrame.setContentPane(client1);
+//               masterFrame.setTitle("DAFClient - " + gameName + " : " + playerName);
+//               masterFrame.pack();
+//               masterFrame.validate();
+//               masterFrame.repaint();
+//               
                this.cancel(); //Game started, no need to continue monitoring game start.
            }
        }
