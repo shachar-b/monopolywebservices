@@ -60,6 +60,10 @@ public class Server {
     public List<Event> getAllEvents(int index) {
         return backendService.getAllEvents(index);
     }
+    
+    public String getGameBoardXML() {
+        return backendService.getGameBoardXML();
+    }
 
     public boolean startNewGame(String name, int humanPlayers, int computerPlayers, boolean useAutomaticDiceRollCheckBox) {
         return backendService.startGame(name, humanPlayers, computerPlayers, useAutomaticDiceRollCheckBox);

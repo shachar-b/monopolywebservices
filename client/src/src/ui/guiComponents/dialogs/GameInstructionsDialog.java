@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Fri Mar 25 15:13:57 IST 2011
  */
 
-package ui.guiComponents.dialogs;
+package src.ui.guiComponents.dialogs;
 
 import java.awt.*;
 import java.awt.event.*;
