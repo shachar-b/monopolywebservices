@@ -9,6 +9,7 @@ package src.client.ui.initgame;
 import comm.Event;
 import java.util.TimerTask;
 import javax.swing.JFrame;
+import src.client.Server;
 import src.client.eventPoller;
 import src.client.ui.DAFClient;
 import src.client.ui.utils.EventTypes;
@@ -32,9 +33,9 @@ public class MonitorGameStartTask extends TimerTask {
 
     @Override
     public void run() {
-       if(!eventPoller.EventQueue.isEmpty())
+       if(!Server.getInstance().isEventQueueEmpty())
        {
-           Event given=eventPoller.EventQueue.remove();
+           Event given=Server.getInstance().popEventFromQueue();
            if(given.getEventType()==EventTypes.GameStart.getCode() )//&& given.getGameName().toString()==gameName)
            {
                DAFClient client1 = new DAFClient();
@@ -49,5 +50,4 @@ public class MonitorGameStartTask extends TimerTask {
            }
        }
     }
-
 }

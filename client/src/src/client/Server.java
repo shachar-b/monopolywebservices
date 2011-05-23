@@ -2,9 +2,11 @@ package src.client;
 
 import comm.Event;
 import comm.MonopolyResult;
+import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
@@ -14,6 +16,8 @@ public class Server {
 
     private static Server instance;
     private BackendService backendService;
+    
+    private ConcurrentLinkedQueue<Event> eventQueue = new ConcurrentLinkedQueue<Event>();
 
     static {
         instance = new Server();
@@ -25,6 +29,22 @@ public class Server {
 
     public static Server getInstance() {
         return instance;
+    }
+    
+    public synchronized void addEventsToQueue(Collection<? extends Event> events){
+        eventQueue.addAll(events);
+    }
+    
+    public synchronized  Event popEventFromQueue(){
+        return eventQueue.remove();
+    }
+    
+    public synchronized Event peekIntoEventQueue(){
+        return eventQueue.peek();
+    }
+    
+    public synchronized boolean isEventQueueEmpty(){
+        return eventQueue.isEmpty();
     }
 
     public Timer startPolling(String timerName, TimerTask task, int delay, int period) {
