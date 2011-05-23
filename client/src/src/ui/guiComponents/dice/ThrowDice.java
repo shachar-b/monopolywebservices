@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import listeners.gameActions.GameActionEvent;
 import listeners.gameActions.GameActionEventListener;
 import src.client.GameManager;
-import src.ui.guiComponents.dice.Dice;
 import ui.utils.Utils;
 
 /**
@@ -42,6 +41,7 @@ class ThrowDice extends TimerTask {
 		count = NUM_OF_THROWS;
 		this.preformWhenDone=preformWhenDone;
 	}
+
 	/* (non-Javadoc)
 	 * @see java.util.TimerTask#run()
 	 * runs the dice roll

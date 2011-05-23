@@ -231,7 +231,7 @@ public void ClickBuyHouseButton()
 	 * @param e The ActionEvent
 	 */
 	private void ForfeitActionPerformed(ActionEvent e) {
-		Dice.getGameDice().resetDiceButtonAndLisners();
+		Dice.getGameDice().resetDiceListeners();
 		fireEvent(new GameActionEvent(this, "forfeit"));
 		this.setVisible(false);
 		revalidate();
@@ -256,7 +256,7 @@ public void ClickBuyHouseButton()
 	 * @param e The ActionEvent
 	 */
 	private void EndTurnActionPerformed(ActionEvent e) {
-		Dice.getGameDice().resetDiceButtonAndLisners();
+		Dice.getGameDice().resetDiceListeners();
 		Dice.getGameDice().removeListener(dieListner);
 		fireEvent("endTurn");
 		this.setVisible(false);

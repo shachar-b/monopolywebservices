@@ -29,7 +29,6 @@ import src.client.GameManager;
 import src.players.Player;
 
 
-import src.ui.guiComponents.dialogs.EntryDialog;
 import src.ui.guiComponents.dialogs.ExitDiaglog;
 import src.ui.guiComponents.dialogs.aboutDialog;
 import src.ui.guiComponents.dialogs.midGameEntryDialog;
@@ -65,7 +64,6 @@ public class MainWindow extends JFrame {
 		playerPanelArea.setPreferredSize(new Dimension(480, 440));	//space it needs.
 		setIconImage(new ImageIcon(GameManager.IMAGES_FOLDER+"/MiscIcons/GameIcon.png").getImage());
 		((DefaultCaret) textualConsole.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE); //Set AutoScroll for textual console.
-		new EntryDialog(this).setVisible(true);
 	}
 	
 	
@@ -84,14 +82,14 @@ public class MainWindow extends JFrame {
 	 * Opens a new game dialog, or offers to end the current game if one is on.
 	 * @param e The ActionEvent
 	 */
-	private void NewGameActionPerformed(ActionEvent e) {
+	private void NewGameActionPerformed(ActionEvent e) {//TODO:Write action handling
 		JDialog newDialog;
 		/*if (GameManager.currentGame.getGameRunning())
 			newDialog=new midGameEntryDialog(this);
-		else*///TODO:fix here
-			newDialog=new EntryDialog(this);
+		else*/
+		//	newDialog=new EntryDialog(this);
 		
-		newDialog.setVisible(true);
+		//newDialog.setVisible(true);
 	}
 
 	/**
@@ -262,7 +260,7 @@ public class MainWindow extends JFrame {
 	 * @return A PlayerPanel initialized with p's data.
 	 */
 	public PlayerPanel setPlayerPanel(Player p) {
-		Dice.getGameDice().resetDiceButtonAndLisners();
+		Dice.getGameDice().resetDiceListeners();
 		PlayerPanel currentPanel = new PlayerPanel(p);
 		clearPlayerPanelArea();
 		playerPanelArea.add(currentPanel);

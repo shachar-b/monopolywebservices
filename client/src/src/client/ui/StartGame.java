@@ -10,7 +10,7 @@ import src.client.ui.utils.ExamplesUtils;
  *
  * @author blecherl
  */
-public class JoinGameExample {
+public class StartGame {
 
     static Timer eventPollerTimer = null;
 
@@ -24,7 +24,7 @@ public class JoinGameExample {
         eventPollerTimer = Server.getInstance().startPolling("Event polling timer", new eventPoller(), 0, 2);
     }
 
-    public static void stopEventPollingTask() { //TODO : maybe make not public?
+    private static void stopEventPollingTask() {
         if (eventPollerTimer != null)
             eventPollerTimer.cancel();
     }
