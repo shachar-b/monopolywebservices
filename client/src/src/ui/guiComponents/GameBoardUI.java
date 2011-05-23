@@ -128,7 +128,7 @@ public class GameBoardUI extends JPanel {
             }
             //TODO : !!! Pick up here, make iconPanel not null !!!
             for (Player p : GameManager.staticInstance.getGamePlayers()) {
-                addPlayerIcon(p, playersIcons.get(p));
+                addPlayerIcon(p, p.getIconPanel());
             }
 
         }
