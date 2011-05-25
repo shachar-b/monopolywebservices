@@ -23,6 +23,7 @@ import listeners.gameActions.GameActionEventListener;
 import listeners.gameActions.GameActionsListenableClass;
 import src.assets.Asset;
 import src.assets.Offerable;
+import src.client.GameManager;
 import src.players.Player;
 import src.squares.Square;
 import src.ui.guiComponents.Squares.SqurePanelFactory;
@@ -38,7 +39,6 @@ public class PlayerPanel extends GameActionsListenableClass {
 	private static final long serialVersionUID = 1L;
 	private Player representedPlayer;
 	private JPanel buttonPane;
-	private JButton EndTurn;
 	private JButton Forfeit;
 	private JLabel nameLabel;
 	private JPanel DicePane;
@@ -64,7 +64,6 @@ public class PlayerPanel extends GameActionsListenableClass {
 	 */
 	private void dieRolled()
 	{
-		EndTurn.setEnabled(true);
 		useJailFreeCard.setEnabled(false);
 		fireEvent("throwDie");
 	}
@@ -80,7 +79,7 @@ public class PlayerPanel extends GameActionsListenableClass {
 		Dice.getGameDice().addGameActionsListener(dieListner);
 		nameLabel.setText(player.getName());
                 //TODO:stuff
-		Square currentSquare =new Square() {};//GameManager.currentGame.getGameBoard().get(player.getCurrentPosition());
+		Square currentSquare =GameManager.staticInstance.getGameBoard().get(player.getCurrentPosition());
 		setSquarePanelContent(currentSquare,player);
 		initTreeModel();
 	}
@@ -153,25 +152,6 @@ public void ClickBuyHouseButton()
 	}
 
 	/**
-	 * public void setEndTurnButtonStatus(boolean value)
-	 * Setter for the button status (enabled/disabled)
-	 * @param value a boolean defining the status of the button.
-	 */
-	public void setEndTurnButtonStatus(boolean value)
-	{//value==true -> enable button, otherwise -> disable button.
-		EndTurn.setEnabled(value);
-	}
-
-	/**
-	 * public void ClickEndTurnButton()
-	 * invokes doClick() for the Buy Asset button.
-	 */
-	public void ClickEndTurnButton()
-	{
-		EndTurn.doClick();
-	}	
-
-	/**
 	 * public void setSquarePanelContent(Square currentSquare, Player player)
 	 * Sets the content of the center square, which holds information
 	 * and action options regarding a gameboard square.
@@ -233,7 +213,6 @@ public void ClickBuyHouseButton()
 	private void ForfeitActionPerformed(ActionEvent e) {
 		Dice.getGameDice().resetDiceListeners();
 		fireEvent(new GameActionEvent(this, "forfeit"));
-		this.setVisible(false);
 		revalidate();
 		repaint();
 	}
@@ -245,7 +224,6 @@ public void ClickBuyHouseButton()
 	 */
 	private void useJailFreeCardActionPerformed(ActionEvent e) {
 		useJailFreeCard.setEnabled(false);
-		EndTurn.setEnabled(true);
 		fireEvent(new GameActionEvent(this, "getOutOfJail"));
 	}
 
@@ -282,7 +260,6 @@ public void ClickBuyHouseButton()
 	 */
 	private void buyAssetActionPerformed(ActionEvent e) {
 		buyAsset.setEnabled(false);
-		EndTurn.setEnabled(true);
 		fireEvent("buyAsset");
 		initTreeModel();
 	}
@@ -294,7 +271,6 @@ public void ClickBuyHouseButton()
 	 */
 	private void buyHouseActionPerformed(ActionEvent e) {
 		buyHouse.setEnabled(false);
-		EndTurn.setEnabled(true);
 		fireEvent("buyHouse");
 		initTreeModel();
 	}
@@ -305,7 +281,6 @@ public void ClickBuyHouseButton()
 	 */
 	private void initComponents() {
 		buttonPane = new JPanel();
-		EndTurn = new JButton();
 		Forfeit = new JButton();
 		nameLabel = new JLabel();
 		DicePane = new JPanel();
@@ -324,16 +299,6 @@ public void ClickBuyHouseButton()
 		//======== buttonPane ========
 		{
 			buttonPane.setLayout(new GridLayout());
-
-			//---- EndTurn ----
-			EndTurn.setText("End Turn");
-			EndTurn.setEnabled(false);
-			EndTurn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					EndTurnActionPerformed(e);
-				}
-			});
-			buttonPane.add(EndTurn);
 
 			//---- Forfeit ----
 			Forfeit.setText("Forfeit Game");

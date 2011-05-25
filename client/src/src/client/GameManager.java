@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import src.client.ui.utils.EventTypes;
 import src.players.Player;
 import src.squares.Square;
-import src.ui.IUI;
 import src.ui.UI;
+import src.ui.guiComponents.dice.Dice;
 import ui.utils.ImagePanel;
 
 /**
@@ -31,11 +33,10 @@ public class GameManager {
     public final static int ADD = 1;
     public static final int START_SQ_LOCATION = 0;
     public static final Player assetKeeper = null;
-    public static IUI CurrentUI;
     public static final String IMAGES_FOLDER = "src/resources/images/";
     public static final String PLAYER_ICONS_PATH = IMAGES_FOLDER+"playerIcons/";
     public static final Font DefaultFont=new Font("Serif", Font.BOLD, 10);
-    public static final IUI currentUI = null;
+    public static  UI currentUI = null;
     public static final TimerTask feeder=new EventFeeder();
     private ArrayList<Player> gamePlayers;
     private ArrayList<Square> gameBoard;
@@ -49,7 +50,7 @@ public class GameManager {
         gameBoard = gameInitializer.initBoard();
         this.gamePlayers=convertPlayerDetailsToPlayers(playerDetails);
         //staticInstance = this;
-        CurrentUI= new UI();
+        currentUI= new UI();
         
         startEventFeederTask();
     }
@@ -107,7 +108,7 @@ public class GameManager {
 //                jTextArea1.append("Buy returned successfuly!");
 //            }
         }
-        switch (event.getEventID().intValue())
+        switch (event.getEventType().intValue())
         {
           /*
         * GameStart(1),GameOver(2),GameWinner(3),PlayerResigned(4),PlayerLost(5),
@@ -116,26 +117,28 @@ public class GameManager {
         SurpriseCard(16),WarrantCard(17),GetOutOfJailCard(18),Payment(19),PlayerUsedJailCard(20);
              */
         case 1://game start - ignored -remove
-            
-        
         break;
         case 2://GameOver
         break;
         case 3://GameWinner
         break;
-        case 4://PlayerResigned
-        break;
+        case 4://PlayerResigned- do the same as 5 maybe make a diffrent statement
+  
         case 5://PlayerLost
+           Player pl= getPlayerByName(event.getPlayerName().getValue());
+            pl.remove();
+            gamePlayers.remove(pl);
         break;
         case 6://PromptPlayerToRollDice
         break;
         case 7://dice roll
-        break;
+            Dice.getGameDice().makeItRoll(event.getFirstDiceResult(), event.getSecondDiceResult());
+            break;
         case 8://Move
             String pname=event.getPlayerName().getValue();
             Player p=getPlayerByName(pname);
             int bosid=event.getBoardSquareID();
-            int nbosid=event.getBoardSquareID();
+            int nbosid=event.getNextBoardSquareID();
             currentUI.movePlayer(p,bosid,nbosid);
         break;
         case 9://PassedStartSquare

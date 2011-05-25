@@ -8,7 +8,6 @@
  *
  * Created on May 5, 2011, 1:16:30 AM
  */
-
 package src.client.ui.initgame;
 
 import src.client.GameDetails;
@@ -36,20 +35,19 @@ public class GamesPanel extends javax.swing.JPanel {
 
     private DefaultListModel gamesListModel;
     private DefaultListModel playersListModel;
-
     private Timer gamesRefreshTimer;
     private Timer playersRefrshTimer;
     private Timer gameMonRefreshTimer;
-
     private ListSelectionListener listSelectionListener;
     private boolean clientAlreadyJoined = false;
-    
+
     /** Creates new form GamesPanel */
     public GamesPanel() {
         gamesListModel = new DefaultListModel();
         playersListModel = new DefaultListModel();
 
         listSelectionListener = new ListSelectionListener() {
+
             public void valueChanged(ListSelectionEvent e) {
                 String gameName = getSelectedGameName();
                 if (gameName != null && !clientAlreadyJoined) {
@@ -62,14 +60,15 @@ public class GamesPanel extends javax.swing.JPanel {
         };
 
         initComponents();
-        computerPlayersSlider.setMaximum(MAX_NUMBER_OF_PLAYERS-1);
+        computerPlayersSlider.setMaximum(MAX_NUMBER_OF_PLAYERS - 1);
         waitingGamesList.setCellRenderer(new DefaultListCellRenderer() {
+
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof GameDetails) {
                     GameDetails gameDetails = (GameDetails) value;
-                    setText(gameDetails.getGameName() + " (waiting for " + gameDetails.getWaitingForPlayersNumber() +  " players to join)");
+                    setText(gameDetails.getGameName() + " (waiting for " + gameDetails.getWaitingForPlayersNumber() + " players to join)");
                 }
                 return this;
             }
@@ -82,6 +81,7 @@ public class GamesPanel extends javax.swing.JPanel {
         GameDetails selectedGame = (GameDetails) waitingGamesList.getSelectedValue();
         return (selectedGame != null) ? selectedGame.getGameName() : null;
     }
+
     private DefaultListModel getListModel() {
         return gamesListModel;
     }
@@ -90,8 +90,8 @@ public class GamesPanel extends javax.swing.JPanel {
         return playersListModel;
     }
 
-    public void setGames (List<GameDetails> games) {
-        synchronized (this){
+    public void setGames(List<GameDetails> games) {
+        synchronized (this) {
             Object selectedValue = waitingGamesList.getSelectedValue();
             gamesListModel.clear();
             games = games != null ? games : Collections.EMPTY_LIST;
@@ -114,9 +114,8 @@ public class GamesPanel extends javax.swing.JPanel {
         if (playersRefrshTimer != null) {
             playersRefrshTimer.cancel();
         }
-        if(gameMonRefreshTimer!=null)
-        {
-         gameMonRefreshTimer.cancel();
+        if (gameMonRefreshTimer != null) {
+            gameMonRefreshTimer.cancel();
         }
     }
 
@@ -126,7 +125,6 @@ public class GamesPanel extends javax.swing.JPanel {
         }
         playersRefrshTimer = Server.getInstance().startPolling("Game Players Timer", new RefreshGamePlayersTask(this, gameName), 0, 1);
     }
-
 
     private void startGameMonRefreshTask(String gameName, String playerName) {
         if (gameMonRefreshTimer != null) {
@@ -317,35 +315,31 @@ public class GamesPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
-        Server.getInstance().startNewGame(gameNameTextField.getText(), 
-                (Integer)HumanPlayersSlider.getValue(),
-                (Integer)computerPlayersSlider.getValue(), automaticDiceRollCheckBox.isSelected());
+        Server.getInstance().startNewGame(gameNameTextField.getText(),
+                (Integer) HumanPlayersSlider.getValue(),
+                (Integer) computerPlayersSlider.getValue(), automaticDiceRollCheckBox.isSelected());
     }//GEN-LAST:event_startNewGameButtonActionPerformed
 
     private void joinGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinGameButtonActionPerformed
         stopRefreshTask();
         String gameName = getSelectedGameName();
         String playerName = JOptionPane.showInputDialog("Enter Player Name");
-        if (playerName!=null)
-        {
-            clientAlreadyJoined=true;
-            GameManager.clientPlayerID=Server.getInstance().joinPlayer (gameName, playerName);
-            GameManager.clientName=playerName;
-            GameManager.currentJoinedGame=gameName;
+        if (playerName != null) {
+            clientAlreadyJoined = true;
+            GameManager.clientPlayerID = Server.getInstance().joinPlayer(gameName, playerName);
+            GameManager.clientName = playerName;
+            GameManager.currentJoinedGame = gameName;
             playersListModel.clear();
+            startGameMonRefreshTask(gameName, playerName);
         }
         startRefreshTask();
         startGamePlayersTask(gameName);
-        startGameMonRefreshTask(gameName,playerName);
     }//GEN-LAST:event_joinGameButtonActionPerformed
-
     private static final int MAX_NUMBER_OF_PLAYERS = 6;
 
     private void HumanPlayersSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_HumanPlayersSliderStateChanged
-       computerPlayersSlider.setMaximum(MAX_NUMBER_OF_PLAYERS-HumanPlayersSlider.getValue());
+        computerPlayersSlider.setMaximum(MAX_NUMBER_OF_PLAYERS - HumanPlayersSlider.getValue());
     }//GEN-LAST:event_HumanPlayersSliderStateChanged
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider HumanPlayersSlider;
     private javax.swing.JCheckBox automaticDiceRollCheckBox;

@@ -11,10 +11,7 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import src.client.GameManager;
 import src.client.Server;
-import src.client.XMLInitializer;
-import src.client.ui.DAFClient;
 import src.client.ui.utils.EventTypes;
-import src.ui.guiComponents.MainWindow;
 
 /**
  *
@@ -25,6 +22,7 @@ public class MonitorGameStartTask extends TimerTask {
     JFrame masterFrame;
     private final String gameName;
     private final String playerName;
+    
     public MonitorGameStartTask(JFrame masterFrame,String gameName, String playerName) {
         this.masterFrame=masterFrame;
         this.gameName=gameName;
