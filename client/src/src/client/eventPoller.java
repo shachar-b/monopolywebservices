@@ -6,11 +6,8 @@
 package src.client;
 
 import comm.Event;
-import java.util.Collections;
 import java.util.List;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import src.client.ui.DAFClient;
 
 /**
  *
@@ -28,6 +25,8 @@ public class eventPoller extends TimerTask  {
             System.err.println("first event that i got was: "+events.get(0).getEventMessage().getValue());
             lastEvent+=events.size();
             Server.getInstance().addEventsToQueue(events);
+            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+            Thread.currentThread().yield();
         }
     }
 

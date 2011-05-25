@@ -74,6 +74,10 @@ public class Player extends InnerChangeListenableClass {
         
         public void remove()
         {
+            for(Asset asset:assetList)
+            {
+                removeFromAssetList(asset);
+            }
             fireEvent("removed");
             //TODO:stuff
         }

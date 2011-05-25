@@ -61,7 +61,7 @@ public class City extends Asset {
 	public void BuyHouse(Player player)
 	{
 		numHouses++;
-		GameManager.CurrentUI.notifyPlayerBoughtHouse(player, this);
+		GameManager.currentUI.notifyPlayerBoughtHouse(player, this);
 		fireEvent("user bought house at "+this.getName()); // if anything changed notify Listeners
 	}
 

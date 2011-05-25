@@ -35,8 +35,10 @@ public class Dice extends GameActionsListenableClass {
      * 
      */
     private Dice() {
-        dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
-        dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+      //  dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+        //dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+          dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+         dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
         text = new JLabel("Total: 2");
         this.setLayout(new BorderLayout());
         westPane.add(dice1);
@@ -61,7 +63,7 @@ public class Dice extends GameActionsListenableClass {
 
             }
         };
-        timer.scheduleAtFixedRate(new ThrowDice(dice1, dice2, text, performWhenDone), 0, 100);
+        timer.scheduleAtFixedRate(new ThrowDice(dice1, dice2, text, performWhenDone), 0, 500);
 
     }
 
@@ -75,7 +77,7 @@ public class Dice extends GameActionsListenableClass {
 
     /**
      * public void resetDiceListeners() 
-     * makes the throw button enabled and dumps all listeners
+     * Dumps all listeners
      * 
      */
     public void resetDiceListeners() {
