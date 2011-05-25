@@ -13,10 +13,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import src.assets.Asset;
 import src.client.ui.utils.EventTypes;
 import src.players.Player;
 import src.squares.Square;
 import src.ui.UI;
+import src.ui.guiComponents.dialogs.BuyDialog;
 import src.ui.guiComponents.dice.Dice;
 import ui.utils.ImagePanel;
 
@@ -92,22 +95,7 @@ public class GameManager {
     
     public void handelEvent(Event event) {
       //  printEventToConsole(event);
-        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
-//            if (buyResult.isError()) {
-//                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
-//            } else {
-//                jTextArea1.append("Buy returned successfuly!\n");
-//            }
-            
-        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
-//            if (buyResult.isError()) {
-//                jTextArea1.append("Buy returned Error!\n");
-//            } else {
-//                jTextArea1.append("Buy returned successfuly!");
-//            }
-        }
+        
         switch (event.getEventType().intValue())
         {
           /*
@@ -149,8 +137,19 @@ public class GameManager {
         case 11://GoToJail
         break;
         case 12://PromptPlayerToBuyAsset
-        break;
         case 13://PromptPlayerToBuyHouse
+            //TODO : CONTINUE HERE
+            final int eID = event.getEventID();
+            final int eBSID = event.getBoardSquareID();
+         if ( event.getPlayerName().getValue().equals(GameManager.clientName)) {
+                SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                   BuyDialog diag= new BuyDialog((JFrame)currentUI.getFrame(),true, (Asset)gameBoard.get(eBSID), true, eID);
+                   diag.setVisible(true);
+                }
+            });
+         }
+         
         break;
         case 14://AssetBoughtMessage
         break;
