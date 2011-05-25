@@ -41,7 +41,7 @@ public class DAFClient extends javax.swing.JPanel {
         if (feederTimer != null) {
             feederTimer.cancel();
         }
-        feederTimer = Server.getInstance().startPolling("EventFeeder Timer", new EventFeeder(), 0, 1);
+        feederTimer = Server.getInstance().startPolling("EventFeeder Timer", GameManager.feeder, 0, 1);
     }
 
     private void stopEventFeederTask() {
@@ -114,77 +114,77 @@ public class DAFClient extends javax.swing.JPanel {
         jTextArea1.repaint();
     }
 
-    public void handelEvent(Event event) {
-        printEventToConsole(event);
-        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
-//            if (buyResult.isError()) {
-//                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
-//            } else {
-//                jTextArea1.append("Buy returned successfuly!\n");
+//    public void handelEvent(Event event) {
+//        printEventToConsole(event);
+//        if (event.getEventType() == EventTypes.PromptPlayerToBuyAsset.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
+//            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
+////            if (buyResult.isError()) {
+////                jTextArea1.append("Buy returned Error!" +event.getEventMessage().getValue());
+////            } else {
+////                jTextArea1.append("Buy returned successfuly!\n");
+////            }
+//            
+//        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
+//            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
+////            if (buyResult.isError()) {
+////                jTextArea1.append("Buy returned Error!\n");
+////            } else {
+////                jTextArea1.append("Buy returned successfuly!");
+////            }
+//        }
+//        /*  switch (event.getEventID().intValue())
+//        {
+//        case 1:
+//
+//        break;
+//        case 2:
+//        break;
+//        case 3:
+//        break;
+//        case 4:
+//        break;
+//        case 5:
+//        break;
+//        case 6:
+//        break;
+//        case 7:
+//        break;
+//        case 8:
+//        break;
+//        case 9:
+//        break;
+//        case 10:
+//        break;
+//        case 11:
+//        break;
+//        case 12:
+//        break;
+//        case 13:
+//        break;
+//        case 14:
+//        break;
+//        case 15:
+//        break;
+//        case 16:
+//        break;
+//        case 17:
+//        break;
+//        case 18:
+//        break;
+//        case 19:
+//        break;
+//        case 20:
+//        break;
+//        }*/
+//    }
+
+//    private class EventFeeder extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//            if (!Server.getInstance().isEventQueueEmpty()) {
+//                handelEvent(Server.getInstance().popEventFromQueue());
 //            }
-            
-        } else if (event.getEventType() == EventTypes.PromptPlayerToBuyHouse.getCode()&& event.getPlayerName().getValue().equals(GameManager.clientName)) {
-            MonopolyResult buyResult = Server.getInstance().buy(GameManager.clientPlayerID, event.getEventID(), false);
-//            if (buyResult.isError()) {
-//                jTextArea1.append("Buy returned Error!\n");
-//            } else {
-//                jTextArea1.append("Buy returned successfuly!");
-//            }
-        }
-        /*  switch (event.getEventID().intValue())
-        {
-        case 1:
-
-        break;
-        case 2:
-        break;
-        case 3:
-        break;
-        case 4:
-        break;
-        case 5:
-        break;
-        case 6:
-        break;
-        case 7:
-        break;
-        case 8:
-        break;
-        case 9:
-        break;
-        case 10:
-        break;
-        case 11:
-        break;
-        case 12:
-        break;
-        case 13:
-        break;
-        case 14:
-        break;
-        case 15:
-        break;
-        case 16:
-        break;
-        case 17:
-        break;
-        case 18:
-        break;
-        case 19:
-        break;
-        case 20:
-        break;
-        }*/
-    }
-
-    private class EventFeeder extends TimerTask {
-
-        @Override
-        public void run() {
-            if (!Server.getInstance().isEventQueueEmpty()) {
-                handelEvent(Server.getInstance().popEventFromQueue());
-            }
-        }
-    }
+//        }
+//    }
 }

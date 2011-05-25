@@ -125,10 +125,10 @@ public interface IUI {
 	/**
 	 * method void notifyPassStartSquare(int bonus)
 	 * public
-	 * Notifies the output that a player has passed over Start and got a bonus.
-	 * @param bonus The amount of the bonus received.
+	 * Notifies the output that a player has passed over Start and got a bonus
+	 * 
 	 */
-	public void notifyPassStartSquare(int bonus);
+	public void notifyPassStartSquare();
 
 	/**
 	 * method void notifyNewRound(Player p, int roundNumber, Square currSQ)
@@ -174,4 +174,6 @@ public interface IUI {
 	 * @param p a valid non-null player.
 	 */
 	public void notifyPlayerLeftGame(Player p);
+
+    public void movePlayer(Player p,Integer boardSquareID, Integer nextBoardSquareID);
 }

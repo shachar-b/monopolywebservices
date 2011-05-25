@@ -1,21 +1,14 @@
 package src.ui;
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.management.RuntimeErrorException;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
 import listeners.gameActions.GameActionEvent;
 import listeners.gameActions.GameActionEventListener;
 import src.assets.Asset;
 import src.assets.City;
-import src.client.GameManager;
 import src.players.Player;
 import src.squares.Square;
 import src.ui.guiComponents.MainWindow;
@@ -104,9 +97,9 @@ public class UI implements IUI {
 	/* (non-Javadoc)
 	 * @see ui.IUI#notifyPassStartSquare(int)
 	 */
-	public void notifyPassStartSquare(int bonus)
+	public void notifyPassStartSquare()
 	{
-		displayMessage("Received Start square pass bonus of " + bonus + "!");
+		displayMessage("player passed throu startsqure and will recive a reward!");
 	}
 
 	/* (non-Javadoc)
@@ -264,5 +257,11 @@ public class UI implements IUI {
 
     public void notifyPlayerGotCard(Player player, int cardType, String cardText) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void movePlayer(Player p,Integer boardSquareID, Integer nextBoardSquareID) {
+        p.setCurrentPosition(nextBoardSquareID);
+        System.err.println("move player "+p.getName()+ "from " +boardSquareID+" to "+nextBoardSquareID);
+        frame.movePlayer(p);
     }
 }

@@ -37,9 +37,12 @@ public class MonitorGameStartTask extends TimerTask {
     public void run() {
        if(!Server.getInstance().isEventQueueEmpty())
        {
+           System.err.println("game start mon ");
            Event given=Server.getInstance().popEventFromQueue();
+           System.err.println("game start mon "+given.getEventMessage().getValue());
            if(given.getEventType()==EventTypes.GameStart.getCode() )//&& given.getGameName().toString()==gameName)
            {
+               System.err.println("game start mon statring game");
                //DAFClient client1 = new DAFClient();
                GameManager gman = GameManager.createShit();//new window will be opend here
                masterFrame.dispose();
