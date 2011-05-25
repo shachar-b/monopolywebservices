@@ -167,7 +167,7 @@ public class Monopoly {
         {
             EventImpl lastEvent=(EventImpl)Monopoly.eventList.get(Monopoly.eventList.size()-1);
             if(ID!=lastEvent.getEventID() )
-            {//eventID is good
+            {
                 return false;
             }
             else
