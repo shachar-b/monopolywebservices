@@ -50,7 +50,7 @@ public class BuyDialog extends javax.swing.JDialog {
         noButton = new javax.swing.JButton();
         currSquarePanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         titleLabel.setText("Do you want to buy ");
 
@@ -126,6 +126,7 @@ private void doBuy(boolean  buy)
     MonopolyResult res=Server.getInstance().buy(GameManager.clientPlayerID,eventID, buy);
     if(res.isError())
          JOptionPane.showMessageDialog(null, res.getErrorMessage().getValue(), "buy op failed - (probly due to timeout))", JOptionPane.ERROR_MESSAGE);
+    this.dispose();
 }
     /**
      * @param args the command line arguments

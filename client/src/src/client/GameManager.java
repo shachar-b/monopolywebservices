@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import src.assets.Asset;
+import src.assets.City;
 import src.client.ui.utils.EventTypes;
 import src.players.Player;
 import src.squares.Square;
@@ -95,9 +96,14 @@ public class GameManager {
     
     public void handelEvent(Event event) {
       //  printEventToConsole(event);
-        
+        final int eID = event.getEventID();
+        final int eBSID = event.getBoardSquareID();
+        Player pl= getPlayerByName(event.getPlayerName().getValue());
+        int bosid;
         switch (event.getEventType().intValue())
         {
+            
+            
           /*
         * GameStart(1),GameOver(2),GameWinner(3),PlayerResigned(4),PlayerLost(5),
         PromptPlayerToRollDice (6),DiceRoll(7),Move(8),PassedStartSquare(9),LandedOnStartSquare(10),
@@ -107,13 +113,14 @@ public class GameManager {
         case 1://game start - ignored -remove
         break;
         case 2://GameOver
+            currentUI.notifyGameWinner(pl);
         break;
         case 3://GameWinner
         break;
         case 4://PlayerResigned- do the same as 5 maybe make a diffrent statement
   
         case 5://PlayerLost
-           Player pl= getPlayerByName(event.getPlayerName().getValue());
+            pl= getPlayerByName(event.getPlayerName().getValue());
             pl.remove();
             gamePlayers.remove(pl);
         break;
@@ -124,10 +131,9 @@ public class GameManager {
             break;
         case 8://Move
             String pname=event.getPlayerName().getValue();
-            Player p=getPlayerByName(pname);
-            int bosid=event.getBoardSquareID();
+            bosid=event.getBoardSquareID();
             int nbosid=event.getNextBoardSquareID();
-            currentUI.movePlayer(p,bosid,nbosid);
+            currentUI.movePlayer(pl,bosid,nbosid);
         break;
         case 9://PassedStartSquare
             currentUI.notifyPassStartSquare();
@@ -139,8 +145,7 @@ public class GameManager {
         case 12://PromptPlayerToBuyAsset
         case 13://PromptPlayerToBuyHouse
             //TODO : CONTINUE HERE
-            final int eID = event.getEventID();
-            final int eBSID = event.getBoardSquareID();
+            
          if ( event.getPlayerName().getValue().equals(GameManager.clientName)) {
                 SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
@@ -152,18 +157,38 @@ public class GameManager {
          
         break;
         case 14://AssetBoughtMessage
+            bosid=event.getBoardSquareID();
+            ((Asset)gameBoard.get(bosid)).setOwner(pl);
         break;
         case 15://HouseBoughtMessage
+            bosid=event.getBoardSquareID();
+            ((City)gameBoard.get(bosid)).BuyHouse(pl);
         break;
         case 16://SurpriseCard
+            currentUI.notifyPlayerGotCard(pl, 1, event.getEventMessage().getValue());
         break;
         case 17://WarrantCard
+             currentUI.notifyPlayerGotCard(pl, -1, event.getEventMessage().getValue());
         break;
         case 18://GetOutOfJailCard
+            currentUI.notifyPlayerGotCard(pl, 1, event.getEventMessage().getValue());
         break;
         case 19://Payment
+                Player reciver = getPlayerByName(event.getPaymentToPlayerName().getValue());
+                reciver.ChangeBalance(event.getPaymentAmount());
+                if(event.isPaymemtFromUser())
+                {
+                    currentUI.notifyPlayerPaysRent(event.getEventMessage().getValue());
+                }
+                else
+                {
+                    
+                }
+                
+            
         break;
         case 20://PlayerUsedJailCard
+            
         break;
         }
     }
