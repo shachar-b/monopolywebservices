@@ -18,11 +18,9 @@ public class eventPoller extends TimerTask  {
 
     @Override
     public void run() {
-        System.err.println("eventPoller running. lastEvent="+lastEvent);
         List<Event> events=Server.getInstance().getAllEvents(lastEvent);
         if(events!=null && !events.isEmpty())
         {
-            System.err.println("first event that i got was: "+events.get(0).getEventMessage().getValue());
             lastEvent+=events.size();
             Server.getInstance().addEventsToQueue(events);
             Thread.currentThread().setPriority(Thread.MIN_PRIORITY);

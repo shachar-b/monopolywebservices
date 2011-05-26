@@ -246,7 +246,6 @@ public class UI {
 
     public void movePlayer(Player p, Integer boardSquareID, Integer nextBoardSquareID) {
         p.setCurrentPosition(nextBoardSquareID);
-        System.err.println("move player " + p.getName() + "from " + boardSquareID + " to " + nextBoardSquareID);
         frame.movePlayer(p);
     }
 }
