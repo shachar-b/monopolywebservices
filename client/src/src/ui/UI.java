@@ -99,8 +99,7 @@ public class UI {
     /* (non-Javadoc)
      * @see ui.IUI#notifyPlayerPaysRent(players.Player, assets.Asset, players.Player)
      */
-    public void notifyPlayerPaysRent(Player player, Asset asset, Player owner) {
-        String message = player.getName() + " has to pay rent of " + asset.getRentPrice() + " to " + owner.getName() + "!";
+    public void notifyPlayerPaysRent(String message) {
         displayMessage(message);
     }
 
@@ -242,7 +241,7 @@ public class UI {
     }
 
     public void notifyPlayerGotCard(Player player, int cardType, String cardText) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       frame.displayCardRecived(cardType,cardText);
     }
 
     public void movePlayer(Player p, Integer boardSquareID, Integer nextBoardSquareID) {

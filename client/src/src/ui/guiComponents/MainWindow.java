@@ -292,4 +292,10 @@ public class MainWindow extends JFrame {
 			throw new RuntimeException("Problem retrieving player panel!");
 		}
 	}
+
+    public void displayCardRecived(int cardType, String cardText) {
+        CardPanel panel=new CardPanel((cardType==1), cardText);
+        panel.setVisible(true);
+        
+    }
 }
