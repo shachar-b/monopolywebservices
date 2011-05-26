@@ -90,15 +90,20 @@ public class GameManager {
                 return p;
             }
         }
-        throw new RuntimeException("this is wrong- an unknown player name was given by server");
+        throw new RuntimeException("this is wrong- an unknown player name was given by server: "+given);
     }
     
     
     public void handelEvent(Event event) {
-      //  printEventToConsole(event);
+        //currentUI.notifyPlayerPaysRent(event.getEventMessage().getValue());//TODO:remove this line
         final int eID = event.getEventID();
         final int eBSID = event.getBoardSquareID();
-        Player pl= getPlayerByName(event.getPlayerName().getValue());
+        Player pl=null;
+        if(event.getEventType()>2)
+        {
+            pl= getPlayerByName(event.getPlayerName().getValue());
+            
+        }
         int bosid;
         switch (event.getEventType().intValue())
         {
