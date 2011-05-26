@@ -24,13 +24,13 @@ public class CardPanel extends JPanel {
 	private JLabel CardStringLabel;
 	
 	/**
-	 * public CardPanel(ActionCard currentCard)
+	 * public CardPanel(boolean  isSupprise,String text)
 	 * Receives a card and constructs the correct dialog for it.
 	 * @param currentCard An ActionCard which was drawn from the deck.
 	 */
-	public CardPanel(boolean  isSupprise,String text) {
+	public CardPanel(boolean  isSurprise,String text) {
 		initComponents();
-		if (isSupprise)
+		if (isSurprise)
 		{
 			this.setBackground(new Color(255, 255, 157));
 			CardTypeLabel.setText("Surprise Card");
