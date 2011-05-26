@@ -2,6 +2,7 @@ package src.ui.guiComponents.dice;
 
 import java.awt.BorderLayout;
 import java.util.Timer;
+import javax.swing.Icon;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +25,9 @@ public class Dice extends GameActionsListenableClass {
     JLabel dice1;
     JLabel dice2;
     int dice1Outcome;
+    int serverOutcome1;
     int dice2Outcome;
+    int serverOutcome2;
     JLabel text;
     JPanel eastPane = new JPanel();
     JPanel westPane = new JPanel();
@@ -35,10 +38,8 @@ public class Dice extends GameActionsListenableClass {
      * 
      */
     private Dice() {
-      //  dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
-        //dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
-          dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
-         dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+        dice1 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
+        dice2 = new JLabel(Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone1.gif"));
         text = new JLabel("Total: 2");
         this.setLayout(new BorderLayout());
         westPane.add(dice1);
@@ -54,6 +55,8 @@ public class Dice extends GameActionsListenableClass {
      * starts the dice roll outcome
      */
     public void makeItRoll(int serverOutcome1, int serverOutcome2) {
+        this.serverOutcome1 = serverOutcome1;
+        this.serverOutcome2 = serverOutcome2;
         Timer timer = new Timer();
         GameActionEventListener performWhenDone = new GameActionEventListener() {
 
@@ -63,7 +66,7 @@ public class Dice extends GameActionsListenableClass {
 
             }
         };
-        timer.scheduleAtFixedRate(new ThrowDice(dice1, dice2, text, performWhenDone), 0, 500);
+        timer.scheduleAtFixedRate(new ThrowDice(dice1, dice2, text, performWhenDone), 0, 100);
 
     }
 
@@ -72,6 +75,7 @@ public class Dice extends GameActionsListenableClass {
      * notifies all listing classes that the roll is done
      */
     private void done() {
+        setDieOutcome(serverOutcome1, serverOutcome2);
         fireEvent("throwDie");
     }
 
@@ -111,5 +115,14 @@ public class Dice extends GameActionsListenableClass {
     void setDieOutcome(int dice1Roll, int dice2Roll) {
         dice1Outcome = dice1Roll;
         dice2Outcome = dice2Roll;
+        Icon icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
+        Icon icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice2Outcome) + ".gif");
+        dice1.setIcon(icon1);
+        dice1.revalidate();
+        dice1.repaint();
+        dice2.setIcon(icon2);
+        dice2.revalidate();
+        dice2.repaint();
+        text.setText("Total: " + (dice1Outcome + dice2Outcome));
     }
 }

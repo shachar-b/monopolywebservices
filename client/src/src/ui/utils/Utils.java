@@ -20,7 +20,6 @@ public class Utils {
     public static ImageIcon getImageIcon (String name) {
         Image image;
 		try {
-                                                                System.err.println("got to get II and didnt stop");
 			image = Toolkit.getDefaultToolkit().createImage(name);
 		} catch (SecurityException e) {
 			throw new RuntimeException("Could not access resource "+name);
