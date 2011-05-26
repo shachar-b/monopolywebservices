@@ -169,12 +169,10 @@ public class MonopolyGame {
         //validate asset from eventID
         Player p = GameManager.currentGame.getCurrentActivePlayer();
         if (!Monopoly.isLastEventID(eventID)) {
-            System.err.println("???faild cuse event list empty || event is invalid");
             return new MonopolyResult(true, "the event id given is not valid");
         } else {
             if (p.getID() != playerID)//if the player isnt active he wont be the current one !
             {
-                System.err.println("???faild cuse player id is invalid " + p.getID() + "!=" + playerID);
                 return new MonopolyResult(true, "the player id given dont belong to the current active player");
 
             } else//do it
