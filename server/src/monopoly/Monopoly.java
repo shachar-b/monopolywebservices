@@ -377,7 +377,7 @@ public class Monopoly {
      */
     private void buyHouse() {
         ((City) currentPlayerSquare).BuyHouse(getCurrentActivePlayer());
-        state=2;
+        eventDispatch(currentActivePlayer.getID(), "endTurn");
     }
 
     /**
@@ -406,6 +406,7 @@ public class Monopoly {
      */
     private void buyAsset() {
         ((Asset) currentPlayerSquare).buyAsset(getCurrentActivePlayer());
+        eventDispatch(currentActivePlayer.getID(), "endTurn");
     }
 
     /**
@@ -459,18 +460,10 @@ public class Monopoly {
                 }
             } else if (message.equals("buyHouse")) {
                 buyHouse();
-                if (!stopGame )//go on next state
-                {
-                    state=ENDTURN;
-                    doRound();
-                }
+               
             } else if (message.equals("buyAsset")) {
                 buyAsset();
-                if (!stopGame )//go on next state
-                {
-                    state=ENDTURN;
-                    doRound();
-                }
+      
             } else if (message.equals("throwDie")) {
                 throwDie();
                 //dont go on till someone else told you so
@@ -504,7 +497,7 @@ public class Monopoly {
 
     public boolean isLegalBuyOP() {
         Square curr=gameBoard.get(currentActivePlayer.getCurrentPosition());
-        if(curr instanceof Asset && ((Asset)curr).getOwner()!=GameManager.assetKeeper)
+        if(curr instanceof  Asset && ((Asset)curr).getOwner()==GameManager.assetKeeper)
         {
             return true;
         }
