@@ -490,7 +490,7 @@ public class Monopoly {
 
     }
 
-    void buyWhatYouAreSittingOn() {
+    public void buyWhatYouAreSittingOn() {
         Asset curr=(Asset)  gameBoard.get(currentActivePlayer.getCurrentPosition());
        if(curr.getOwner()==GameManager.assetKeeper)
        {
@@ -500,5 +500,21 @@ public class Monopoly {
        {
            eventDispatch(currentActivePlayer.getID(), "buyHouse");
        }
+    }
+
+    public boolean isLegalBuyOP() {
+        Square curr=gameBoard.get(currentActivePlayer.getCurrentPosition());
+        if(curr instanceof Asset && ((Asset)curr).getOwner()!=GameManager.assetKeeper)
+        {
+            return true;
+        }
+        else if(curr instanceof City && ((City)curr).canHouseBeBuilt(currentActivePlayer) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

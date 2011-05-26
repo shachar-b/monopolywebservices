@@ -6,8 +6,11 @@ import monopoly.GameManager;
 import assets.Asset;
 import assets.City;
 import cards.ActionCard;
+import java.util.Timer;
+import java.util.TimerTask;
 import monopoly.EventImpl;
 import monopoly.Monopoly;
+import monopoly.TimeOutTasks;
 
 /**
  * abstract class Player
@@ -27,7 +30,6 @@ public abstract class Player extends InnerChangeListenableClass {
 	private int lastKnownPosition = 0; 
 	private int ParkedOnRound=0;
         private int ID;
-
 
 
 	/**

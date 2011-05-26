@@ -8,6 +8,7 @@ import assets.City;
 import monopoly.EventImpl;
 import monopoly.GameManager;
 import monopoly.Monopoly;
+import monopoly.TimeOutTasks;
 
 
 /**
@@ -35,7 +36,7 @@ public class HumanPlayer extends Player {
     @Override
     public void buyDecision(Asset asset) {
        super.buyDecision(asset);
-
+        TimeOutTasks.StartTimer(this, GameManager.TIMEOUT_IN_SECONDS);
          //TODO: really prtompt user wait for timeout and move to next state
 
     }
@@ -46,7 +47,7 @@ public class HumanPlayer extends Player {
     public void buyHouseDecision(City asset)
     {
         super.buyHouseDecision(asset);
-        //TODO: timer goes here
+        TimeOutTasks.StartTimer(this, GameManager.TIMEOUT_IN_SECONDS);
 
     }
 
