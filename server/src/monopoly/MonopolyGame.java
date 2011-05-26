@@ -32,59 +32,56 @@ public class MonopolyGame {
 
     public String getGameBoardXML() {
         return getFileAsString(GameManager.DataFile);
-       
+
     }
 
-    public String getFileAsString(String path)
-    {
-         InputStream is = null;
+    public String getFileAsString(String path) {
+        InputStream is = null;
         try {
-                is = getClass().getClassLoader().getResourceAsStream(path);
-                return new Scanner(is).useDelimiter("\\Z").next();
+            is = getClass().getClassLoader().getResourceAsStream(path);
+            return new Scanner(is).useDelimiter("\\Z").next();
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException ex) {
-                    throw new RuntimeException("Encountered error while closing file: " +path);
+                    throw new RuntimeException("Encountered error while closing file: " + path);
                 }
             }
         }
     }
 
-    public MonopolyResult removeGame(String gameName)
-    {
+    public MonopolyResult removeGame(String gameName) {
         //TODO : Remove this function
         return new MonopolyResult(true, gameManager.removeGame(gameName));
     }
 
     public MonopolyResult startGame(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
-        if (gameManager.getNumberOfGames()>0)
-        {
-            if (gameManager.isGameStarted(gameName)) 
+        if (gameManager.getNumberOfGames() > 0) {
+            if (gameManager.isGameStarted(gameName)) {
                 return MonopolyResult.error("A game '" + gameName + "' has already been started");
-            else
+            } else {
                 return MonopolyResult.error("Only one game is supported, game " + gameManager.getGamesNames().toString() + " is on.");
-        }
-        else{
+            }
+        } else {
             Monopoly.resetEventQueue();
             gameManager.addGame(gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
-            if (checkGameLegitimacy(humanPlayers, computerizedPlayers)){
-                for (int i=0; i<computerizedPlayers; i++)
-                {//Add computer players
-                    gameManager.joinPlayer(gameName, "Computer"+(i+1), false);
+            if (checkGameLegitimacy(humanPlayers, computerizedPlayers)) {
+                for (int i = 0; i < computerizedPlayers; i++) {//Add computer players
+                    gameManager.joinPlayer(gameName, "Computer" + (i + 1), false);
                 }
             }
             return new MonopolyResult();
         }
     }
 
-
-    private boolean checkGameLegitimacy(int humanPlayers, int computerizedPlayers){
-        int totalPlayers = humanPlayers+computerizedPlayers;
-        if (totalPlayers >= GameManager.MIN_NUMBER_OF_PLAYERS && totalPlayers <= GameManager.MAX_NUMBER_OF_PLAYERS)
-            if (humanPlayers>=0 && computerizedPlayers>=0)
+    private boolean checkGameLegitimacy(int humanPlayers, int computerizedPlayers) {
+        int totalPlayers = humanPlayers + computerizedPlayers;
+        if (totalPlayers >= GameManager.MIN_NUMBER_OF_PLAYERS && totalPlayers <= GameManager.MAX_NUMBER_OF_PLAYERS) {
+            if (humanPlayers >= 0 && computerizedPlayers >= 0) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -143,16 +140,14 @@ public class MonopolyGame {
 
     public EventArrayResult getAllEvents(int eventID) {
         //validate evendID against last eventID
-        if (eventID <= Monopoly.getCurrentEventID() && eventID >= 0)
-        {
+        if (eventID <= Monopoly.getCurrentEventID() && eventID >= 0) {
             ArrayList<Event> result = Monopoly.getEventsFrom(eventID);
             Event[] retVal = new Event[result.size()];
             result.toArray(retVal);
             return new EventArrayResult(retVal);
-        }
-        else //Illegal index
+        } else //Illegal index
         {
-            return new EventArrayResult(true,"Invalid EventID!");
+            return new EventArrayResult(true, "Invalid EventID!");
         }
     }
 
@@ -172,33 +167,44 @@ public class MonopolyGame {
         //validate evendID against last eventID
         //validate playerID against games players and players state
         //validate asset from eventID
-         Player p =GameManager.currentGame.getCurrentActivePlayer();
-         if(!Monopoly.isLastEventID(eventID))
-         {
-             System.err.println("???faild cuse event list empty || event is invalid");
-             return new MonopolyResult(true, "the event id given is not valid");
-         }         
-         else
-         {
-             if(p.getID()!=playerID)//if the player isnt active he wont be the current one !
-             {
-                System.err.println("???faild cuse player id is invalid " +p.getID()+"!="+playerID);
+        Player p = GameManager.currentGame.getCurrentActivePlayer();
+        if (!Monopoly.isLastEventID(eventID)) {
+            System.err.println("???faild cuse event list empty || event is invalid");
+            return new MonopolyResult(true, "the event id given is not valid");
+        } else {
+            if (p.getID() != playerID)//if the player isnt active he wont be the current one !
+            {
+                System.err.println("???faild cuse player id is invalid " + p.getID() + "!=" + playerID);
                 return new MonopolyResult(true, "the player id given dont belong to the current active player");
 
-             }
-             else//do it
-             {
-                 GameManager.currentGame.buyWhatYouAreSittingOn();
-                 return new MonopolyResult(false, "yay!");
-             }
-    
-    
-    
-            
-            
-            
+            } else//do it
+            {
+                TimeOutTasks.stopTimer(p);
+                if (buy) {
+                    if (GameManager.currentGame.isLegalBuyOP()) {
+                        GameManager.currentGame.buyWhatYouAreSittingOn();
+                        return new MonopolyResult(false, "asset bought");
+                    }
+                    else
+                    {
+
+                        throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
+                    }
+                } else {
+
+                    GameManager.currentGame.eventDispatch(playerID, "endTurn");
+                    return new MonopolyResult(false, "asset have not been bougnt");
+                }
+
+            }
+
+
+
+
+
+
         }
-        
-        
+
+
     }
 }
