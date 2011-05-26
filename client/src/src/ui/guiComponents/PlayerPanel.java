@@ -167,12 +167,6 @@ public void ClickBuyHouseButton()
 		{
 			showGroup.setEnabled(true);
 		}
-                /**
-		if (currentSquare.shouldPlayerMove(player)&&currentSquare instanceof ParkingSquare)
-		{
-			Dice.getGameDice().setButtonEnabled(false);
-			setEndTurnButtonStatus(true);
-		}*/
 		initTreeModel();
 	}
 

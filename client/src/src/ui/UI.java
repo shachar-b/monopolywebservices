@@ -1,17 +1,20 @@
 package src.ui;
 
 import java.awt.Frame;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
-import listeners.gameActions.GameActionEvent;
-import listeners.gameActions.GameActionEventListener;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import src.assets.Asset;
 import src.assets.City;
 import src.client.GameManager;
 import src.players.Player;
+import src.squares.ParkingSquare;
 import src.squares.Square;
+import src.ui.guiComponents.CardPanel;
 import src.ui.guiComponents.MainWindow;
 
 /**
@@ -22,23 +25,22 @@ import src.ui.guiComponents.MainWindow;
  * @author Omer Shenhar and Shachar Butnaro
  */
 public class UI {
-
+    
     private MainWindow frame;
-
+    
     public UI() {
         SwingUtilities.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
                 frame = new MainWindow();
                 setPlayerPanel(GameManager.staticInstance.getPlayerByName(GameManager.clientName));
                 frame.setExtendedState(Frame.MAXIMIZED_BOTH);
                 frame.setVisible(true);
-                //Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             }
         });
     }
-
+    
     public MainWindow getFrame() {
         return frame;
     }
@@ -51,7 +53,6 @@ public class UI {
                 + (p.getCurrentPosition() + 1) + ": "
                 + currSQ.getName();
         displayMessage(message);
-        frame.movePlayer(p);
         frame.getPlayerPanel().setSquarePanelContent(currSQ, p);
     }
 
@@ -59,14 +60,7 @@ public class UI {
      * @see ui.IUI#setPlayerPanel(players.Player, int, squares.Square)
      */
     public void setPlayerPanel(Player p) {
-        frame.setPlayerPanel(p).addGameActionsListener(new GameActionEventListener() {
-
-            @Override
-            public void eventHappened(GameActionEvent gameActionEvent) {//TODO:here
-                //GameManager.currentGame.eventDispatch(gameActionEvent.getMessage());
-            }
-        });
-
+        frame.setPlayerPanel(p);
         frame.validate();
         frame.repaint();
     }
@@ -82,24 +76,16 @@ public class UI {
     }
 
     /* (non-Javadoc)
-     * @see ui.IUI#notifyDiceRoll(int)
-     */
-    public void notifyDiceRoll(int LastRollOutcome1, int LastRollOutcome2) {
-        String message = "Rolled : " + LastRollOutcome1 + " , " + LastRollOutcome2 + ".";
-        displayMessage(message);
-    }
-
-    /* (non-Javadoc)
      * @see ui.IUI#notifyPassStartSquare(int)
      */
-    public void notifyPassStartSquare() {
-        displayMessage("player passed throu startsqure and will recive a reward!");
+    public void notifyPassStartSquare(String playerName) {
+        displayMessage("Player " + playerName + " passed through \"GO!\" square and will recieve a reward!");
     }
 
     /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerPaysRent(players.Player, assets.Asset, players.Player)
+     * @see ui.IUI#notifyPlayerPays(players.Player, assets.Asset, players.Player)
      */
-    public void notifyPlayerPaysRent(String message) {
+    public void notifyPlayerPays(String message) {
         displayMessage(message);
     }
 
@@ -123,39 +109,16 @@ public class UI {
      * @see ui.IUI#notifyPlayerLandsOnParkingSquare(players.Player)
      */
     public void notifyPlayerLandsOnParkingSquare(Player player) {
-        String message = player.getName() + " will wait a turn on parking.";
+       String message = player.getName() + " landed on parking, and will not move on the following round.!";
         displayMessage(message);
     }
 
     /* (non-Javadoc)
-     * @see ui.IUI#notifyJailAction(players.Player, monopoly.GameManager.jailActions)
-     */
-    /*	public void notifyJailAction(Player player, jailActions action){
-    String message;
-    switch (action) {
-    case USED_CARD:
-    message = player.getName() + " used a get out of jail freeCard and is out of jail in next turn!"; 
-    break;
-    case ROLLED_DOUBLE:
-    message = player.getName() + " has a double and is out of jail in next turn!"; 
-    break;
-    
-    case STAY_IN_JAIL:
-    message = player.getName() + " stays in jail!";
-    break;
-    
-    default: //Shouldn't get here
-    throw new RuntimeErrorException(null, "Unknown agrument for function \"notifyJailAction\"");
-    }
-    displayMessage(message);
-    }*/
-
-    /* (non-Javadoc)
      * @see ui.IUI#notifyPlayerLandsOnStartSquare(players.Player)
      */
-    public void notifyPlayerLandsOnStartSquare(Player player) {
-        //String message = player.getName() + " has stepped on Start and gets and additional " + GameManager.START_LAND_BONUS  + "!";
-        displayMessage("fix here");
+    public void notifyPlayerLandsOnStartSquare(String playerName) {
+        String message = playerName + " has stepped on \"GO\" square and gets an additional bonus!";
+        displayMessage(message);
     }
 
     /* (non-Javadoc)
@@ -182,53 +145,31 @@ public class UI {
     }
 
     /**
-     * private void displaySelfClosingCardDialog(Player player, ActionCard card)
+     * private void displaySelfClosingCardDialog(Player player, String cardMsg, boolean isSurprise)
      * This opens an un-interruptible dialog showing the card a player got
      * during the game. The dialog closes after 5 seconds.
      * @param player - A valid non-null player
-     * @param card - The card the player got.
+     * @param cardMsg - The card message the player got.
+     * @param isSurprise - a boolean signifying if the card is a surprise card.
      */
-    private void displaySelfClosingCardDialog(Player player/*, ActionCard card*/) {
-        /*	final JDialog cardDialog = new JDialog(frame, player.getName()+" got a card!", true);
+    private void displaySelfClosingCardDialog(Player player, String cardMsg, boolean isSurprise) {
+        final JDialog cardDialog = new JDialog(frame, player.getName() + " got a card!", true);
         cardDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        cardDialog.add(new CardPanel(card));
+        cardDialog.add(new CardPanel(isSurprise, cardMsg));
         cardDialog.pack();
         
-        Timer timer = new Timer(5000, new ActionListener() { 
-        public void actionPerformed(ActionEvent e) { 
-        cardDialog.setVisible(false); 
-        cardDialog.dispose(); 
-        } 
-        }); 
-        timer.setRepeats(false); 
+        Timer timer = new Timer(5000, new ActionListener() {            
+
+            public void actionPerformed(ActionEvent e) {                
+                cardDialog.setVisible(false);                
+                cardDialog.dispose();                
+            }            
+        });        
+        timer.setRepeats(false);        
         timer.start();
         cardDialog.setVisible(true);
-        
-         *///TODO:do somthing
-    }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerCantBuy(players.Player, java.lang.String, int)
-     */
-    public void notifyPlayerCantBuy(Player player, String what, int cost) {
-        String message = player.getName() + " cant buy " + what + " for " + cost + " due to insufficient funds!";
-        displayMessage(message);
-    }
-
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerIsParked(players.Player)
-     */
-    public void notifyPlayerIsParked(Player player) {
-        String message = player.getName() + " is parked and cannot move!";
-        displayMessage(message);
-    }
-
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyNumOfPlayers(int, int)
-     */
-    public void notifyNumOfPlayers(int numOfPlayers, int numOfComputerPlayers) {
-        displayMessage("Starting game with " + numOfPlayers + " players, " + numOfComputerPlayers + " are computer controlled.");
-        displayMessage("Randomly setting playing order.\n");
+        //TODO:do somthing
     }
 
     /* (non-Javadoc)
@@ -239,13 +180,19 @@ public class UI {
         frame.getGameboard().removePlayerIcon(p);
         displayMessage(message);
     }
-
+    
     public void notifyPlayerGotCard(Player player, int cardType, String cardText) {
-       frame.displayCardRecived(cardType,cardText);
+        boolean isSurprise = (cardType == 1 ? true : false);
+        displaySelfClosingCardDialog(player, cardText, isSurprise);
     }
-
+    
     public void movePlayer(Player p, Integer boardSquareID, Integer nextBoardSquareID) {
+        Square newSquare = GameManager.staticInstance.getGameBoard().get(nextBoardSquareID);
         p.setCurrentPosition(nextBoardSquareID);
+        notifyPlayerLanded(p, newSquare);
         frame.movePlayer(p);
+        if (newSquare instanceof ParkingSquare) {
+            notifyPlayerLandsOnParkingSquare(p);
+        }
     }
 }
