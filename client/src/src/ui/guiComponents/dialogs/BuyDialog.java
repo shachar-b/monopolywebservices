@@ -27,13 +27,17 @@ import src.ui.guiComponents.Squares.SqurePanelFactory;
  */
 public class BuyDialog extends javax.swing.JDialog {
     private int eventID;
+    private Asset assetToOffer;
+    java.awt.Frame parent ;
 
     /** Creates new form BuyDialog */
     public BuyDialog(java.awt.Frame parent, boolean modal,Asset asset, boolean buyAsset,int eventID ) {
         super(parent, modal);
+        this.parent=parent;
         initComponents();
         initComponentsAdditions(asset,buyAsset);
         this.eventID=eventID;
+        assetToOffer=asset;
     }
 
     /** This method is called from within the constructor to
@@ -49,6 +53,7 @@ public class BuyDialog extends javax.swing.JDialog {
         yesButton = new javax.swing.JButton();
         noButton = new javax.swing.JButton();
         currSquarePanel = new javax.swing.JPanel();
+        groupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -72,12 +77,20 @@ public class BuyDialog extends javax.swing.JDialog {
         currSquarePanel.setLayout(currSquarePanelLayout);
         currSquarePanelLayout.setHorizontalGroup(
             currSquarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 402, Short.MAX_VALUE)
         );
         currSquarePanelLayout.setVerticalGroup(
             currSquarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 228, Short.MAX_VALUE)
         );
+
+        groupButton.setText("show Group");
+        groupButton.setToolTipText("show asset group");
+        groupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,7 +101,9 @@ public class BuyDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(yesButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
+                        .addGap(77, 77, 77)
+                        .addComponent(groupButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                         .addComponent(noButton)
                         .addContainerGap())
                     .addComponent(titleLabel)
@@ -105,7 +120,8 @@ public class BuyDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(yesButton)
-                    .addComponent(noButton))
+                    .addComponent(noButton)
+                    .addComponent(groupButton))
                 .addContainerGap())
         );
 
@@ -121,6 +137,10 @@ public class BuyDialog extends javax.swing.JDialog {
         doBuy(true);
         this.dispose();
     }//GEN-LAST:event_yesButtonActionPerformed
+
+    private void groupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupButtonActionPerformed
+        AssetGroupDialog diag=new AssetGroupDialog(parent,  assetToOffer.getGroup());
+    }//GEN-LAST:event_groupButtonActionPerformed
 private void doBuy(boolean  buy)
 {
     MonopolyResult res=Server.getInstance().buy(GameManager.clientPlayerID,eventID, buy);
@@ -150,6 +170,7 @@ private void doBuy(boolean  buy)
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel currSquarePanel;
+    private javax.swing.JButton groupButton;
     private javax.swing.JButton noButton;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JButton yesButton;
