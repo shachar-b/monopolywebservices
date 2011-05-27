@@ -115,8 +115,24 @@ public class Dice extends GameActionsListenableClass {
     void setDieOutcome(int dice1Roll, int dice2Roll) {
         dice1Outcome = dice1Roll;
         dice2Outcome = dice2Roll;
-        Icon icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
-        Icon icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice2Outcome) + ".gif");
+        Icon icon1;
+        Icon icon2;
+        if(dice1Roll<1|| dice1Roll>6)
+        {
+          icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");  
+        }
+        else
+        {
+             icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
+        }
+           if(dice1Roll<1|| dice1Roll>6)
+        {
+            icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");
+        }
+        else
+        {
+          icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice2Outcome) + ".gif");   
+        }
         dice1.setIcon(icon1);
         dice1.revalidate();
         dice1.repaint();

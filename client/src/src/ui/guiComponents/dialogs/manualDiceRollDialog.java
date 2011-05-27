@@ -45,9 +45,7 @@ public class manualDiceRollDialog extends JDialog {
         this.dispose();
     }
 
-    private void CancelButtonActionPerformed(ActionEvent e) {
-        this.dispose();
-    }
+ 
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -59,7 +57,6 @@ public class manualDiceRollDialog extends JDialog {
         dice2 = new JSpinner();
         buttonBar = new JPanel();
         okButton = new JButton();
-        CancelButton = new JButton();
 
         //======== this ========
         setTitle("Manual dice selector");
@@ -85,11 +82,11 @@ public class manualDiceRollDialog extends JDialog {
                     spinnersPanel.setLayout(new BoxLayout(spinnersPanel, BoxLayout.X_AXIS));
 
                     //---- dice1 ----
-                    dice1.setModel(new SpinnerNumberModel(1, 0, 6, 1));
+                    dice1.setModel(new SpinnerNumberModel(1, 0, 36, 1));
                     spinnersPanel.add(dice1);
 
                     //---- dice2 ----
-                    dice2.setModel(new SpinnerNumberModel(1, 1, 6, 1));
+                    dice2.setModel(new SpinnerNumberModel(1, 0, 36, 1));
                     spinnersPanel.add(dice2);
                 }
                 contentPanel.add(spinnersPanel, BorderLayout.CENTER);
@@ -114,19 +111,7 @@ public class manualDiceRollDialog extends JDialog {
                 buttonBar.add(okButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
-
-                //---- CancelButton ----
-                CancelButton.setText("Cancel dice roll");
-                CancelButton.setToolTipText("Choose this to pause game and inspect the board.");
-                CancelButton.addActionListener(new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-                        CancelButtonActionPerformed(e);
-                    }
-                });
-                buttonBar.add(CancelButton, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+             
             }
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }
@@ -144,6 +129,5 @@ public class manualDiceRollDialog extends JDialog {
     private JSpinner dice2;
     private JPanel buttonBar;
     private JButton okButton;
-    private JButton CancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
