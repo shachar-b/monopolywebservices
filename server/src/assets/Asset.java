@@ -62,9 +62,8 @@ public abstract class Asset extends Square {
            player.buyDecision(this);
             } 
         else if (owner != player) {
-//            GameManager.CurrentUI.notifyPlayerPaysRent(player, this, owner);
-            int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT);
-            this.owner.ChangeBalance(amountRcvd, GameManager.ADD);
+            int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT,false,true);
+            this.owner.ChangeBalance(amountRcvd, GameManager.ADD,false,true);
             GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
         }
     }
@@ -72,11 +71,8 @@ public abstract class Asset extends Square {
     public void buyAsset(Player player) {
                 Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
                         name+"has been bougnt", player.getName(), player.getCurrentPosition()));
-                Monopoly.addEvent(EventImpl.createNewPaymentEvent(player.getName(), EventImpl.EventTypes.Payment, "pay "+cost,
-                        player.getName(), true, false, "game", cost));
-        player.ChangeBalance(cost, GameManager.SUBTRACT);
+        player.ChangeBalance(cost, GameManager.SUBTRACT,true,false);
         setOwner(player);
-//        GameManager.CurrentUI.notifyPlayerBoughtAsset(player, this);
     }
 
     /**
