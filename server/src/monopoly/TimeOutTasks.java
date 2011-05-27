@@ -48,7 +48,7 @@ public class TimeOutTasks {
 
         public void run() {
             //TODO: make the correct player forfit
-           // GameManager.currentGame.eventDispatch(player.getID(), "forfit");
+           GameManager.currentGame.eventDispatch(player.getID(), "forfeit");
         }
     }
 }

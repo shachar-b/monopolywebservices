@@ -3,6 +3,7 @@ package monopoly;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import monopoly.EventImpl.EventTypes;
 
 import players.Player;
 import squares.JailSlashFreePassSquare;
@@ -58,11 +59,11 @@ public class Monopoly {
 //        }
 //        
 //    });
-    public Monopoly(String gameName, ArrayList<Player> players,boolean  useAutoDiceRoll) {
+    public Monopoly(String gameName, ArrayList<Player> players, boolean useAutoDiceRoll) {
         eventList = new ArrayList<Event>();
         this.gameName = gameName;
         gamePlayers = new ArrayList<Player>(players);
-        this.useAutoDiceRoll=useAutoDiceRoll;
+        this.useAutoDiceRoll = useAutoDiceRoll;
         init();
     }
 
@@ -141,20 +142,18 @@ public class Monopoly {
                 }
             case DIE:
                 state++;//next state is 2- (buy decesions are made outside the state mech
-                if(isAutoDiceRoll())
+                if (isAutoDiceRoll() || !currentActivePlayer.isHuman())//computer isnt promped for die
                 {
-                if (currentPlayerSquare instanceof JailSlashFreePassSquare || currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {//dont do it only on parking- if GOJC was used this wont be reached
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException("state machine problem");
+                    if (currentPlayerSquare instanceof JailSlashFreePassSquare || currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {//dont do it only on parking- if GOJC was used this wont be reached
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException("state machine problem");
+                        }
+                        eventDispatch(currentActivePlayer.getID(), "throwDie");
+                        break;
                     }
-                    eventDispatch(currentActivePlayer.getID(), "throwDie");
-                    break;
-                }
-                }
-                else
-                {
+                } else {
                     TimeOutTasks.StartTimer(currentActivePlayer, GameManager.TIMEOUT_IN_SECONDS);
                     Monopoly.addEvent(EventImpl.createNewPromptRollEvent(gameName, EventImpl.EventTypes.PromptPlayerToRollDice, "please roll the die or die :)", currentActivePlayer.getName(), GameManager.TIMEOUT_IN_SECONDS));
                     break;
@@ -193,6 +192,19 @@ public class Monopoly {
         }
     }
 
+    static boolean isLastEventIDType(EventTypes type) {
+        if (Monopoly.eventList.isEmpty()) {
+            return false;
+        } else {
+            EventImpl lastEvent = (EventImpl) Monopoly.eventList.get(Monopoly.eventList.size() - 1);
+            if (type.getCode() != lastEvent.getEventType()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     public static void addEvent(Event e) {
         try {
             Thread.currentThread().sleep(300);
@@ -213,16 +225,6 @@ public class Monopoly {
         }
 
         return returnVal;
-    }
-
-    /**
-     * method public boolean rollForADouble()
-     * this is a method to be used by jail square.
-     * @return true IFF the last die throw was a double.
-     */
-    public boolean checkForDouble() {
-        int[] result = Dice.rollDie();
-        return (result[0] == result[1]);
     }
 
     /**
@@ -254,7 +256,7 @@ public class Monopoly {
         if (playerPos >= GameManager.NUMBER_OF_SQUARES) {
             if (getBonus) {
                 addEvent(EventImpl.createNewGroupB(gameName, EventImpl.EventTypes.PassedStartSquare, "passed start square", player.getName()));
-                player.ChangeBalance(GameManager.START_PASS_BONUS, GameManager.ADD,true,false);
+                player.ChangeBalance(GameManager.START_PASS_BONUS, GameManager.ADD, true, false);
             }
             playerPos = playerPos % GameManager.NUMBER_OF_SQUARES;
         }
@@ -382,14 +384,23 @@ public class Monopoly {
      */
     private void throwDie() {
 
-        //TODO: handle userGiven Die
+        //note that when parked player wont get here!
+        int[] result = Dice.rollDie();
+        throwDie(result[0], result[1]);
+    }
+
+    void throwDie(int die1, int die2) {
+         String message = "Rolled: " +die1 + "," + die2 + ".";
+        String playerName = GameManager.currentGame.getCurrentActivePlayer().getName();
+        EventImpl.EventTypes typeCode = EventImpl.EventTypes.DiceRoll;
+        Monopoly.addEvent(EventImpl.createNewDiceRollEvent(GameManager.currentGame.getGameName(), typeCode, message, playerName, die1, die2));
+
         if (currentPlayerSquare instanceof JailSlashFreePassSquare && !currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {
-            boolean hasDouble = checkForDouble();
+            boolean hasDouble = die1 == die2;
             ((JailSlashFreePassSquare) currentPlayerSquare).release(currentActivePlayer, hasDouble);
             eventDispatch(currentActivePlayer.getID(), "endTurn");
-        } else if (gameBoard.get(currentActivePlayer.getCurrentPosition()).shouldPlayerMove(currentActivePlayer)) {
-            int[] result = Dice.rollDie();
-            int dieSum = result[0] + result[1];
+        } else {
+            int dieSum = die1 + die2;
             movePlayer(currentActivePlayer, dieSum, true);
         }
     }
@@ -413,15 +424,7 @@ public class Monopoly {
         addEvent(EventImpl.createNewGroupB(gameName, EventImpl.EventTypes.PlayerUsedJailCard, message, currentActivePlayer.getName()));
     }
 
-    /**
-     * method private void forfeit()
-     * This method removes the current player from the game.
-     * As a by-product, ends his turn.
-     */
-    private void forfeit() {
-        playerIndex--;
-        removePlayerFromGame(getCurrentActivePlayer());
-    }
+
 
     /**
      * method private void buyAsset()
@@ -459,7 +462,7 @@ public class Monopoly {
             if (message.equals("forfeit")) {
                 forfeit(playerID);
             } else {
-                //do some error event becuse player cheated
+                //do some error event becuse player cheated or ignore
             }
         } else {
             if (!stopGame && message.equals("start")) {
@@ -496,9 +499,33 @@ public class Monopoly {
     public Player getCurrentActivePlayer() {
         return currentActivePlayer;
     }
-
+    /**
+     * method private void forfeit()
+     * This method removes the current player from the game.
+     * As a by-product, ends his turn.
+     */
+    private void forfeit() {
+        playerIndex--;
+        removePlayerFromGame(getCurrentActivePlayer());
+    }
     private void forfeit(int playerID) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        boolean isBeforeCurrent=true;
+        Player playerToRemove=null;
+        for(Player p:gamePlayers)//TODO:make sure player ID is checked in MonopolyGame.resign
+        {
+            if(p.equals(currentActivePlayer))
+                isBeforeCurrent=false;
+            if(p.getID()==playerID)
+            {
+                playerToRemove=p;
+                break;
+            }
+        }
+        if(!isBeforeCurrent)
+        {
+            playerIndex--;
+        }
+        removePlayerFromGame(playerToRemove);
 
     }
 
@@ -521,8 +548,17 @@ public class Monopoly {
         }
         return retVal;
     }
-    public boolean isAutoDiceRoll()
-    {
+
+    public boolean isAutoDiceRoll() {
         return useAutoDiceRoll;
+    }
+
+    boolean isValidPlayerID(int ID) {
+        for (Player p : gamePlayers) {
+            if (p.isActive() && p.getID() == ID) {
+                return true;
+            }
+        }
+        return false;
     }
 }
