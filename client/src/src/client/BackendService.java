@@ -7,6 +7,7 @@ package src.client;
 
 import comm.Event;
 import comm.GameDetailsResult;
+import comm.GetActiveGamesResponse;
 import comm.GetWaitingGamesResponse;
 import comm.IDResult;
 import comm.MonopolyGame;
@@ -105,4 +106,19 @@ public class BackendService {
     public MonopolyResult buy(int playerID, int eventID, boolean buyDecision) {
         return monopolyGamePortType.buy(playerID, eventID, buyDecision);
     }
+    
+      public List<String> getActiveGames() {
+        GetActiveGamesResponse result = monopolyGamePortType.getActiveGames();
+        return result != null ? result.getReturn() : Collections.EMPTY_LIST;
+    }
+
+      public MonopolyResult setDiceRollResults (int playerID, int eventID, int dice1, int dice2){
+          MonopolyResult result = monopolyGamePortType.setDiceRollResults(playerID, eventID, dice1, dice2);
+          return result;
+      }
+      
+      public MonopolyResult resign (int playerID){
+          MonopolyResult result = monopolyGamePortType.resign(playerID);
+          return result;
+      }
 }

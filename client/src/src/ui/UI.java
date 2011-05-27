@@ -16,6 +16,7 @@ import src.squares.ParkingSquare;
 import src.squares.Square;
 import src.ui.guiComponents.CardPanel;
 import src.ui.guiComponents.MainWindow;
+import src.ui.guiComponents.dialogs.manualDiceRollDialog;
 
 /**
  * public class ConsoleUI implements IUI
@@ -141,7 +142,13 @@ public class UI {
      * @see ui.IUI#displayMessage(java.lang.String)
      */
     public void displayMessage(String message) {
-        frame.addLineToConsole(message);
+        if (frame!=null){
+                    frame.addLineToConsole(message);
+        } else{
+            ; //Do nothing, Swing thread is being lazy and hasnt started yet.
+            //TODO : FIX BUG HERE (Ver. 2.0)
+        }
+
     }
 
     /**
@@ -168,8 +175,6 @@ public class UI {
         timer.setRepeats(false);        
         timer.start();
         cardDialog.setVisible(true);
-
-        //TODO:do somthing
     }
 
     /* (non-Javadoc)
@@ -181,8 +186,7 @@ public class UI {
         displayMessage(message);
     }
     
-    public void notifyPlayerGotCard(Player player, int cardType, String cardText) {
-        boolean isSurprise = (cardType == 1 ? true : false);
+    public void notifyPlayerGotCard(Player player, boolean isSurprise, String cardText) {
         displaySelfClosingCardDialog(player, cardText, isSurprise);
     }
     
@@ -194,5 +198,10 @@ public class UI {
         if (newSquare instanceof ParkingSquare) {
             notifyPlayerLandsOnParkingSquare(p);
         }
+    }
+
+    public void promptPlayerToChooseDice(int eventID) {
+        manualDiceRollDialog diag = new manualDiceRollDialog(frame, eventID);
+        diag.setVisible(true);
     }
 }

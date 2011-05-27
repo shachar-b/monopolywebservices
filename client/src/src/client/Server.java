@@ -56,6 +56,10 @@ public class Server {
     public List<String> getWaitingGames() {
         return backendService.getWaitingGames();
     }
+    
+    public List<String> getActiveGame(){
+        return backendService.getActiveGames();
+    }
 
     public List<Event> getAllEvents(int index) {
         return backendService.getAllEvents(index);
@@ -83,5 +87,13 @@ public class Server {
 
     public MonopolyResult buy(int playerID, int eventID, boolean buyDecision) {
         return backendService.buy(playerID, eventID, buyDecision);
+    }
+    
+    public MonopolyResult setDiceRollResults (int playerID, int eventID, int dice1, int dice2){
+        return backendService.setDiceRollResults(playerID, eventID, dice1, dice2);
+    }
+    
+    public MonopolyResult resign (int playerID){
+        return backendService.resign(playerID);
     }
 }

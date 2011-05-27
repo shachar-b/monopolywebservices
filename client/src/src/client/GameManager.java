@@ -121,6 +121,7 @@ public class GameManager {
                 gamePlayers.remove(pl);
                 break;
             case 6://PromptPlayerToRollDice
+                currentUI.promptPlayerToChooseDice(eventID);
                 break;  //TODO : prompt player
             case 7://dice roll
                 Dice.getGameDice().makeItRoll(event.getFirstDiceResult(), event.getSecondDiceResult());
@@ -138,8 +139,6 @@ public class GameManager {
                 break;
             case 12://PromptPlayerToBuyAsset
             case 13://PromptPlayerToBuyHouse
-                //TODO : CONTINUE HERE
-
                 if (event.getPlayerName().getValue().equals(GameManager.clientName)) {
                     SwingUtilities.invokeLater(new Runnable() {
 
@@ -149,7 +148,6 @@ public class GameManager {
                         }
                     });
                 }
-
                 break;
             case 14://AssetBoughtMessage
                 ((Asset) gameBoard.get(eventBoardSquareID)).setOwner(pl);
@@ -158,25 +156,19 @@ public class GameManager {
                 ((City) gameBoard.get(eventBoardSquareID)).BuyHouse(pl);
                 break;
             case 16://SurpriseCard
-                currentUI.notifyPlayerGotCard(pl, 1, event.getEventMessage().getValue());
+                currentUI.notifyPlayerGotCard(pl, true, event.getEventMessage().getValue());
                 break;
             case 17://WarrantCard
-                currentUI.notifyPlayerGotCard(pl, -1, event.getEventMessage().getValue());
+                currentUI.notifyPlayerGotCard(pl, false, event.getEventMessage().getValue());
                 break;
             case 18://GetOutOfJailCard
-                currentUI.notifyPlayerGotCard(pl, 1, event.getEventMessage().getValue());
+                currentUI.notifyPlayerGotCard(pl, true, event.getEventMessage().getValue());
                 break;
             case 19://Payment
-                Player reciver;
-                if (event.isPaymemtFromUser()) {
-                    reciver = getPlayerByName(event.getPaymentToPlayerName().getValue());
-                    reciver.ChangeBalance(event.getPaymentAmount());
-                    currentUI.notifyPlayerPays(event.getEventMessage().getValue());
-                } else {
-                    //TODO : deal with payment to treasury here
-                }
-
-
+                Player recipient;
+                recipient = getPlayerByName(event.getPaymentToPlayerName().getValue());
+                recipient.ChangeBalance(event.getPaymentAmount());
+                currentUI.notifyPlayerPays(event.getEventMessage().getValue());
                 break;
             case 20://PlayerUsedJailCard
 
@@ -200,9 +192,10 @@ public class GameManager {
         }
         feederTimer = Server.getInstance().startPolling("EventFeeder Timer", GameManager.feeder, 0, 5);
     }
-    
-    private void stopEventFeederTask(){
-        if (feederTimer!=null)
+
+    private void stopEventFeederTask() {
+        if (feederTimer != null) {
             feederTimer.cancel();
+        }
     }
 }
