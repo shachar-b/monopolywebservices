@@ -23,7 +23,6 @@ public class Player extends InnerChangeListenableClass {
     protected ArrayList<Asset> assetList = new ArrayList<Asset>();
     private int lastKnownPosition = 0;
     ImagePanel playerIcon = null;
-    private int ParkedOnRound = 0;
 
     /**
      * Constructor for Player

@@ -83,7 +83,6 @@ public class CenterPanel extends JPanel {
      * Resets the legend, re-initializes it and inserts current information.
      */
     public void updateLegend() {
-        //TODO:implement legend update
         legendTable.resetModel();
         initLegend(); //To reset the model
         ArrayList<Player> players = GameManager.staticInstance.getGamePlayers();
