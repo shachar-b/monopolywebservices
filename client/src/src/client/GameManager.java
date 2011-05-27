@@ -121,8 +121,9 @@ public class GameManager {
                 gamePlayers.remove(pl);
                 break;
             case 6://PromptPlayerToRollDice
-                currentUI.promptPlayerToChooseDice(eventID);
-                break;  //TODO : prompt player
+                if(pl.getName().equals(clientName));
+                    currentUI.promptPlayerToChooseDice(eventID);
+                break;  
             case 7://dice roll
                 Dice.getGameDice().makeItRoll(event.getFirstDiceResult(), event.getSecondDiceResult());
                 break;
@@ -190,7 +191,7 @@ public class GameManager {
         if (feederTimer != null) {
             feederTimer.cancel();
         }
-        feederTimer = Server.getInstance().startPolling("EventFeeder Timer", GameManager.feeder, 0, 5);
+        feederTimer = Server.getInstance().startPolling("EventFeeder Timer", GameManager.feeder, 0, 3);
     }
 
     private void stopEventFeederTask() {
