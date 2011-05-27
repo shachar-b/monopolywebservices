@@ -155,11 +155,28 @@ public class MonopolyGame {
         //validate evendID against last eventID
         //validate playerID against games players and players state
         //validate game mode
-        return new MonopolyResult("Dice1= " + dice1 + ", Dice2= " + dice2);
+        MonopolyResult res = validatePlayerAndEventID(playerID, eventID, EventImpl.EventTypes.PromptPlayerToRollDice);
+        if (res.isError())//if the player isnt active he wont be the current one or the event isnt the currect one !
+        {
+            return res;
+
+        } else//do it
+        {
+            GameManager.currentGame.throwDie(dice1, dice2);
+            return new MonopolyResult(false, "Dice1= " + dice1 + ", Dice2= " + dice2);
+        }
     }
 
     public MonopolyResult resign(int playerID) {
         //validate playerID against games players and players state
+       if(GameManager.currentGame== null)
+       {
+           return new MonopolyResult(true, "cant resign- game isnt active");
+       }
+       else if(GameManager.currentGame.isValidPlayerID(playerID))
+       {
+          GameManager.currentGame.eventDispatch(playerID, "forfeit");
+       }
         return new MonopolyResult();
     }
 
@@ -167,42 +184,59 @@ public class MonopolyGame {
         //validate evendID against last eventID
         //validate playerID against games players and players state
         //validate asset from eventID
-        Player p = GameManager.currentGame.getCurrentActivePlayer();
-        if (!Monopoly.isLastEventID(eventID)) {
-            return new MonopolyResult(true, "the event id given is not valid");
-        } else {
-            if (p.getID() != playerID)//if the player isnt active he wont be the current one !
-            {
-                return new MonopolyResult(true, "the player id given dont belong to the current active player");
+        MonopolyResult res = validatePlayerAndEventID(playerID, eventID,EventImpl.EventTypes.PromptPlayerToBuyAsset,EventImpl.EventTypes.PromptPlayerToBuyHouse);
+        if (res.isError())//if the player isnt active he wont be the current one or the event isnt the currect one !
+        {
+            return res;
 
-            } else//do it
-            {
-                TimeOutTasks.stopTimer(p);
-                if (buy) {
-                    if (GameManager.currentGame.isLegalBuyOP()) {
-                        GameManager.currentGame.buyWhatYouAreSittingOn();
-                        return new MonopolyResult(false, "asset bought");
-                    }
-                    else
-                    {
-
-                        throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
-                    }
+        } else//do it
+        {
+            TimeOutTasks.stopTimer(GameManager.currentGame.getCurrentActivePlayer());
+            if (buy) {
+                if (GameManager.currentGame.isLegalBuyOP()) {
+                    GameManager.currentGame.buyWhatYouAreSittingOn();
+                    return new MonopolyResult(false, "asset bought");
                 } else {
 
-                    GameManager.currentGame.eventDispatch(playerID, "endTurn");
-                    return new MonopolyResult(false, "asset have not been bougnt");
+                    throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
                 }
+            } else {
 
+                GameManager.currentGame.eventDispatch(playerID, "endTurn");
+                return new MonopolyResult(false, "asset have not been bougnt");
             }
-
-
-
-
-
 
         }
 
 
+    }
+
+    private MonopolyResult validatePlayerAndEventID(int playerID, int eventID, EventImpl.EventTypes... AlowedEventTypes) {
+        if(GameManager.currentGame==null)
+        {
+            return new MonopolyResult(true, "no game is active");
+        }
+        if (!Monopoly.isLastEventID(eventID)) {
+            return new MonopolyResult(true, "the event id given is not valid");
+        }
+        boolean found = false;
+        for (EventImpl.EventTypes type : AlowedEventTypes) {
+            if (Monopoly.isLastEventIDType(type)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return new MonopolyResult(true, "the event type of the id given is not valid for this action");
+        }
+
+
+        if (GameManager.currentGame.getCurrentActivePlayer().getID() != playerID)//if the player isnt active he wont be the current one !
+        {//also makes sure the player is active
+            return new MonopolyResult(true, "the player id given dont belong to the current active player");
+
+        } else {
+            return new MonopolyResult(false, "");
+        }
     }
 }

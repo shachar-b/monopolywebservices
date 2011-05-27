@@ -35,10 +35,6 @@ public class Dice {
         for (int i = 0; i < NUM_OF_DIE; i++) {
             outcomes[i] = generator.nextInt(6) + 1;
         }
-        String message = "Rolled: " + outcomes[0] + "," + outcomes[1] + ".";
-        String playerName = GameManager.currentGame.getCurrentActivePlayer().getName();
-        EventImpl.EventTypes typeCode = EventImpl.EventTypes.DiceRoll;
-        Monopoly.addEvent(EventImpl.createNewDiceRollEvent(GameManager.currentGame.getGameName(), typeCode, message, playerName, outcomes[0], outcomes[1]));
         return outcomes;
     }
 }
