@@ -30,7 +30,7 @@ public class StartSquare extends Square {
                         EventImpl.EventTypes.Payment,message, player.getName(), true, false,
                         player.getName(), GameManager.START_LAND_BONUS));
 		
-		player.ChangeBalance(GameManager.START_LAND_BONUS, GameManager.ADD);
+		player.ChangeBalance(GameManager.START_LAND_BONUS, GameManager.ADD,true,false);
                GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
 	}
 }

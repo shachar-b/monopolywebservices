@@ -46,6 +46,7 @@ public class Monopoly {
     public final int START = 0;
     public final int DIE = 1;
     public final int ENDTURN = 2;
+    private final boolean useAutoDiceRoll;
 
 //    private Thread stateMechThread = new Thread(new Runnable() {
 //        /* (non-Javadoc)
@@ -57,10 +58,11 @@ public class Monopoly {
 //        }
 //        
 //    });
-    public Monopoly(String gameName, ArrayList<Player> players) {
+    public Monopoly(String gameName, ArrayList<Player> players,boolean  useAutoDiceRoll) {
         eventList = new ArrayList<Event>();
         this.gameName = gameName;
         gamePlayers = new ArrayList<Player>(players);
+        this.useAutoDiceRoll=useAutoDiceRoll;
         init();
     }
 
@@ -109,7 +111,6 @@ public class Monopoly {
      * The function also resets the state when the player is done.
      */
     private void doRound() {
-        //stateMechThread.run();      
         currentPlayerSquare = gameBoard.get(currentActivePlayer.getCurrentPosition());
         switch (state) {
             case START:
@@ -140,6 +141,8 @@ public class Monopoly {
                 }
             case DIE:
                 state++;//next state is 2- (buy decesions are made outside the state mech
+                if(isAutoDiceRoll())
+                {
                 if (currentPlayerSquare instanceof JailSlashFreePassSquare || currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {//dont do it only on parking- if GOJC was used this wont be reached
                     try {
                         Thread.sleep(1000);
@@ -147,6 +150,13 @@ public class Monopoly {
                         throw new RuntimeException("state machine problem");
                     }
                     eventDispatch(currentActivePlayer.getID(), "throwDie");
+                    break;
+                }
+                }
+                else
+                {
+                    TimeOutTasks.StartTimer(currentActivePlayer, GameManager.TIMEOUT_IN_SECONDS);
+                    Monopoly.addEvent(EventImpl.createNewPromptRollEvent(gameName, EventImpl.EventTypes.PromptPlayerToRollDice, "please roll the die or die :)", currentActivePlayer.getName(), GameManager.TIMEOUT_IN_SECONDS));
                     break;
                 }
 
@@ -244,7 +254,7 @@ public class Monopoly {
         if (playerPos >= GameManager.NUMBER_OF_SQUARES) {
             if (getBonus) {
                 addEvent(EventImpl.createNewGroupB(gameName, EventImpl.EventTypes.PassedStartSquare, "passed start square", player.getName()));
-                player.ChangeBalance(GameManager.START_PASS_BONUS, GameManager.ADD);
+                player.ChangeBalance(GameManager.START_PASS_BONUS, GameManager.ADD,true,false);
             }
             playerPos = playerPos % GameManager.NUMBER_OF_SQUARES;
         }
@@ -510,5 +520,9 @@ public class Monopoly {
             retVal = true;
         }
         return retVal;
+    }
+    public boolean isAutoDiceRoll()
+    {
+        return useAutoDiceRoll;
     }
 }

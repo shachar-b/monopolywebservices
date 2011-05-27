@@ -100,7 +100,7 @@ public class ActionCard {
 					Player other=list.get(currentPlayer);
 					if(other != player)//Don't take money from yourself..
 					{
-						other.ChangeBalance(amount,-sign); //-sign to TAKE from players
+						other.ChangeBalance(amount,-sign, false, true); //-sign to TAKE from players
 						sum += amount;
 					}
 					if(!list.contains(other))
@@ -108,10 +108,10 @@ public class ActionCard {
 						currentPlayer--;//player has been removed so next player is in his index
 					}
 				}
-				player.ChangeBalance(sum,sign);
+				player.ChangeBalance(sum,sign,false,true);
 			}
 			else { // get from Treasury
-				player.ChangeBalance(amount,sign);
+				player.ChangeBalance(amount,sign,true,false);
 			}
                         if (goOnNext == null)
                         {

@@ -126,7 +126,8 @@ public abstract class Player extends InnerChangeListenableClass {
      * @param sign An integer specifying the direction of the change (Add/Subtract)
      * @return An integer containing the amount that actually moved.
      */
-    public int ChangeBalance(int amount, int sign) { //TODO : Generate and add events to eventQueue
+    public int ChangeBalance(int amount, int sign, boolean isPaymentToOrFromTrsry, boolean isPaymentFromUser) { //TODO : Generate and add events to eventQueue
+        String message="";
         if (sign == GameManager.SUBTRACT) {
             if (amount > Balance)//Can have balance of zero - but not negative balance
             {
@@ -135,17 +136,17 @@ public abstract class Player extends InnerChangeListenableClass {
                 GameManager.currentGame.removePlayerFromGame(this);//if false remove from game
                 fireEvent("removed");
                 return Balance;//returns the amount of money taken
-            } else {
-                //TODO;paymaent events?
-                Balance -= amount;
-                fireEvent("taken");
-                return amount;
-            }
-        } else {
-            Balance += amount;
-            fireEvent("added");
-            return 0;
+            } 
         }
+                message = this.Name + ((sign==1)?" got ":" pays ")+amount+GameManager.MoneySign;
+                Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
+                        EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name,sign* amount));
+                //TODO : Maybe add to/from names to message
+                Balance -= amount;
+                fireEvent("balance");
+                return amount;
+        
+        
     }
 
     /**

@@ -198,7 +198,7 @@ public class MonopolyGameManager {
 
         private void initNewGameSequence() {
             //TODO : Maybe add thread
-            Monopoly newGame = new Monopoly(gameName,players);
+            Monopoly newGame = new Monopoly(gameName,players,useAutomaticDiceRoll);
             GameManager.currentGame = newGame;
             EventImpl genEvent = (EventImpl) EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameStart, "Game " + gameName + " is starting.");
             Monopoly.addEvent(genEvent);

@@ -1,5 +1,6 @@
 package monopoly;
 
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -20,7 +21,7 @@ public class Dice {
      * this method initializes the dice generator
      */
     public static void initGenerator() {
-        generator = new Random();
+        generator = new Random(new Date().getTime());
     }
 
     /**
