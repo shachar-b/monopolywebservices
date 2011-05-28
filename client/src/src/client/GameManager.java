@@ -7,6 +7,8 @@ package src.client;
 import comm.Event;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,6 +40,7 @@ public class GameManager {
     public static final String PLAYER_ICONS_PATH = IMAGES_FOLDER + "playerIcons/";
     public static final Font DefaultFont = new Font("Serif", Font.BOLD, 10);
     public static UI currentUI = null;
+    public static HashMap<String, PlayerDetails> joined = new HashMap<String, PlayerDetails>();//name detailes
     public static final TimerTask feeder = new EventFeeder();
     private ArrayList<Player> gamePlayers;
     private ArrayList<Square> gameBoard;
@@ -45,26 +48,35 @@ public class GameManager {
     private Timer feederTimer;
 
     private GameManager() {
-        List<PlayerDetails> playerDetails = Server.getInstance().getPlayersDetails(currentJoinedGame);
+        Collection<PlayerDetails> playerDetails = joined.values();
         XMLInitializer gameInitializer = new XMLInitializer();
         gameBoard = gameInitializer.initBoard();
         this.gamePlayers = convertPlayerDetailsToPlayers(playerDetails);
-        //staticInstance = this;
         currentUI = new UI();
-
         startEventFeederTask();
     }
 
-    public static GameManager createShit() {
+    public static void resetAllStaticVars() {
+        clientPlayerID = -1;
+        clientName = "not joined";
+        currentJoinedGame = "not joined";
+        currentUI = null;
+        joined = new HashMap<String, PlayerDetails>();
+        staticInstance = null;
+    }
+
+    public static GameManager createGameManager() {
         GameManager g = new GameManager();
         staticInstance = g;
         return g;
     }
 
-    private ArrayList<Player> convertPlayerDetailsToPlayers(List<PlayerDetails> list) {
+    private ArrayList<Player> convertPlayerDetailsToPlayers(Collection<PlayerDetails> list) {
+        PlayerDetails[] helper = new PlayerDetails[list.size()];
+        helper = list.toArray(helper);
         ArrayList<Player> result = new ArrayList<Player>();
-        for (int i = 0; i < list.size(); i++) {
-            result.add(new Player(list.get(i).getName(), new ImagePanel(PLAYER_ICONS_PATH + (i + 1) + ".png"), list.get(i).getAmount()));
+        for (int i = 0; i < helper.length; i++) {
+            result.add(new Player(helper[i].getName(), new ImagePanel(PLAYER_ICONS_PATH + (i + 1) + ".png"), helper[i].getAmount()));
         }
 
         return result;
@@ -108,22 +120,23 @@ public class GameManager {
             case 1://game start - ignored -removed
                 break;
             case 2://GameOver
-                currentUI.notifyGameWinner(pl);
+                //doGameCleanup();
                 break;
             case 3://GameWinner
-                currentUI.notifyGameWinner(pl);
+                currentUI.notifyGameWinner(event.getEventMessage().getValue());
                 break;
-            case 4://PlayerResigned- do the same as 5 maybe make a diffrent statement
-                currentUI.displayMessage("Player " + pl.getName() + " is out of money - he's a loser!");
+            case 4://PlayerResigned- do the same as 5
             case 5://PlayerLost
+                currentUI.displayMessage(event.getEventMessage().getValue());
                 currentUI.notifyPlayerLeftGame(pl);
                 pl.remove();
                 gamePlayers.remove(pl);
                 break;
             case 6://PromptPlayerToRollDice
-                if(pl.getName().equals(clientName));
+                if (pl.getName().equals(clientName)) {
                     currentUI.promptPlayerToChooseDice(eventID);
-                break;  
+                }
+                break;
             case 7://dice roll
                 Dice.getGameDice().makeItRoll(event.getFirstDiceResult(), event.getSecondDiceResult());
                 break;
@@ -182,7 +195,13 @@ public class GameManager {
         @Override
         public void run() {
             if (!Server.getInstance().isEventQueueEmpty()) {
-                staticInstance.handelEvent(Server.getInstance().popEventFromQueue());
+                Event event = Server.getInstance().popEventFromQueue();
+                while (!Server.getInstance().isEventQueueEmpty() && !(event.getGameName().getValue().equals(currentJoinedGame))) {
+                    event = Server.getInstance().popEventFromQueue();
+                }
+                if (event.getGameName().getValue().equals(currentJoinedGame)) {
+                    staticInstance.handelEvent(event);
+                }
             }
         }
     }

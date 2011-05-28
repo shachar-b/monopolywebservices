@@ -16,6 +16,7 @@ import src.squares.ParkingSquare;
 import src.squares.Square;
 import src.ui.guiComponents.CardPanel;
 import src.ui.guiComponents.MainWindow;
+import src.ui.guiComponents.dialogs.gameWinnerDialog;
 import src.ui.guiComponents.dialogs.manualDiceRollDialog;
 
 /**
@@ -35,7 +36,7 @@ public class UI {
             @Override
             public void run() {
                 frame = new MainWindow();
-                setPlayerPanel(GameManager.staticInstance.getPlayerByName(GameManager.clientName));
+                setPlayerPanel();
                 frame.setExtendedState(Frame.MAXIMIZED_BOTH);
                 frame.setVisible(true);
             }
@@ -60,8 +61,8 @@ public class UI {
     /* (non-Javadoc)
      * @see ui.IUI#setPlayerPanel(players.Player, int, squares.Square)
      */
-    public void setPlayerPanel(Player p) {
-        frame.setPlayerPanel(p);
+    public void setPlayerPanel() {
+        frame.setPlayerPanel();
         frame.validate();
         frame.repaint();
     }
@@ -69,11 +70,9 @@ public class UI {
     /* (non-Javadoc)
      * @see ui.IUI#notifyGameWinner(players.Player)
      */
-    public void notifyGameWinner(Player player) {
-        String message = "The winner is: " + player.getName() + "!!!";
-        displayMessage(message);
-        JOptionPane.showMessageDialog(frame, message);
-        frame.clearPlayerPanelArea();
+    public void notifyGameWinner(String message) {
+        gameWinnerDialog diag = new gameWinnerDialog(frame, true, message);
+        diag.setVisible(true);
     }
 
     /* (non-Javadoc)

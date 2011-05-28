@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package src.client;
 
 /**
@@ -10,6 +9,7 @@ package src.client;
  * @author blecherl
  */
 public class PlayerDetails {
+
     private String name;
     private boolean isHuman;
     private boolean isActive;
@@ -36,5 +36,14 @@ public class PlayerDetails {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PlayerDetails) {
+            return this.name.equals(((PlayerDetails) o).getName());
+        }
+        else
+            return false;
     }
 }
