@@ -27,6 +27,7 @@ public abstract class Player extends InnerChangeListenableClass {
     private ActionCard getOutOfJailFreeCardPlaceHolder = null;
     private int lastKnownPosition = 0;
     private int ID;
+    public static final int BANKRUPT = -1;
 
     /**
      * Constructor for Player
@@ -131,6 +132,7 @@ public abstract class Player extends InnerChangeListenableClass {
         if (sign == GameManager.SUBTRACT) {
             if (amount > Balance)//Can have balance of zero - but not negative balance
             {
+                Balance=BANKRUPT; //To signal that player has no money left.
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
                 GameManager.currentGame.removePlayerFromGame(this);//if false remove from game
