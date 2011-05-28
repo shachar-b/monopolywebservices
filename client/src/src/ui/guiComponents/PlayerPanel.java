@@ -42,10 +42,8 @@ public class PlayerPanel extends GameActionsListenableClass {
     private Player representedPlayer;
     private JPanel buttonPane;
     private JButton Forfeit;
-    private JLabel nameLabel;
     private JPanel DicePane;
     private JPanel CurrentSquare;
-    private JButton showGroup;
     private JPanel PlayerInformation;
     private JScrollPane scrollPane1;
     private JTree PlayerHoldings;
@@ -70,24 +68,14 @@ public class PlayerPanel extends GameActionsListenableClass {
      * Constructor.
      * @param player A valid non-null player.
      */
-    public PlayerPanel(Player player) {
-        representedPlayer = player;
+    public PlayerPanel() {
+        representedPlayer = GameManager.staticInstance.getPlayerByName(GameManager.clientName);
         initComponents();
         Dice.getGameDice().addGameActionsListener(dieListner);
-        nameLabel.setText(player.getName());
         //TODO:stuff
-        Square currentSquare = GameManager.staticInstance.getGameBoard().get(player.getCurrentPosition());
-        setSquarePanelContent(currentSquare, player);
+        Square currentSquare = GameManager.staticInstance.getGameBoard().get(representedPlayer.getCurrentPosition());
+        setSquarePanelContent(currentSquare, representedPlayer);
         initTreeModel();
-    }
-
-    /**
-     * public void setShowGroupButtonStatus(boolean value)
-     * Setter for the button status (enabled/disabled)
-     * @param value a boolean defining the status of the button.
-     */
-    public void setShowGroupButtonStatus(boolean value) {//value==true -> enable button, otherwise -> disable button.
-        showGroup.setEnabled(value);
     }
 
     /**
@@ -98,13 +86,10 @@ public class PlayerPanel extends GameActionsListenableClass {
      * @param player A valid non-null player on that Square.
      */
     public void setSquarePanelContent(Square currentSquare, Player player) {
-        if (CurrentSquare.getComponentCount() > NUMBER_OF_SQUARES_TO_SHOW) {
+        if (CurrentSquare.getComponentCount() >= NUMBER_OF_SQUARES_TO_SHOW) {
             CurrentSquare.remove(0);
         }
         CurrentSquare.add(SqurePanelFactory.makeCorrectSqurePanel(currentSquare, false), 0);
-        if (currentSquare instanceof Asset) {
-            showGroup.setEnabled(true);
-        }
         initTreeModel();
     }
 
@@ -169,10 +154,8 @@ public class PlayerPanel extends GameActionsListenableClass {
     private void initComponents() {
         buttonPane = new JPanel();
         Forfeit = new JButton();
-        nameLabel = new JLabel();
         DicePane = new JPanel();
         CurrentSquare = new JPanel();
-        showGroup = new JButton();
         PlayerInformation = new JPanel();
         scrollPane1 = new JScrollPane();
         PlayerHoldings = new JTree();
@@ -196,11 +179,6 @@ public class PlayerPanel extends GameActionsListenableClass {
         }
         add(buttonPane, BorderLayout.SOUTH);
 
-        //---- nameLabel ----
-        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        nameLabel.setText("his name");
-        add(nameLabel, BorderLayout.NORTH);
-
         //======== DicePane ========
         {
             DicePane.setBorder(new EtchedBorder());
@@ -213,16 +191,6 @@ public class PlayerPanel extends GameActionsListenableClass {
         {
             CurrentSquare.setBorder(new EtchedBorder());
             CurrentSquare.setLayout(new BoxLayout(CurrentSquare, BoxLayout.Y_AXIS));
-
-            //---- showGroup ----
-            showGroup.setText("Show Group");
-            showGroup.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-                    showGroupActionPerformed(e);
-                }
-            });
-            CurrentSquare.add(showGroup);
 
         }
         add(CurrentSquare, BorderLayout.CENTER);
@@ -241,6 +209,5 @@ public class PlayerPanel extends GameActionsListenableClass {
         add(PlayerInformation, BorderLayout.WEST);
 
         DicePane.add(Dice.getGameDice());
-        showGroup.setEnabled(false);
     }
 }

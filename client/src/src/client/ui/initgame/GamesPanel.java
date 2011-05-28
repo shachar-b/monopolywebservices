@@ -43,6 +43,7 @@ public class GamesPanel extends javax.swing.JPanel {
 
     /** Creates new form GamesPanel */
     public GamesPanel() {
+        GameManager.resetAllStaticVars();
         gamesListModel = new DefaultListModel();
         playersListModel = new DefaultListModel();
 
@@ -114,9 +115,6 @@ public class GamesPanel extends javax.swing.JPanel {
         if (playersRefrshTimer != null) {
             playersRefrshTimer.cancel();
         }
-        if (gameMonRefreshTimer != null) {
-            gameMonRefreshTimer.cancel();
-        }
     }
 
     private void startGamePlayersTask(String gameName) {
@@ -131,7 +129,12 @@ public class GamesPanel extends javax.swing.JPanel {
             gameMonRefreshTimer.cancel();
         }
         JFrame frame = (JFrame) SwingUtilities.getRoot(this);
-        gameMonRefreshTimer = Server.getInstance().startPolling("Game start monitor Timer", new MonitorGameStartTask(frame, gameName, playerName), 0, 1);
+        gameMonRefreshTimer = Server.getInstance().startPolling("Game start monitor Timer", new MonitorGameStartTask(frame, gameName, playerName, new Runnable() {
+
+            public void run() {
+                stopRefreshTask();
+            }
+        }), 0, 1);
     }
 
     public void setGamePlayers(List<PlayerDetails> players) {
@@ -139,6 +142,11 @@ public class GamesPanel extends javax.swing.JPanel {
         int[] selectedIndicies = playersList.getSelectedIndices();
         playersListModel.clear();
         for (PlayerDetails player : players) {
+            if (!GameManager.joined.containsKey(player.getName())) {
+                GameManager.joined.put(player.getName(), player);
+            }
+        }
+        for (PlayerDetails player : GameManager.joined.values()) {
             playersListModel.addElement(player.getName() + "(" + player.getAmount() + ")");
         }
         playersList.setSelectedIndices(selectedIndicies);

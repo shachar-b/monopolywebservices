@@ -15,6 +15,10 @@ import java.util.TimerTask;
  */
 public class eventPoller extends TimerTask  {
     private static int lastEvent=0;
+    
+    public eventPoller(){
+        lastEvent=0;
+    }
 
     @Override
     public void run() {

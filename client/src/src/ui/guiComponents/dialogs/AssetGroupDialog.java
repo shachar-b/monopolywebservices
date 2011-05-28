@@ -45,7 +45,7 @@ public class AssetGroupDialog extends JDialog {
 	 * @param groupToShow - an valid not null AssetGroup
 	 */
 	public AssetGroupDialog(Frame owner,AssetGroup groupToShow) {
-		super(owner);
+		super(owner, true);
 		represntedGroup=groupToShow;
 		initComponents();
 	}

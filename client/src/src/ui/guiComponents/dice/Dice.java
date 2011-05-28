@@ -125,7 +125,7 @@ public class Dice extends GameActionsListenableClass {
         {
              icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
         }
-           if(dice1Roll<1|| dice1Roll>6)
+           if(dice2Roll<1|| dice2Roll>6)
         {
             icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");
         }

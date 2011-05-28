@@ -139,7 +139,8 @@ public class BuyDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_yesButtonActionPerformed
 
     private void groupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupButtonActionPerformed
-        AssetGroupDialog diag=new AssetGroupDialog(parent,  assetToOffer.getGroup());
+        AssetGroupDialog diag=new AssetGroupDialog(parent , assetToOffer.getGroup());
+        diag.setVisible(true);
     }//GEN-LAST:event_groupButtonActionPerformed
 private void doBuy(boolean  buy)
 {
@@ -148,26 +149,7 @@ private void doBuy(boolean  buy)
          JOptionPane.showMessageDialog(null, res.getErrorMessage().getValue(), "buy op failed - (probly due to timeout))", JOptionPane.ERROR_MESSAGE);
     this.dispose();
 }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                int[] rentPrices={1,2,3,4};
-                City city = new City(new Country("GoogleLand"), "HappyTown", 100, 50, rentPrices);
-                BuyDialog dialog = new BuyDialog(new javax.swing.JFrame(), true,city,true,0);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel currSquarePanel;
     private javax.swing.JButton groupButton;
