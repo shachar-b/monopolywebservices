@@ -6,10 +6,9 @@ package listeners.innerChangeEventListener;
  */
 public interface InnerChangeEventListner {
 
-	/**
-	 * public void eventHappened(InnerChangeEvet innerChangeEvet)
-	 * @param innerChangeEvet an event which happened in the game.
-	 */
-	public void eventHappened(InnerChangeEvet innerChangeEvet);
-
+    /**
+     * public void eventHappened(InnerChangeEvet innerChangeEvet)
+     * @param innerChangeEvet an event which happened in the game.
+     */
+    public void eventHappened(InnerChangeEvet innerChangeEvet);
 }

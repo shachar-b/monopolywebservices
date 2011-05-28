@@ -56,8 +56,7 @@ public abstract class Player extends InnerChangeListenableClass {
         return Name.equals(other.getName());
     }
 
-    /**TODO: edit
-     * method void buyDecision(Asset asset)
+    /** method void buyDecision(Asset asset)
      * @visibility public
      * Lets a player choose whether to buy an asset or not.
      * @param asset The asset that the player can buy
@@ -127,28 +126,28 @@ public abstract class Player extends InnerChangeListenableClass {
      * @param sign An integer specifying the direction of the change (Add/Subtract)
      * @return An integer containing the amount that actually moved.
      */
-    public int ChangeBalance(int amount, int sign, boolean isPaymentToOrFromTrsry, boolean isPaymentFromUser) { //TODO : Generate and add events to eventQueue
-        String message="";
+    public int ChangeBalance(int amount, int sign, boolean isPaymentToOrFromTrsry, boolean isPaymentFromUser) {
+        String message = "";
         if (sign == GameManager.SUBTRACT) {
             if (amount > Balance)//Can have balance of zero - but not negative balance
             {
-                Balance=BANKRUPT; //To signal that player has no money left.
+                Balance = BANKRUPT; //To signal that player has no money left.
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
                 GameManager.currentGame.removePlayerFromGame(this);//if false remove from game
                 fireEvent("removed");
                 return Balance;//returns the amount of money taken
-            } 
+            }
         }
-                message = this.Name + ((sign==1)?" got ":" pays ")+amount+GameManager.MoneySign;
-                Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
-                        EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name,sign* amount));
-                //TODO : Maybe add to/from names to message
-                Balance -= amount;
-                fireEvent("balance");
-                return amount;
-        
-        
+        message = this.Name + ((sign == 1) ? " got " : " pays ") + amount + GameManager.MoneySign;
+        Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
+                EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name, sign * amount));
+        //TODO : Maybe add to/from names to message
+        Balance -= amount;
+        fireEvent("balance");
+        return amount;
+
+
     }
 
     /**
@@ -267,7 +266,7 @@ public abstract class Player extends InnerChangeListenableClass {
     }
 
     /**
-     * TODO : Complete documentation
+     * public boolean isHuman()
      * @return the player's humanity.
      * To be overriden by HumanPlayer.
      */

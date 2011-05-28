@@ -6,7 +6,7 @@ package monopoly;
  */
 
 /*
- Event Types:
+Event Types:
 1.	Game Start – game started
 2.	Game Over – game ended
 3.	Game Winner – the winner of the game (play name will be in the event)
@@ -28,36 +28,43 @@ package monopoly;
 19.	Payment – indicates that an amount of money should be transferred from/to the player.
 20.     Player used Jail Card - just a notification message
 
-*/
+ */
 public interface Event {
 
     //generic event details
     public String getGameName();
+
     public int getEventID();
+
     public int getTimeoutCount();
 
     //event details
     //(after a card, the relevant events will be sent)
     //for example, a move message or one or more payment events)
     public int getEventType();
+
     public String getPlayerName();
+
     public String getEventMessage(); //can be used for all types of events
+
     public int getBoardSquareID(); //current player game board square ID
 
     //dice
     public int getFirstDiceResult();
+
     public int getSecondDiceResult();
 
     //move
     public boolean isPlayerMoved();
+
     public int getNextBoardSquareID();
-    
+
     //payment
     public boolean isPaymentToOrFromTreasury();
+
     public boolean isPaymemtFromUser();
+
     public String getPaymentToPlayerName();
+
     public int getPaymentAmount();
-
-
-
 }

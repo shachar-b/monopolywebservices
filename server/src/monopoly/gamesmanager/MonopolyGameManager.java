@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package monopoly.gamesmanager;
 
 import java.util.ArrayList;
@@ -159,7 +155,7 @@ public class MonopolyGameManager {
             this.computerizedPlayers = computerizedPlayers;
             this.useAutomaticDiceRoll = useAutomaticDiceRoll;
             this.players = new ArrayList<Player>();
-            currPlayerID=0;
+            currPlayerID = 0;
         }
 
         public boolean isGameStarted() {
@@ -171,24 +167,23 @@ public class MonopolyGameManager {
         }
 
         public int joinPlayer(String playerName, boolean isHuman) {
-            if (isHuman){ //TODO:ask shachar if we should use players.size insted of id
-                this.players.add(new HumanPlayer(playerName,currPlayerID));
-            }
-            else{
-                this.players.add(new ComputerPlayer(playerName,currPlayerID));
+            if (isHuman) { //TODO:ask shachar if we should use players.size insted of id
+                this.players.add(new HumanPlayer(playerName, currPlayerID));
+            } else {
+                this.players.add(new ComputerPlayer(playerName, currPlayerID));
             }
             currPlayerID++;
-            
+
             if (isGameActive()) {
                 initNewGameSequence();
             }
 
-            return currPlayerID-1;
+            return currPlayerID - 1;
         }
 
         private void initNewGameSequence() {
             //TODO : Maybe add thread
-            Monopoly newGame = new Monopoly(gameName,players,useAutomaticDiceRoll);
+            Monopoly newGame = new Monopoly(gameName, players, useAutomaticDiceRoll);
             GameManager.currentGame = newGame;
             EventImpl genEvent = (EventImpl) EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameStart, "Game " + gameName + " is starting.");
             Monopoly.addEvent(genEvent);

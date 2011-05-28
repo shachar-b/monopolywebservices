@@ -1,28 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package monopoly.results;
 
 /**
  *
  * @author blecherl
  */
-public class IDResult extends MonopolyResult{
+public class IDResult extends MonopolyResult {
+
     private int result;
 
-     public IDResult(int value) {
-        super ();
+    public IDResult(int value) {
+        super();
         this.result = value;
     }
 
     public IDResult(String errorMessage) {
-        super (errorMessage);
+        super(errorMessage);
     }
 
     public IDResult(boolean hasError, String errorMessage, int value) {
-        super (hasError, errorMessage);
+        super(hasError, errorMessage);
         this.result = value;
     }
 
@@ -30,7 +26,7 @@ public class IDResult extends MonopolyResult{
         return result;
     }
 
-     public static IDResult error(String message) {
+    public static IDResult error(String message) {
         return new IDResult(message);
     }
 }
