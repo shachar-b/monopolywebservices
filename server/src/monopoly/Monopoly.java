@@ -12,7 +12,7 @@ import assets.Asset;
 import assets.City;
 import cards.ShaffledDeck;
 import java.util.Collections;
-import java.util.Date;
+import monopoly.gamesmanager.MonopolyGameManager;
 import squares.ParkingSquare;
 
 /**
@@ -28,10 +28,7 @@ public class Monopoly {
     static int generateEventId() {
         return eventList.size();
     }
-
-    public static void resetEventQueue() {
-        eventList = new ArrayList<Event>();
-    }
+    
     private String gameName;
     private ArrayList<Player> gamePlayers;
     private ShaffledDeck surprise = new ShaffledDeck();
@@ -49,16 +46,6 @@ public class Monopoly {
     public final int ENDTURN = 2;
     private final boolean useAutoDiceRoll;
 
-//    private Thread stateMechThread = new Thread(new Runnable() {
-//        /* (non-Javadoc)
-//         * @see doComputerRound() documentation
-//         */
-//        @Override
-//        public void run() {
-//             
-//        }
-//        
-//    });
     public Monopoly(String gameName, ArrayList<Player> players, boolean useAutoDiceRoll) {
         eventList = new ArrayList<Event>();
         this.gameName = gameName;
@@ -100,8 +87,15 @@ public class Monopoly {
     }
 
     private void endGameSequence() {
-        Event gameOver = EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameOver, "Game over, " + getCurrentActivePlayer().getName() + " won!");
+        String winner = getCurrentActivePlayer().getName();
+        Event gameOver = EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameOver, "Game over, thanks for playing.");
+        Event gameWinner = EventImpl.createNewGroupB(gameName, EventTypes.GameWinner, "Player " + winner + " is the undisputed winner! Heap-heap-array!", winner);
         addEvent(gameOver);
+        addEvent(gameWinner);
+        
+        //clear game settings and variables by nullifying the current game
+        MonopolyGame.gameManagerHandle.removeGame(gameName);
+        GameManager.currentGame=null;
     }
 
     /**
@@ -304,6 +298,8 @@ public class Monopoly {
      */
     public void removePlayerFromGame(Player player, boolean gameAborted) {
         ArrayList<Asset> assetList = player.getAssetList();
+        String message;
+        EventImpl.EventTypes type;
         while (!assetList.isEmpty())//remove ownership from all remaining assets
         {
             assetList.get(0).setOwner(GameManager.assetKeeper);//set owner removes itself from the list
@@ -312,7 +308,15 @@ public class Monopoly {
             surprise.add(player.getGetOutOfJailFreeCardPlaceHolder());
         }
         gamePlayers.remove(player);
-//        GameManager.CurrentUI.notifyPlayerLeftGame(player);
+
+        if (player.getBalance() == Player.BANKRUPT) {
+            type = EventTypes.PlayerLost;
+            message = player.getName() + " has lost due to the fact he had no money";
+        } else {
+            type = EventTypes.PlayerResigned;;
+            message = player.getName() + " has left the game due to the fact he choose forfeit or did not respond to the game requests in a timely mennar";
+        }
+        Monopoly.addEvent(EventImpl.createNewGroupB(gameName, type, message, player.getName()));
         if (player == getCurrentActivePlayer()) {
             endTurn();
         } else if (!gameAborted)//No need to do the following if a new game was started in the middle of a current one.\
@@ -390,7 +394,7 @@ public class Monopoly {
     }
 
     void throwDie(int die1, int die2) {
-         String message = "Rolled: " +die1 + "," + die2 + ".";
+        String message = "Rolled: " + die1 + "," + die2 + ".";
         String playerName = GameManager.currentGame.getCurrentActivePlayer().getName();
         EventImpl.EventTypes typeCode = EventImpl.EventTypes.DiceRoll;
         Monopoly.addEvent(EventImpl.createNewDiceRollEvent(GameManager.currentGame.getGameName(), typeCode, message, playerName, die1, die2));
@@ -423,8 +427,6 @@ public class Monopoly {
         String message = "player " + currentActivePlayer.getName() + " used a card to get out of jail";
         addEvent(EventImpl.createNewGroupB(gameName, EventImpl.EventTypes.PlayerUsedJailCard, message, currentActivePlayer.getName()));
     }
-
-
 
     /**
      * method private void buyAsset()
@@ -499,6 +501,7 @@ public class Monopoly {
     public Player getCurrentActivePlayer() {
         return currentActivePlayer;
     }
+
     /**
      * method private void forfeit()
      * This method removes the current player from the game.
@@ -508,21 +511,21 @@ public class Monopoly {
         playerIndex--;
         removePlayerFromGame(getCurrentActivePlayer());
     }
+
     private void forfeit(int playerID) {
-        boolean isBeforeCurrent=true;
-        Player playerToRemove=null;
-        for(Player p:gamePlayers)//TODO:make sure player ID is checked in MonopolyGame.resign
+        boolean isBeforeCurrent = true;
+        Player playerToRemove = null;
+        for (Player p : gamePlayers)//TODO:make sure player ID is checked in MonopolyGame.resign
         {
-            if(p.equals(currentActivePlayer))
-                isBeforeCurrent=false;
-            if(p.getID()==playerID)
-            {
-                playerToRemove=p;
+            if (p.equals(currentActivePlayer)) {
+                isBeforeCurrent = false;
+            }
+            if (p.getID() == playerID) {
+                playerToRemove = p;
                 break;
             }
         }
-        if(!isBeforeCurrent)
-        {
+        if (!isBeforeCurrent) {
             playerIndex--;
         }
         removePlayerFromGame(playerToRemove);

@@ -12,7 +12,6 @@ import monopoly.results.GameDetailsResult;
 import monopoly.results.IDResult;
 import monopoly.results.MonopolyResult;
 import monopoly.results.PlayerDetailsResult;
-import players.Player;
 
 /**
  *
@@ -21,9 +20,11 @@ import players.Player;
 public class MonopolyGame {
 
     private MonopolyGameManager gameManager;
+    static MonopolyGameManager gameManagerHandle;
 
     public MonopolyGame() {
         gameManager = new MonopolyGameManager();
+        gameManagerHandle = gameManager;
     }
 
     public String getGameBoardSchema() {
@@ -32,7 +33,6 @@ public class MonopolyGame {
 
     public String getGameBoardXML() {
         return getFileAsString(GameManager.DataFile);
-
     }
 
     public String getFileAsString(String path) {
@@ -51,11 +51,6 @@ public class MonopolyGame {
         }
     }
 
-    public MonopolyResult removeGame(String gameName) {
-        //TODO : Remove this function
-        return new MonopolyResult(true, gameManager.removeGame(gameName));
-    }
-
     public MonopolyResult startGame(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
         if (gameManager.getNumberOfGames() > 0) {
             if (gameManager.isGameStarted(gameName)) {
@@ -64,7 +59,6 @@ public class MonopolyGame {
                 return MonopolyResult.error("Only one game is supported, game " + gameManager.getGamesNames().toString() + " is on.");
             }
         } else {
-            Monopoly.resetEventQueue();
             gameManager.addGame(gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
             if (checkGameLegitimacy(humanPlayers, computerizedPlayers)) {
                 for (int i = 0; i < computerizedPlayers; i++) {//Add computer players
@@ -169,14 +163,11 @@ public class MonopolyGame {
 
     public MonopolyResult resign(int playerID) {
         //validate playerID against games players and players state
-       if(GameManager.currentGame== null)
-       {
-           return new MonopolyResult(true, "cant resign- game isnt active");
-       }
-       else if(GameManager.currentGame.isValidPlayerID(playerID))
-       {
-          GameManager.currentGame.eventDispatch(playerID, "forfeit");
-       }
+        if (GameManager.currentGame == null) {
+            return new MonopolyResult(true, "cant resign- game isnt active");
+        } else if (GameManager.currentGame.isValidPlayerID(playerID)) {
+            GameManager.currentGame.eventDispatch(playerID, "forfeit");
+        }
         return new MonopolyResult();
     }
 
@@ -184,7 +175,7 @@ public class MonopolyGame {
         //validate evendID against last eventID
         //validate playerID against games players and players state
         //validate asset from eventID
-        MonopolyResult res = validatePlayerAndEventID(playerID, eventID,EventImpl.EventTypes.PromptPlayerToBuyAsset,EventImpl.EventTypes.PromptPlayerToBuyHouse);
+        MonopolyResult res = validatePlayerAndEventID(playerID, eventID, EventImpl.EventTypes.PromptPlayerToBuyAsset, EventImpl.EventTypes.PromptPlayerToBuyHouse);
         if (res.isError())//if the player isnt active he wont be the current one or the event isnt the currect one !
         {
             return res;
@@ -205,15 +196,11 @@ public class MonopolyGame {
                 GameManager.currentGame.eventDispatch(playerID, "endTurn");
                 return new MonopolyResult(false, "asset have not been bougnt");
             }
-
         }
-
-
     }
 
     private MonopolyResult validatePlayerAndEventID(int playerID, int eventID, EventImpl.EventTypes... AlowedEventTypes) {
-        if(GameManager.currentGame==null)
-        {
+        if (GameManager.currentGame == null) {
             return new MonopolyResult(true, "no game is active");
         }
         if (!Monopoly.isLastEventID(eventID)) {
@@ -229,8 +216,6 @@ public class MonopolyGame {
         if (!found) {
             return new MonopolyResult(true, "the event type of the id given is not valid for this action");
         }
-
-
         if (GameManager.currentGame.getCurrentActivePlayer().getID() != playerID)//if the player isnt active he wont be the current one !
         {//also makes sure the player is active
             return new MonopolyResult(true, "the player id given dont belong to the current active player");

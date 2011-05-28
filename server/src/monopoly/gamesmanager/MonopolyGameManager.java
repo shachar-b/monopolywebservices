@@ -25,20 +25,10 @@ public class MonopolyGameManager {
     GameDetails game = null;
 
     //Removed constructor - now using empty default.
-    public String removeGame(String gameName) {
-        //ToDo : Remove this function
-        String returnVal = "";
+    public void removeGame(String gameName) {
         if (isGameExists(gameName)) {
             game = null;
-            Monopoly.resetEventQueue();
-            returnVal = "Removed game " + gameName;
-        } else if (game == null) {
-            returnVal = "No game running!";
-        } else {
-            returnVal = "Game " + gameName + "not found, game " + game.gameName + "is running!";
         }
-        return returnVal;
-
     }
 
     public boolean addGame(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
