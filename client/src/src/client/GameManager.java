@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package src.client;
 
 import comm.Event;
@@ -9,7 +5,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -21,7 +16,7 @@ import src.squares.Square;
 import src.ui.UI;
 import src.ui.guiComponents.dialogs.BuyDialog;
 import src.ui.guiComponents.dice.Dice;
-import ui.utils.ImagePanel;
+import src.ui.utils.ImagePanel;
 
 /**
  *
@@ -119,7 +114,7 @@ public class GameManager {
              */
             case 1://game start - ignored -removed
                 break;
-            case 2://GameOver - Nothing to do here, work will be done on the following GameWinner!
+            case 2://GameOver - Nothing to do here, work will be done on the following GameWinner
                 break;
             case 3://GameWinner
                 stopEventFeederTask();
@@ -133,7 +128,7 @@ public class GameManager {
                 gamePlayers.remove(pl);
                 break;
             case 6://PromptPlayerToRollDice
-                if (pl.getName().equals(clientName)) {
+                if (pl.getName().equals(clientName) && pl.getWantsToQuit() == false) {
                     currentUI.promptPlayerToChooseDice(eventID);
                 }
                 break;
@@ -150,10 +145,11 @@ public class GameManager {
                 currentUI.notifyPlayerLandsOnStartSquare(pl.getName());
                 break;
             case 11://GoToJail
+                currentUI.notifyPlayerLandsOnGoToJail(pl);
                 break;
             case 12://PromptPlayerToBuyAsset
             case 13://PromptPlayerToBuyHouse
-                if (event.getPlayerName().getValue().equals(GameManager.clientName)) {
+                if (event.getPlayerName().getValue().equals(GameManager.clientName) && pl.getWantsToQuit() == false) {
                     SwingUtilities.invokeLater(new Runnable() {
 
                         public void run() {
@@ -185,7 +181,7 @@ public class GameManager {
                 currentUI.notifyPlayerPays(event.getEventMessage().getValue());
                 break;
             case 20://PlayerUsedJailCard
-
+                currentUI.notifyPlayerUsedJailCard(event.getEventMessage().getValue());
                 break;
         }
     }

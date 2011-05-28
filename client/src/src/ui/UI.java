@@ -4,7 +4,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
@@ -27,12 +26,12 @@ import src.ui.guiComponents.dialogs.manualDiceRollDialog;
  * @author Omer Shenhar and Shachar Butnaro
  */
 public class UI {
-    
+
     private MainWindow frame;
-    
+
     public UI() {
         SwingUtilities.invokeLater(new Runnable() {
-            
+
             @Override
             public void run() {
                 frame = new MainWindow();
@@ -42,7 +41,7 @@ public class UI {
             }
         });
     }
-    
+
     public MainWindow getFrame() {
         return frame;
     }
@@ -109,7 +108,7 @@ public class UI {
      * @see ui.IUI#notifyPlayerLandsOnParkingSquare(players.Player)
      */
     public void notifyPlayerLandsOnParkingSquare(Player player) {
-       String message = player.getName() + " landed on parking, and will not move on the following round.!";
+        String message = player.getName() + " landed on parking, and will not move on the following round.!";
         displayMessage(message);
     }
 
@@ -141,9 +140,9 @@ public class UI {
      * @see ui.IUI#displayMessage(java.lang.String)
      */
     public void displayMessage(String message) {
-        if (frame!=null){
-                    frame.addLineToConsole(message);
-        } else{
+        if (frame != null) {
+            frame.addLineToConsole(message);
+        } else {
             ; //Do nothing, Swing thread is being lazy and hasnt started yet.
             //TODO : FIX BUG HERE (Ver. 2.0)
         }
@@ -163,15 +162,15 @@ public class UI {
         cardDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         cardDialog.add(new CardPanel(isSurprise, cardMsg));
         cardDialog.pack();
-        
-        Timer timer = new Timer(5000, new ActionListener() {            
 
-            public void actionPerformed(ActionEvent e) {                
-                cardDialog.setVisible(false);                
-                cardDialog.dispose();                
-            }            
-        });        
-        timer.setRepeats(false);        
+        Timer timer = new Timer(5000, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                cardDialog.setVisible(false);
+                cardDialog.dispose();
+            }
+        });
+        timer.setRepeats(false);
         timer.start();
         cardDialog.setVisible(true);
     }
@@ -184,11 +183,12 @@ public class UI {
         frame.getGameboard().removePlayerIcon(p);
         displayMessage(message);
     }
-    
+
     public void notifyPlayerGotCard(Player player, boolean isSurprise, String cardText) {
+        displayMessage("Player " + player.getName() + " got a card: " + cardText);
         displaySelfClosingCardDialog(player, cardText, isSurprise);
     }
-    
+
     public void movePlayer(Player p, Integer boardSquareID, Integer nextBoardSquareID) {
         Square newSquare = GameManager.staticInstance.getGameBoard().get(nextBoardSquareID);
         p.setCurrentPosition(nextBoardSquareID);
@@ -202,5 +202,9 @@ public class UI {
     public void promptPlayerToChooseDice(int eventID) {
         manualDiceRollDialog diag = new manualDiceRollDialog(frame, eventID);
         diag.setVisible(true);
+    }
+
+    public void notifyPlayerUsedJailCard(String value) {
+        displayMessage(value);
     }
 }

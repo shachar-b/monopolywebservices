@@ -1,12 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package src.client.ui.initgame;
 
-import src.client.GameDetails;
-import src.client.Server;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
@@ -18,7 +11,7 @@ import src.client.Server;
  *
  * @author blecherl
  */
-public class RefreshWaitingGamesTask extends TimerTask{
+public class RefreshWaitingGamesTask extends TimerTask {
 
     private GamesPanel gamesPanel;
 
@@ -37,6 +30,7 @@ public class RefreshWaitingGamesTask extends TimerTask{
         }
 
         SwingUtilities.invokeLater(new Runnable() {
+
             public void run() {
                 System.out.println("Running code on thread: " + Thread.currentThread().getName());
                 gamesPanel.setGames(waitingGamesWithStatus);

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import src.client.GameManager;
@@ -16,9 +15,7 @@ import src.players.Player;
 import src.squares.Square;
 import src.ui.guiComponents.Squares.SquarePanel;
 import src.ui.guiComponents.Squares.SqurePanelFactory;
-
-
-import ui.utils.ImagePanel;
+import src.ui.utils.ImagePanel;
 
 /**
  * public class GameBoardUI extends JPanel
@@ -95,10 +92,9 @@ public class GameBoardUI extends JPanel {
         this.setLayout(new GridBagLayout());
 
         components = new LinkedList<SquarePanel>();
-        //TODO:add a game board
-        ArrayList<Square> bord = GameManager.staticInstance.getGameBoard();
+        ArrayList<Square> board = GameManager.staticInstance.getGameBoard();
         for (int i = 0; i < LINE_SIZE * 4; i++) {
-            components.add(SqurePanelFactory.makeCorrectSqurePanel(bord.get(i)));
+            components.add(SqurePanelFactory.makeCorrectSqurePanel(board.get(i)));
         }
 
         Iterator<SquarePanel> componentIterator = components.iterator();
@@ -126,11 +122,9 @@ public class GameBoardUI extends JPanel {
                         break;
                 }
             }
-            //TODO : !!! Pick up here, make iconPanel not null !!!
             for (Player p : GameManager.staticInstance.getGamePlayers()) {
                 addPlayerIcon(p, p.getIconPanel());
             }
-
         }
 
         // Main Inner Area Notice Starts at (1,1) and takes up 11x11

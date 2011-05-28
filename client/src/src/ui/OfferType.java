@@ -1,4 +1,4 @@
-package ui;
+package src.ui;
 
 /**
  * @author Omer Shenhar and Shachar Butnaro
@@ -6,5 +6,6 @@ package ui;
  * Specifies whether the offer type is for groups or single assets.
  */
 public enum OfferType {
-	Groups,Assets;
+
+    Groups, Assets;
 }

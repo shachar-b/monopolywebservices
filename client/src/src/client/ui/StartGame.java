@@ -14,7 +14,7 @@ public class StartGame {
 
     static Timer eventPollerTimer = null;
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         ExamplesUtils.setNativeLookAndFeel();
         startEventPollingTask();
         ExamplesUtils.showExample("Join Game", new GamesPanel());
@@ -26,7 +26,8 @@ public class StartGame {
     }
 
     public static void stopEventPollingTask() {
-        if (eventPollerTimer != null)
+        if (eventPollerTimer != null) {
             eventPollerTimer.cancel();
+        }
     }
 }

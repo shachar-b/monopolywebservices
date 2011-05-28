@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package src.client;
 
 /**
@@ -10,6 +5,7 @@ package src.client;
  * @author blecherl
  */
 public class GameDetails {
+
     private String gameName;
     private int totalHumanPlayers;
     private int joinedHumanPlayers;

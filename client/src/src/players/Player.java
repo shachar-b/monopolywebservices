@@ -2,8 +2,8 @@ package src.players;
 
 import java.util.ArrayList;
 
-import listeners.innerChangeEventListener.InnerChangeListenableClass;
-import ui.utils.ImagePanel;
+import src.listeners.innerChangeEventListener.InnerChangeListenableClass;
+import src.ui.utils.ImagePanel;
 import src.assets.Asset;
 import src.assets.Offerable;
 import src.client.GameManager;
@@ -23,6 +23,7 @@ public class Player extends InnerChangeListenableClass {
     protected ArrayList<Asset> assetList = new ArrayList<Asset>();
     private int lastKnownPosition = 0;
     ImagePanel playerIcon = null;
+    private boolean wantsToQuit = false;
 
     /**
      * Constructor for Player
@@ -71,13 +72,20 @@ public class Player extends InnerChangeListenableClass {
     }
 
     public void remove() {
-        ArrayList<Asset> assetList = getAssetList();
-        while (!assetList.isEmpty())//remove ownership from all remaining assets
+        ArrayList<Asset> assetListToClear = getAssetList();
+        while (!assetListToClear.isEmpty())//remove ownership from all remaining assets
         {
-            assetList.get(0).setOwner(GameManager.assetKeeper);//set owner removes itself from the list
+            assetListToClear.get(0).setOwner(GameManager.assetKeeper);//set owner removes itself from the list
         }
         fireEvent("removed");
-        //TODO:stuff
+    }
+
+    public void setWantsToQuit() {
+        this.wantsToQuit = true;
+    }
+
+    public boolean getWantsToQuit() {
+        return wantsToQuit;
     }
 
     /**

@@ -16,7 +16,6 @@ public class Server {
 
     private static Server instance;
     private BackendService backendService;
-    
     private ConcurrentLinkedQueue<Event> eventQueue = new ConcurrentLinkedQueue<Event>();
 
     static {
@@ -30,20 +29,20 @@ public class Server {
     public static Server getInstance() {
         return instance;
     }
-    
-    public synchronized void addEventsToQueue(Collection<? extends Event> events){
+
+    public synchronized void addEventsToQueue(Collection<? extends Event> events) {
         eventQueue.addAll(events);
     }
-    
-    public synchronized  Event popEventFromQueue(){
+
+    public synchronized Event popEventFromQueue() {
         return eventQueue.remove();
     }
-    
-    public synchronized Event peekIntoEventQueue(){
+
+    public synchronized Event peekIntoEventQueue() {
         return eventQueue.peek();
     }
-    
-    public synchronized boolean isEventQueueEmpty(){
+
+    public synchronized boolean isEventQueueEmpty() {
         return eventQueue.isEmpty();
     }
 
@@ -56,15 +55,15 @@ public class Server {
     public List<String> getWaitingGames() {
         return backendService.getWaitingGames();
     }
-    
-    public List<String> getActiveGame(){
+
+    public List<String> getActiveGame() {
         return backendService.getActiveGames();
     }
 
     public List<Event> getAllEvents(int index) {
         return backendService.getAllEvents(index);
     }
-    
+
     public String getGameBoardXML() {
         return backendService.getGameBoardXML();
     }
@@ -88,12 +87,12 @@ public class Server {
     public MonopolyResult buy(int playerID, int eventID, boolean buyDecision) {
         return backendService.buy(playerID, eventID, buyDecision);
     }
-    
-    public MonopolyResult setDiceRollResults (int playerID, int eventID, int dice1, int dice2){
+
+    public MonopolyResult setDiceRollResults(int playerID, int eventID, int dice1, int dice2) {
         return backendService.setDiceRollResults(playerID, eventID, dice1, dice2);
     }
-    
-    public MonopolyResult resign (int playerID){
+
+    public MonopolyResult resign(int playerID) {
         return backendService.resign(playerID);
     }
 }

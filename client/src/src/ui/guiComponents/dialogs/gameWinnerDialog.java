@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * gameWinnerDialog.java
  *
  * Created on 28/05/2011, 01:58:37
@@ -12,9 +7,6 @@ package src.ui.guiComponents.dialogs;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import src.client.GameManager;
-import src.client.ui.initgame.GamesPanel;
-import src.client.ui.utils.ExamplesUtils;
 
 /**
  *
@@ -25,10 +17,6 @@ public class gameWinnerDialog extends javax.swing.JDialog {
     /** Creates new form gameWinnerDialog */
     public gameWinnerDialog(java.awt.Frame parent, boolean modal, String winMessage) {
         super(parent, modal);
-        Dimension d = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width/2,Toolkit.getDefaultToolkit().getScreenSize().height/2);
-        this.setPreferredSize(d);
-        this.setMaximumSize(d);
-        this.setMinimumSize(d);
         initComponents();
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         winnerAnnouncement.setText(winMessage);
@@ -44,7 +32,6 @@ public class gameWinnerDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         winnerAnnouncement = new javax.swing.JLabel();
-        goAgainButton = new javax.swing.JButton();
         leaveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -52,16 +39,9 @@ public class gameWinnerDialog extends javax.swing.JDialog {
         winnerAnnouncement.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         winnerAnnouncement.setForeground(new java.awt.Color(255, 0, 0));
         winnerAnnouncement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        winnerAnnouncement.setText("Winner announcement goes here!");
+        winnerAnnouncement.setText("Player abcdefghij is the undisputed winner! Heap-heap-array!");
         winnerAnnouncement.setFocusable(false);
         winnerAnnouncement.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        goAgainButton.setText("Start Over");
-        goAgainButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                goAgainButtonActionPerformed(evt);
-            }
-        });
 
         leaveButton.setText("Exit");
         leaveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -76,12 +56,9 @@ public class gameWinnerDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(winnerAnnouncement)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(goAgainButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(leaveButton)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(leaveButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(winnerAnnouncement, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -89,26 +66,18 @@ public class gameWinnerDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(winnerAnnouncement)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(goAgainButton)
-                    .addComponent(leaveButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void goAgainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goAgainButtonActionPerformed
-        GameManager.currentUI.getFrame().dispose();
-        ExamplesUtils.showExample("Join Game", new GamesPanel());
-    }//GEN-LAST:event_goAgainButtonActionPerformed
-
     private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_leaveButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton goAgainButton;
     private javax.swing.JButton leaveButton;
     private javax.swing.JLabel winnerAnnouncement;
     // End of variables declaration//GEN-END:variables
