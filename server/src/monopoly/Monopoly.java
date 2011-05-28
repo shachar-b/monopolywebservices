@@ -12,7 +12,6 @@ import assets.Asset;
 import assets.City;
 import cards.ShaffledDeck;
 import java.util.Collections;
-import monopoly.gamesmanager.MonopolyGameManager;
 import squares.ParkingSquare;
 
 /**
@@ -28,7 +27,6 @@ public class Monopoly {
     static int generateEventId() {
         return eventList.size();
     }
-    
     private String gameName;
     private ArrayList<Player> gamePlayers;
     private ShaffledDeck surprise = new ShaffledDeck();
@@ -47,7 +45,7 @@ public class Monopoly {
     private final boolean useAutoDiceRoll;
 
     public Monopoly(String gameName, ArrayList<Player> players, boolean useAutoDiceRoll) {
-        eventList = new ArrayList<Event>();
+        //eventList = new ArrayList<Event>();
         this.gameName = gameName;
         gamePlayers = new ArrayList<Player>(players);
         this.useAutoDiceRoll = useAutoDiceRoll;
@@ -82,20 +80,20 @@ public class Monopoly {
      * this methods starts the first round.
      */
     public void play() {
-        //userInterface.notifyNewRound(gamePlayers.get(0), roundNumber, gameBoard.get(0)); ************
         eventDispatch(currentActivePlayer.getID(), "start");
     }
 
     private void endGameSequence() {
+        TimeOutTasks.stopTimer();
         String winner = getCurrentActivePlayer().getName();
         Event gameOver = EventImpl.createNewGroupA(gameName, EventImpl.EventTypes.GameOver, "Game over, thanks for playing.");
-        Event gameWinner = EventImpl.createNewGroupB(gameName, EventTypes.GameWinner, "Player " + winner + " is the undisputed winner! Heap-heap-array!", winner);
         addEvent(gameOver);
+        Event gameWinner = EventImpl.createNewGroupB(gameName, EventTypes.GameWinner, "Player " + winner + " is the undisputed winner! Heap-heap-array!", winner);
         addEvent(gameWinner);
-        
+
         //clear game settings and variables by nullifying the current game
         MonopolyGame.gameManagerHandle.removeGame(gameName);
-        GameManager.currentGame=null;
+        GameManager.currentGame = null;
     }
 
     /**
@@ -148,7 +146,7 @@ public class Monopoly {
                         break;
                     }
                 } else {
-                    TimeOutTasks.StartTimer(currentActivePlayer, GameManager.TIMEOUT_IN_SECONDS);
+                    TimeOutTasks.StartTimer(currentActivePlayer);
                     Monopoly.addEvent(EventImpl.createNewPromptRollEvent(gameName, EventImpl.EventTypes.PromptPlayerToRollDice, "please roll the die or die :)", currentActivePlayer.getName(), GameManager.TIMEOUT_IN_SECONDS));
                     break;
                 }
@@ -508,11 +506,14 @@ public class Monopoly {
      * As a by-product, ends his turn.
      */
     private void forfeit() {
+        TimeOutTasks.stopTimer();
         playerIndex--;
         removePlayerFromGame(getCurrentActivePlayer());
     }
 
     private void forfeit(int playerID) {
+        if (playerID==currentActivePlayer.getID())
+            TimeOutTasks.stopTimer();
         boolean isBeforeCurrent = true;
         Player playerToRemove = null;
         for (Player p : gamePlayers)//TODO:make sure player ID is checked in MonopolyGame.resign

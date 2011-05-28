@@ -7,6 +7,7 @@ public class GameManager {
 
     public static long EVENT_ID = 0;
     public static final int TIMEOUT_IN_SECONDS = 300;
+    public static final int CONVERT_MS_TO_SECONDS = 1000;
     public static final int MAX_NUMBER_OF_PLAYERS = 6;
     public static final int MIN_NUMBER_OF_PLAYERS = 2;
     public static final int MAX_NUMBER_OF_HOUSES = 3;
