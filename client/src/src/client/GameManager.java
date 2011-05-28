@@ -119,10 +119,10 @@ public class GameManager {
              */
             case 1://game start - ignored -removed
                 break;
-            case 2://GameOver
-                //doGameCleanup();
+            case 2://GameOver - Nothing to do here, work will be done on the following GameWinner!
                 break;
             case 3://GameWinner
+                stopEventFeederTask();
                 currentUI.notifyGameWinner(event.getEventMessage().getValue());
                 break;
             case 4://PlayerResigned- do the same as 5

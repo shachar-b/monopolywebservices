@@ -133,6 +133,7 @@ public class GamesPanel extends javax.swing.JPanel {
 
             public void run() {
                 stopRefreshTask();
+                gameMonRefreshTimer.cancel();
             }
         }), 0, 1);
     }

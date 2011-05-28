@@ -29,10 +29,9 @@ public class MonitorGameStartTask extends TimerTask {
         this.performWhenStarted=performWhenStarted;
     }
 
-
-
     @Override
     public void run() {
+        System.out.println("Running code on thread: " + Thread.currentThread().getName());
        if(!Server.getInstance().isEventQueueEmpty())
        {
            Event given=Server.getInstance().popEventFromQueue();
