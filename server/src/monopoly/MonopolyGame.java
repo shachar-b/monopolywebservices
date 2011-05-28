@@ -156,6 +156,7 @@ public class MonopolyGame {
 
         } else//do it
         {
+            TimeOutTasks.stopTimer();
             GameManager.currentGame.throwDie(dice1, dice2);
             return new MonopolyResult(false, "Dice1= " + dice1 + ", Dice2= " + dice2);
         }
@@ -182,7 +183,7 @@ public class MonopolyGame {
 
         } else//do it
         {
-            TimeOutTasks.stopTimer(GameManager.currentGame.getCurrentActivePlayer());
+            TimeOutTasks.stopTimer();
             if (buy) {
                 if (GameManager.currentGame.isLegalBuyOP()) {
                     GameManager.currentGame.buyWhatYouAreSittingOn();
