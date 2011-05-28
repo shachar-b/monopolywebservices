@@ -16,12 +16,13 @@ import java.util.TimerTask;
 public class eventPoller extends TimerTask  {
     private static int lastEvent=0;
     
-    public eventPoller(){
+    public static void resetEventPoller(){
         lastEvent=0;
     }
 
     @Override
     public void run() {
+        System.out.println("Running code on thread: " + Thread.currentThread().getName());
         List<Event> events=Server.getInstance().getAllEvents(lastEvent);
         if(events!=null && !events.isEmpty())
         {

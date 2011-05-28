@@ -71,8 +71,10 @@ public class Player extends InnerChangeListenableClass {
     }
 
     public void remove() {
-        for (Asset asset : assetList) {
-            removeFromAssetList(asset);
+        ArrayList<Asset> assetList = getAssetList();
+        while (!assetList.isEmpty())//remove ownership from all remaining assets
+        {
+            assetList.get(0).setOwner(GameManager.assetKeeper);//set owner removes itself from the list
         }
         fireEvent("removed");
         //TODO:stuff

@@ -21,10 +21,11 @@ public class StartGame {
     }
 
     private static void startEventPollingTask() {
+        eventPoller.resetEventPoller();
         eventPollerTimer = Server.getInstance().startPolling("Event polling timer", new eventPoller(), 0, 2);
     }
 
-    private static void stopEventPollingTask() {
+    public static void stopEventPollingTask() {
         if (eventPollerTimer != null)
             eventPollerTimer.cancel();
     }

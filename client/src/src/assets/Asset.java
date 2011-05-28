@@ -59,8 +59,11 @@ public abstract class Asset extends Square {
             newOwner.addToAssetList(this);
         }
         this.owner = newOwner;
-        GameManager.currentUI.notifyPlayerBoughtAsset(newOwner, this);
-        fireEvent("owner"); //notify of a change
+        if(newOwner !=null)
+        {
+            GameManager.currentUI.notifyPlayerBoughtAsset(newOwner, this);
+            fireEvent("owner"); //notify of a change
+        }
     }
 
     /**
