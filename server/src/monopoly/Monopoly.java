@@ -23,6 +23,7 @@ import squares.ParkingSquare;
 public class Monopoly {
 
     private static ArrayList<Event> eventList = new ArrayList<Event>();
+    private ArrayList<Player> quitters = new ArrayList<Player>();
 
     static int generateEventId() {
         return eventList.size();
@@ -108,6 +109,16 @@ public class Monopoly {
         switch (state) {
             case START:
                 state++;//next state is roll die
+
+                for (int i = 0; i < quitters.size(); i++) { //Handle quitters
+                    Player quitter = quitters.get(i);
+                    if (currentActivePlayer == quitter) {
+                        quitters.remove(i);
+                        forfeit();
+                        return;
+                    }
+                }
+
                 if (currentPlayerSquare instanceof JailSlashFreePassSquare) {
                     if (currentActivePlayer.hasGetOutOfJailFreeCard()
                             && !currentPlayerSquare.shouldPlayerMove(currentActivePlayer)) {
@@ -279,22 +290,16 @@ public class Monopoly {
     }
 
     /**
-     * public void removePlayerFromGame(Player player)
-     * This method calls removePlayerFromGame(Player player, boolean gameAborted)
-     * with the boolean as false, for when the game is not aborted.
-     * @param player a non null active player to be removed
-     */
-    public void removePlayerFromGame(Player player) {
-        removePlayerFromGame(player, false);
-    }
-
-    /**
      * method public void removePlayerFromGame(Player player)
      * this method safely removes a player from game (returns all his assets to treasury ,demolish houses and so on)
      * @param player a non null active player to be removed
-     * @param gameAborted a boolean to signify if removing player due to a starting a new game.
      */
-    public void removePlayerFromGame(Player player, boolean gameAborted) {
+    public void removePlayerFromGame(Player player) {
+        if (player == null) {
+            endTurn();
+            return; //Do nothing, player has already been removed, this is just the ghost of a timer.
+        }
+
         ArrayList<Asset> assetList = player.getAssetList();
         String message;
         EventImpl.EventTypes type;
@@ -312,22 +317,11 @@ public class Monopoly {
             message = player.getName() + " has lost due to the fact he had no money";
         } else {
             type = EventTypes.PlayerResigned;;
-            message = player.getName() + " has left the game due to the fact he choose forfeit or did not respond to the game requests in a timely mennar";
+            message = player.getName() + " has left the game due to the fact he choose forfeit or did not respond to the game requests in a timely manner";
         }
         Monopoly.addEvent(EventImpl.createNewGroupB(gameName, type, message, player.getName()));
-        if (player == getCurrentActivePlayer()) {
-            endTurn();
-        } else if (!gameAborted)//No need to do the following if a new game was started in the middle of a current one.\
-        {
-            {//it must be in the list
-                playerIndex = gamePlayers.lastIndexOf(getCurrentActivePlayer());
-            }
-        }
 
-        if (gamePlayers.size() == 1 && !gameAborted) {
-            endGameSequence();
-            stopGame = true;
-        }
+        endTurn();
     }
 
     /**
@@ -375,8 +369,10 @@ public class Monopoly {
         currentActivePlayer = gamePlayers.get(playerIndex);
 
         if (getActualNumPlayers() != 1) {
-//            GameManager.CurrentUI.notifyNewRound(p, roundNumber, gameBoard.get(p.getCurrentPosition()));
             eventDispatch(currentActivePlayer.getID(), "start");
+        } else {
+            endGameSequence();
+            stopGame = true;
         }
     }
 
@@ -421,9 +417,9 @@ public class Monopoly {
      * This method activates the get out of jail method in a JailSlashFreePassSquare.
      */
     private void useGetOutOfJail() {
-        ((JailSlashFreePassSquare) currentPlayerSquare).playerUsesGetOutOfJailCard(getCurrentActivePlayer());
         String message = "player " + currentActivePlayer.getName() + " used a card to get out of jail";
         addEvent(EventImpl.createNewGroupB(gameName, EventImpl.EventTypes.PlayerUsedJailCard, message, currentActivePlayer.getName()));
+        ((JailSlashFreePassSquare) currentPlayerSquare).playerUsesGetOutOfJailCard(getCurrentActivePlayer());
     }
 
     /**
@@ -460,7 +456,13 @@ public class Monopoly {
         currentPlayerSquare = gameBoard.get(getCurrentActivePlayer().getCurrentPosition());
         if (playerID != currentActivePlayer.getID()) {
             if (message.equals("forfeit")) {
-                forfeit(playerID);
+                Player quitter = null;
+                for (Player p : gamePlayers) {
+                    if (p.getID() == playerID) {
+                        quitter = p;
+                    }
+                }
+                quitters.add(quitter);
             } else {
                 //do some error event becuse player cheated or ignore
             }
@@ -469,17 +471,15 @@ public class Monopoly {
                 state = START;
                 doRound();
             } else if (message.equals("forfeit")) {
-                forfeit();
+                TimeOutTasks.stopTimer(); //In the event that a player resigned after a buy prompt was issued, but before he saw it on the GUI, kill the waiting timer.
+                quitters.add(currentActivePlayer);
+                endTurn();
             } else if (message.equals("endTurn")) {
                 state = START;
                 endTurn();
             } else if (message.equals("getOutOfJail")) {
-                useGetOutOfJail();
                 state = ENDTURN;
-                if (!stopGame)//go on next state
-                {
-                    doRound();
-                }
+                useGetOutOfJail();
             } else if (message.equals("buyHouse")) {
                 buyHouse();
 
@@ -509,28 +509,6 @@ public class Monopoly {
         TimeOutTasks.stopTimer();
         playerIndex--;
         removePlayerFromGame(getCurrentActivePlayer());
-    }
-
-    private void forfeit(int playerID) {
-        if (playerID==currentActivePlayer.getID())
-            TimeOutTasks.stopTimer();
-        boolean isBeforeCurrent = true;
-        Player playerToRemove = null;
-        for (Player p : gamePlayers)//TODO:make sure player ID is checked in MonopolyGame.resign
-        {
-            if (p.equals(currentActivePlayer)) {
-                isBeforeCurrent = false;
-            }
-            if (p.getID() == playerID) {
-                playerToRemove = p;
-                break;
-            }
-        }
-        if (!isBeforeCurrent) {
-            playerIndex--;
-        }
-        removePlayerFromGame(playerToRemove);
-
     }
 
     public void buyWhatYouAreSittingOn() {

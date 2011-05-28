@@ -10,8 +10,7 @@ package squares;
  */
 public class WarrantCardSquare extends ActionCardSquare {
 
-	public WarrantCardSquare() {
-		super(-1);
-	}
-
+    public WarrantCardSquare() {
+        super(-1);
+    }
 }

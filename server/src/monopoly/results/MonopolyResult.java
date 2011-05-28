@@ -5,15 +5,16 @@ package monopoly.results;
  * Date: 3/28/11
  */
 public class MonopolyResult {
+
     private boolean hasError;
     private String errorMessage;
 
     public MonopolyResult() {
-        this (false, null);
+        this(false, null);
     }
 
     public MonopolyResult(String errorMessage) {
-        this (true, errorMessage);
+        this(true, errorMessage);
     }
 
     public MonopolyResult(boolean hasError, String errorMessage) {

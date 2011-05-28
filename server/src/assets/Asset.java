@@ -6,7 +6,6 @@ import players.Player;
 import squares.Square;
 import monopoly.Monopoly;
 
-
 /**
  * public abstract class Asset extends Square
  * public
@@ -59,19 +58,18 @@ public abstract class Asset extends Square {
      */
     public void playerArrived(Player player) {
         if (owner == GameManager.assetKeeper) {
-           player.buyDecision(this);
-            } 
-        else if (owner != player) {
-            int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT,false,true);
-            this.owner.ChangeBalance(amountRcvd, GameManager.ADD,false,true);
+            player.buyDecision(this);
+        } else if (owner != player) {
+            int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT, false, true);
+            this.owner.ChangeBalance(amountRcvd, GameManager.ADD, false, true);
             GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
         }
     }
 
     public void buyAsset(Player player) {
-                Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
-                        name+"has been bougnt", player.getName(), player.getCurrentPosition()));
-        player.ChangeBalance(cost, GameManager.SUBTRACT,true,false);
+        Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
+                name + "has been bougnt", player.getName(), player.getCurrentPosition()));
+        player.ChangeBalance(cost, GameManager.SUBTRACT, true, false);
         setOwner(player);
     }
 

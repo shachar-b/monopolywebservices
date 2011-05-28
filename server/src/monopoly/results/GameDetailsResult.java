@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package monopoly.results;
 
 /**
  *
  * @author blecherl
  */
-public class GameDetailsResult extends MonopolyResult{
+public class GameDetailsResult extends MonopolyResult {
 
     private String status;
     private int totalHumanPlayers;
@@ -27,11 +22,11 @@ public class GameDetailsResult extends MonopolyResult{
     }
 
     public GameDetailsResult(String errorMessage) {
-        super (errorMessage);
+        super(errorMessage);
     }
 
     public GameDetailsResult(boolean hasError, String errorMessage) {
-        super (hasError, errorMessage);
+        super(hasError, errorMessage);
     }
 
     public int getJoinedHumanPlayers() {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package squares;
 
 import monopoly.GameManager;

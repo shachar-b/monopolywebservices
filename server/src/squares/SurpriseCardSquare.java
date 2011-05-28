@@ -10,8 +10,7 @@ package squares;
  */
 public class SurpriseCardSquare extends ActionCardSquare {
 
-	public SurpriseCardSquare() {
-		super(1);
-	}
-
+    public SurpriseCardSquare() {
+        super(1);
+    }
 }

@@ -14,24 +14,25 @@ import cards.ShaffledDeck;
  */
 public interface MonopolyInitilizer {
 
-	/**
-	 * method ShaffledDeck initSurprise();
-	 * public
-	 * @return a ShaffledDeck of surprise cards
-	 */
-	public ShaffledDeck initSurprise();
+    /**
+     * method ShaffledDeck initSurprise();
+     * public
+     * @return a ShaffledDeck of surprise cards
+     */
+    public ShaffledDeck initSurprise();
 
-	/**
-	 * method abstract ShaffledDeck initCallUp();
-	 * public
-	 * @return a ShaffledDeck of call up cards
-	 */	public abstract ShaffledDeck initCallUp();
-	
-	/**
-	 * method ArrayList<Square> initBoard()
-	 * public
-	 * Initializes the game board
-	 * @return an Initialized game board
-	 */
-	public ArrayList<Square> initBoard();
+    /**
+     * method abstract ShaffledDeck initCallUp();
+     * public
+     * @return a ShaffledDeck of call up cards
+     */
+    public abstract ShaffledDeck initCallUp();
+
+    /**
+     * method ArrayList<Square> initBoard()
+     * public
+     * Initializes the game board
+     * @return an Initialized game board
+     */
+    public ArrayList<Square> initBoard();
 }
