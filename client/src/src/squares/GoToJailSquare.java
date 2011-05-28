@@ -1,7 +1,5 @@
 package src.squares;
 
-import src.squares.Square;
-
 /**
  * public class GoToJailSquare extends Square
  * @see Square
@@ -11,7 +9,4 @@ import src.squares.Square;
  *
  */
 public class GoToJailSquare extends Square {
-
-	
-
 }

@@ -4,22 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
-
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-
-import listeners.innerChangeEventListener.InnerChangeEventListner;
-import listeners.innerChangeEventListener.InnerChangeEvet;
+import src.listeners.innerChangeEventListener.InnerChangeEventListner;
+import src.listeners.innerChangeEventListener.InnerChangeEvet;
 import src.client.GameManager;
 import src.players.Player;
-import ui.utils.IconCellRenderer;
-import ui.utils.ImagePanel;
-import ui.utils.TransparentTable;
-import ui.utils.Utils;
+import src.ui.utils.IconCellRenderer;
+import src.ui.utils.ImagePanel;
+import src.ui.utils.TransparentTable;
+import src.ui.utils.Utils;
 
 /**
  * public class CenterPanel extends JPanel

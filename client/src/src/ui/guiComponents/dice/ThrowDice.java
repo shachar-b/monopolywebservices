@@ -2,14 +2,9 @@ package src.ui.guiComponents.dice;
 
 import java.util.Random;
 import java.util.TimerTask;
-
-import javax.swing.Icon;
 import javax.swing.JLabel;
-
-import listeners.gameActions.GameActionEvent;
-import listeners.gameActions.GameActionEventListener;
-import src.client.GameManager;
-import ui.utils.Utils;
+import src.listeners.gameActions.GameActionEvent;
+import src.listeners.gameActions.GameActionEventListener;
 
 /**
  * @author Stijn Strickx, from http://www.proglogic.com/code/java/game/rolldice.php.

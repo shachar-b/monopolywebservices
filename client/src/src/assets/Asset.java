@@ -3,7 +3,7 @@ package src.assets;
 import src.client.GameManager;
 import src.players.Player;
 import src.squares.Square;
-import ui.OfferType;
+import src.ui.OfferType;
 
 /**
  * public abstract class Asset extends Square implements Offerable
@@ -59,8 +59,7 @@ public abstract class Asset extends Square {
             newOwner.addToAssetList(this);
         }
         this.owner = newOwner;
-        if(newOwner !=null)
-        {
+        if (newOwner != null) {
             GameManager.currentUI.notifyPlayerBoughtAsset(newOwner, this);
             fireEvent("owner"); //notify of a change
         }

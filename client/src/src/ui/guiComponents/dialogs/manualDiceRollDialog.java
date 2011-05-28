@@ -24,7 +24,6 @@ import javax.swing.border.EmptyBorder;
 import src.client.GameManager;
 import src.client.Server;
 
-
 /**
  * @author Shachar
  */
@@ -44,8 +43,6 @@ public class manualDiceRollDialog extends JDialog {
         Server.getInstance().setDiceRollResults(GameManager.clientPlayerID, eventID, (Integer) dice1.getValue(), (Integer) dice2.getValue());
         this.dispose();
     }
-
- 
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -111,7 +108,7 @@ public class manualDiceRollDialog extends JDialog {
                 buttonBar.add(okButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));
-             
+
             }
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }

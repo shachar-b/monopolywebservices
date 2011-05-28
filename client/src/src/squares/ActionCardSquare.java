@@ -1,9 +1,4 @@
-/**
- * 
- */
 package src.squares;
-
-
 
 /**
  * public class ActionCardSquare extends Square
@@ -15,34 +10,32 @@ package src.squares;
  */
 public class ActionCardSquare extends Square {
 
-	int sign;
+    int sign;
 
-	/**
-	 * method public ActionCardSquare(int sign1)
-	 * public
-	 * a constructor for ActionCardSquare
-	 * @param sign1 - either -1 for call up or 1 for surprise
-	 */
-	public ActionCardSquare(int sign1)
-	{
-		sign=sign1;
-	}
+    /**
+     * method public ActionCardSquare(int sign1)
+     * public
+     * a constructor for ActionCardSquare
+     * @param sign1 - either -1 for call up or 1 for surprise
+     */
+    public ActionCardSquare(int sign1) {
+        sign = sign1;
+    }
 
 
-	/* (non-Javadoc)
-	 * @see squares.Square#getName()
-	 */
-	@Override
-	public String getName() {return sign==1?"Surprise":"CallUp";}
+    /* (non-Javadoc)
+     * @see squares.Square#getName()
+     */
+    @Override
+    public String getName() {
+        return sign == 1 ? "Surprise" : "CallUp";
+    }
 
-	
+    /**
+     * @return true if it is call up false if it is surprise
+     */
+    public boolean IsCallUp() {
+        return sign == -1;
 
-	/**
-	 * @return true if it is call up false if it is surprise
-	 */
-	public boolean IsCallUp()
-	{
-		return sign==-1;
-
-	}
+    }
 }

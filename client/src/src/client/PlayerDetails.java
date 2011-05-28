@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package src.client;
 
 /**
@@ -42,8 +38,8 @@ public class PlayerDetails {
     public boolean equals(Object o) {
         if (o instanceof PlayerDetails) {
             return this.name.equals(((PlayerDetails) o).getName());
-        }
-        else
+        } else {
             return false;
+        }
     }
 }

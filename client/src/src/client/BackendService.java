@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package src.client;
 
 import comm.Event;
@@ -35,25 +30,25 @@ public class BackendService {
         return monopolyGamePortType.getGameBoardXML().getReturn().getValue();
     }
 
-    public String getGameBoardSchema(){
+    public String getGameBoardSchema() {
         return monopolyGamePortType.getGameBoardSchema().getReturn().getValue();
     }
-    public List<Event> getAllEvents(int index)
-    {
+
+    public List<Event> getAllEvents(int index) {
         return monopolyGamePortType.getAllEvents(index).getResults();
     }
 
     public boolean startGame(String name, int humanPlayers, int computerPlayers, boolean useAutomaticDiceRollCheckBox) {
         MonopolyResult result = monopolyGamePortType.startGame(name, humanPlayers, computerPlayers, useAutomaticDiceRollCheckBox);
         return !hasError(result);
-    } 
+    }
 
     public List<String> getWaitingGames() {
         GetWaitingGamesResponse result = monopolyGamePortType.getWaitingGames();
         return result != null ? result.getReturn() : Collections.EMPTY_LIST;
     }
 
-    public int joinGame (String gameName, String playerName) {
+    public int joinGame(String gameName, String playerName) {
         IDResult result = monopolyGamePortType.joinGame(gameName, playerName);
         if (hasError(result)) {
             return -1;
@@ -77,7 +72,7 @@ public class BackendService {
         if (hasError(result)) {
             return Collections.EMPTY_LIST;
         } else {
-            for (int index=0 ; index < result.getNames().size() ; index++) {
+            for (int index = 0; index < result.getNames().size(); index++) {
                 players.add(new PlayerDetails(
                         result.getNames().get(index),
                         result.getIsHumans().get(index),
@@ -89,7 +84,7 @@ public class BackendService {
 
     }
 
-    public GameDetails getGameDetails (String gameName) {
+    public GameDetails getGameDetails(String gameName) {
         GameDetailsResult result = monopolyGamePortType.getGameDetails(gameName);
         if (hasError(result)) {
             return null;
@@ -106,19 +101,19 @@ public class BackendService {
     public MonopolyResult buy(int playerID, int eventID, boolean buyDecision) {
         return monopolyGamePortType.buy(playerID, eventID, buyDecision);
     }
-    
-      public List<String> getActiveGames() {
+
+    public List<String> getActiveGames() {
         GetActiveGamesResponse result = monopolyGamePortType.getActiveGames();
         return result != null ? result.getReturn() : Collections.EMPTY_LIST;
     }
 
-      public MonopolyResult setDiceRollResults (int playerID, int eventID, int dice1, int dice2){
-          MonopolyResult result = monopolyGamePortType.setDiceRollResults(playerID, eventID, dice1, dice2);
-          return result;
-      }
-      
-      public MonopolyResult resign (int playerID){
-          MonopolyResult result = monopolyGamePortType.resign(playerID);
-          return result;
-      }
+    public MonopolyResult setDiceRollResults(int playerID, int eventID, int dice1, int dice2) {
+        MonopolyResult result = monopolyGamePortType.setDiceRollResults(playerID, eventID, dice1, dice2);
+        return result;
+    }
+
+    public MonopolyResult resign(int playerID) {
+        MonopolyResult result = monopolyGamePortType.resign(playerID);
+        return result;
+    }
 }

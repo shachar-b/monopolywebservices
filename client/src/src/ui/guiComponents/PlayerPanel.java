@@ -6,21 +6,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
-import listeners.gameActions.GameActionEvent;
-import listeners.gameActions.GameActionEventListener;
-import listeners.gameActions.GameActionsListenableClass;
+import src.listeners.gameActions.GameActionEvent;
+import src.listeners.gameActions.GameActionEventListener;
+import src.listeners.gameActions.GameActionsListenableClass;
 import src.assets.Asset;
 import src.assets.Offerable;
 import src.client.GameManager;
@@ -72,7 +68,6 @@ public class PlayerPanel extends GameActionsListenableClass {
         representedPlayer = GameManager.staticInstance.getPlayerByName(GameManager.clientName);
         initComponents();
         Dice.getGameDice().addGameActionsListener(dieListner);
-        //TODO:stuff
         Square currentSquare = GameManager.staticInstance.getGameBoard().get(representedPlayer.getCurrentPosition());
         setSquarePanelContent(currentSquare, representedPlayer);
         initTreeModel();
@@ -129,22 +124,12 @@ public class PlayerPanel extends GameActionsListenableClass {
      * @param e The ActionEvent
      */
     private void ForfeitActionPerformed(ActionEvent e) {
+        representedPlayer.setWantsToQuit();
         Dice.getGameDice().resetDiceListeners();
         Server.getInstance().resign(GameManager.clientPlayerID);
         Forfeit.setEnabled(false);
         revalidate();
         repaint();
-    }
-
-    /**
-     * private void showGroupActionPerformed(ActionEvent e)
-     * Opens a dialog showing the items in the AssetGroup.
-     * @param e The ActionEvent
-     */
-    private void showGroupActionPerformed(ActionEvent e) {//TODO:somthing
-		/*AssetGroupDialog groups=
-        new AssetGroupDialog((Frame)GameManager.CurrentUI.getFrame() , ((Asset)GameManager.currentGame.getGameBoard().get(representedPlayer.getCurrentPosition())).getGroup());
-        groups.setVisible(true);*/
     }
 
     /**

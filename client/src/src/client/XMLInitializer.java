@@ -6,14 +6,11 @@ import generated.jaxb.SimpleAssetType;
 import generated.jaxb.SquareBase;
 import generated.jaxb.SquareType;
 import java.io.ByteArrayInputStream;
-
 import java.util.ArrayList;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
 import src.squares.*;
 import java.io.InputStream;
 import src.assets.Asset;

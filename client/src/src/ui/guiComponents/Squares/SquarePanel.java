@@ -5,17 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
-
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import src.client.GameManager;
-
-
 import src.squares.Square;
-import ui.utils.ImagePanel;
+import src.ui.utils.ImagePanel;
 
 /**
  * public abstract class SquarePanel extends JPanel

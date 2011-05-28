@@ -27,11 +27,8 @@ import javax.swing.WindowConstants;
 import javax.swing.text.DefaultCaret;
 import src.client.GameManager;
 import src.players.Player;
-
-
 import src.ui.guiComponents.dialogs.ExitDiaglog;
 import src.ui.guiComponents.dialogs.aboutDialog;
-import src.ui.guiComponents.dialogs.midGameEntryDialog;
 import src.ui.guiComponents.dice.Dice;
 
 /**
@@ -42,7 +39,6 @@ public class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
     private JMenuBar menuBar1;
     private JMenu FileMenu;
-    private JMenuItem NewGame;
     private JMenuItem Exit;
     private JMenu HelpMenu;
     private JMenuItem About;
@@ -76,21 +72,6 @@ public class MainWindow extends JFrame {
     private void menuItem1ActionPerformed(ActionEvent e) {
         JDialog aboutDialog = new aboutDialog(this);
         aboutDialog.setVisible(true);
-    }
-
-    /**
-     * private void NewGameActionPerformed(ActionEvent e)
-     * Opens a new game dialog, or offers to end the current game if one is on.
-     * @param e The ActionEvent
-     */
-    private void NewGameActionPerformed(ActionEvent e) {//TODO:Write action handling
-        JDialog newDialog;
-        /*if (GameManager.currentGame.getGameRunning())
-        newDialog=new midGameEntryDialog(this);
-        else*/
-        //	newDialog=new EntryDialog(this);
-
-        //newDialog.setVisible(true);
     }
 
     /**
@@ -131,7 +112,6 @@ public class MainWindow extends JFrame {
     private void initComponents() {
         menuBar1 = new JMenuBar();
         FileMenu = new JMenu();
-        NewGame = new JMenuItem();
         Exit = new JMenuItem();
         HelpMenu = new JMenu();
         About = new JMenuItem();
@@ -160,18 +140,6 @@ public class MainWindow extends JFrame {
             //======== FileMenu ========
             {
                 FileMenu.setText("File");
-
-                //---- NewGame ----
-                NewGame.setText("New Game");
-                NewGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK));
-                NewGame.addActionListener(new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-                        NewGameActionPerformed(e);
-                    }
-                });
-                FileMenu.add(NewGame);
-
                 //---- Exit ----
                 Exit.setText("Exit");
                 Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_MASK | KeyEvent.ALT_MASK));

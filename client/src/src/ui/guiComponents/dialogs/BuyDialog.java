@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * BuyDialog.java
  *
  * Created on 25/05/2011, 14:29:08
@@ -15,7 +10,6 @@ import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import src.assets.Asset;
 import src.assets.City;
-import src.assets.Country;
 import src.client.GameManager;
 import src.client.Server;
 import src.ui.guiComponents.Squares.SquarePanel;
@@ -26,18 +20,19 @@ import src.ui.guiComponents.Squares.SqurePanelFactory;
  * @author Shachar
  */
 public class BuyDialog extends javax.swing.JDialog {
+
     private int eventID;
     private Asset assetToOffer;
-    java.awt.Frame parent ;
+    java.awt.Frame parent;
 
     /** Creates new form BuyDialog */
-    public BuyDialog(java.awt.Frame parent, boolean modal,Asset asset, boolean buyAsset,int eventID ) {
+    public BuyDialog(java.awt.Frame parent, boolean modal, Asset asset, boolean buyAsset, int eventID) {
         super(parent, modal);
-        this.parent=parent;
+        this.parent = parent;
         initComponents();
-        initComponentsAdditions(asset,buyAsset);
-        this.eventID=eventID;
-        assetToOffer=asset;
+        initComponentsAdditions(asset, buyAsset);
+        this.eventID = eventID;
+        assetToOffer = asset;
     }
 
     /** This method is called from within the constructor to
@@ -139,17 +134,16 @@ public class BuyDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_yesButtonActionPerformed
 
     private void groupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupButtonActionPerformed
-        AssetGroupDialog diag=new AssetGroupDialog(parent , assetToOffer.getGroup());
+        AssetGroupDialog diag = new AssetGroupDialog(parent, assetToOffer.getGroup());
         diag.setVisible(true);
     }//GEN-LAST:event_groupButtonActionPerformed
-private void doBuy(boolean  buy)
-{
-    MonopolyResult res=Server.getInstance().buy(GameManager.clientPlayerID,eventID, buy);
-    if(res.isError())
-         JOptionPane.showMessageDialog(null, res.getErrorMessage().getValue(), "buy op failed - (probly due to timeout))", JOptionPane.ERROR_MESSAGE);
-    this.dispose();
-}
-
+    private void doBuy(boolean buy) {
+        MonopolyResult res = Server.getInstance().buy(GameManager.clientPlayerID, eventID, buy);
+        if (res.isError()) {
+            JOptionPane.showMessageDialog(null, res.getErrorMessage().getValue(), "buy op failed - (probly due to timeout))", JOptionPane.ERROR_MESSAGE);
+        }
+        this.dispose();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel currSquarePanel;
     private javax.swing.JButton groupButton;
@@ -159,18 +153,18 @@ private void doBuy(boolean  buy)
     // End of variables declaration//GEN-END:variables
 
     private void initComponentsAdditions(Asset asset, boolean buyAsset) {
-        String mes="do you want to buy";
-        if (buyAsset){
-            mes+=" the Asset "+asset.getName()+" for "+ asset.getCost()+ "? ";
-        } else{ //Here buying house in asset
-            mes+=" house number "+((City)asset).getNumHouses()+" at "+asset.getName()+" for "+ ((City)asset).getCostOfHouse()+ "? ";
+        String mes = "do you want to buy";
+        if (buyAsset) {
+            mes += " the Asset " + asset.getName() + " for " + asset.getCost() + "? ";
+        } else { //Here buying house in asset
+            mes += " house number " + ((City) asset).getNumHouses() + " at " + asset.getName() + " for " + ((City) asset).getCostOfHouse() + "? ";
         }
         this.setTitle(mes);
         titleLabel.setText(mes);
-        SquarePanel panel = SqurePanelFactory.makeCorrectSqurePanel(asset,false);
+        SquarePanel panel = SqurePanelFactory.makeCorrectSqurePanel(asset, false);
         panel.setVisible(true);
         currSquarePanel.setLayout(new BorderLayout());
-        currSquarePanel.add(panel,BorderLayout.CENTER);
+        currSquarePanel.add(panel, BorderLayout.CENTER);
         currSquarePanel.setVisible(true);
         this.validate();
         this.repaint();

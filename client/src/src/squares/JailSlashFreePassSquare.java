@@ -1,7 +1,5 @@
 package src.squares;
 
-
-
 /**
  * public class JailSlashFreePassSquare extends Square
  * @see Square
@@ -11,6 +9,4 @@ package src.squares;
  *
  */
 public class JailSlashFreePassSquare extends Square {
-
-
 }

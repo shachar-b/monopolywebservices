@@ -1,4 +1,4 @@
-package listeners.gameActions;
+package src.listeners.gameActions;
 
 /**
  * an Interface for a listener used for GameActionEvents.
@@ -6,10 +6,9 @@ package listeners.gameActions;
  */
 public interface GameActionEventListener {
 
-	/**
-	 * public void eventHappened(GameActionEvent gameActionEvent)
-	 * @param gameActionEvent an event which happened in the game.
-	 */
-	public void eventHappened(GameActionEvent gameActionEvent);
-
+    /**
+     * public void eventHappened(GameActionEvent gameActionEvent)
+     * @param gameActionEvent an event which happened in the game.
+     */
+    public void eventHappened(GameActionEvent gameActionEvent);
 }

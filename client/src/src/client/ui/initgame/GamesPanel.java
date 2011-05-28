@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * GamesPanel.java
  *
  * Created on May 5, 2011, 1:16:30 AM

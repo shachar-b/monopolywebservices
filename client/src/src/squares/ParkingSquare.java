@@ -1,6 +1,5 @@
 package src.squares;
 
-
 import src.squares.Square;
 
 /**
@@ -10,8 +9,5 @@ import src.squares.Square;
  * a parking Square in the monopoly game 
  * @author Omer Shenhar and Shachar Butnaro
  */
-
 public class ParkingSquare extends Square {
-
-	
 }

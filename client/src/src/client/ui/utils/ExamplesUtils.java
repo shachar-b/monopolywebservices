@@ -15,10 +15,11 @@ public class ExamplesUtils {
     public static final String IMAGES_FOLDER = "/images/";
 
     //show problem with runnable and parameters and how final overcome it!
-    public static JComponent showExample (final String title, final JComponent component) {
+    public static JComponent showExample(final String title, final JComponent component) {
 
         //all swing code runs in the EDT so we need to initialize the main container (JFrame) to run inside of the EDT as well
         SwingUtilities.invokeLater(new Runnable() {
+
             @Override
             public void run() {
                 JFrame frame = new JFrame(title);
@@ -41,7 +42,7 @@ public class ExamplesUtils {
         return component;
     }
 
-    public static Image getImage (String name) {
+    public static Image getImage(String name) {
         if (name == null || name.isEmpty()) {
             return null;
         }
@@ -59,7 +60,7 @@ public class ExamplesUtils {
         }
     }
 
-    public static ImageIcon getImageIcon (String name) {
+    public static ImageIcon getImageIcon(String name) {
         Image image = getImage(name);
         if (image == null) {
             return null;

@@ -3,15 +3,14 @@ package src.ui.guiComponents.dice;
 import java.awt.BorderLayout;
 import java.util.Timer;
 import javax.swing.Icon;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import listeners.gameActions.GameActionEvent;
-import listeners.gameActions.GameActionEventListener;
-import listeners.gameActions.GameActionsListenableClass;
+import src.listeners.gameActions.GameActionEvent;
+import src.listeners.gameActions.GameActionEventListener;
+import src.listeners.gameActions.GameActionsListenableClass;
 import src.client.GameManager;
 
-import ui.utils.Utils;
+import src.ui.utils.Utils;
 
 /**
  * @author Stijn Strickx, from http://www.proglogic.com/code/java/game/rolldice.php.
@@ -117,21 +116,15 @@ public class Dice extends GameActionsListenableClass {
         dice2Outcome = dice2Roll;
         Icon icon1;
         Icon icon2;
-        if(dice1Roll<1|| dice1Roll>6)
-        {
-          icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");  
+        if (dice1Roll < 1 || dice1Roll > 6) {
+            icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");
+        } else {
+            icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
         }
-        else
-        {
-             icon1 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice1Outcome) + ".gif");
-        }
-           if(dice2Roll<1|| dice2Roll>6)
-        {
+        if (dice2Roll < 1 || dice2Roll > 6) {
             icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stoneUnknown.gif");
-        }
-        else
-        {
-          icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice2Outcome) + ".gif");   
+        } else {
+            icon2 = Utils.getImageIcon(GameManager.IMAGES_FOLDER + "dice/" + "stone" + (dice2Outcome) + ".gif");
         }
         dice1.setIcon(icon1);
         dice1.revalidate();
