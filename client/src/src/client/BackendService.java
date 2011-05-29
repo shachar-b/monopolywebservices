@@ -9,9 +9,13 @@ import comm.MonopolyGame;
 import comm.MonopolyGamePortType;
 import comm.MonopolyResult;
 import comm.PlayerDetailsResult;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +27,11 @@ public class BackendService {
     private MonopolyGamePortType monopolyGamePortType;
 
     public BackendService() {
-        monopolyGamePortType = new MonopolyGame().getMonopolyGameHttpSoap11Endpoint();
+        monopolyGamePortType = new MonopolyGame().getMonopolyGameHttpSoap11Endpoint();   
+    }
+    
+    public BackendService(String url) throws MalformedURLException {
+            this.monopolyGamePortType = new MonopolyGame(new URL(url)).getMonopolyGameHttpSoap11Endpoint();
     }
 
     public String getGameBoardXML() {
@@ -55,6 +63,7 @@ public class BackendService {
         } else {
             return result.getResult();
         }
+        
     }
 
     private boolean hasError(MonopolyResult monopolyResult) {

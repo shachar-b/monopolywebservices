@@ -2,11 +2,13 @@ package src.client;
 
 import comm.Event;
 import comm.MonopolyResult;
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import javax.xml.ws.http.HTTPException;
 
 /**
  *
@@ -14,16 +16,41 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Server {
 
-    private static Server instance;
+    private static Server instance = null;
     private BackendService backendService;
+    private String serverURL;
     private ConcurrentLinkedQueue<Event> eventQueue = new ConcurrentLinkedQueue<Event>();
+    private boolean hasConnetion = false;
 
     static {
         instance = new Server();
     }
 
+    private Server(String url) {
+        hasConnetion = setAdderss(url);
+    }
+
     private Server() {
-        backendService = new BackendService();
+        hasConnetion = setAdderss("");
+    }
+
+    public boolean setAdderss(String url) {
+        try {
+            if (url.equals("")) {
+                backendService = new BackendService();
+            } else {
+                backendService = new BackendService(url);
+            }
+
+            backendService.getActiveGames();
+        } catch (HTTPException e) {
+            return false;
+        }
+        catch (MalformedURLException ex) {
+                    return false;
+        }
+        return true;
+
     }
 
     public static Server getInstance() {
@@ -94,5 +121,9 @@ public class Server {
 
     public MonopolyResult resign(int playerID) {
         return backendService.resign(playerID);
+    }
+
+    public boolean hasConnection() {
+        return hasConnetion;
     }
 }
