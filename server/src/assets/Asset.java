@@ -68,7 +68,7 @@ public abstract class Asset extends Square {
 
     public void buyAsset(Player player) {
         Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
-                name + "has been bougnt", player.getName(), player.getCurrentPosition()));
+                name + " has been bougnt", player.getName(), player.getCurrentPosition()));
         player.ChangeBalance(cost, GameManager.SUBTRACT, true, false);
         setOwner(player);
     }

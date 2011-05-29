@@ -134,7 +134,7 @@ public abstract class Player extends InnerChangeListenableClass {
                 Balance = BANKRUPT; //To signal that player has no money left.
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
-                GameManager.currentGame.removePlayerFromGame(this);//if false remove from game
+                GameManager.currentGame.eventDispatch(ID, "forfeit");
                 fireEvent("removed");
                 return Balance;//returns the amount of money taken
             }
@@ -142,7 +142,6 @@ public abstract class Player extends InnerChangeListenableClass {
         message = this.Name + ((sign == 1) ? " got " : " pays ") + amount + GameManager.MoneySign;
         Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
                 EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name, sign * amount));
-        //TODO : Maybe add to/from names to message
         Balance -= amount;
         fireEvent("balance");
         return amount;
