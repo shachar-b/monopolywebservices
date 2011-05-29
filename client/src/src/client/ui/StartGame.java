@@ -1,9 +1,11 @@
 package src.client.ui;
 
 import java.util.Timer;
+import javax.swing.SwingUtilities;
 import src.client.Server;
 import src.client.eventPoller;
 import src.client.ui.initgame.GamesPanel;
+import src.client.ui.initgame.ServerChooser;
 import src.client.ui.utils.ExamplesUtils;
 
 /**
@@ -15,9 +17,20 @@ public class StartGame {
     static Timer eventPollerTimer = null;
 
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            public void run() {
+                ServerChooser chooser= new ServerChooser(null, true);
+                chooser.setVisible(true);
+            }
+        });
+    }
+    
+    public static void StartGame()
+    {
         ExamplesUtils.setNativeLookAndFeel();
         startEventPollingTask();
-        ExamplesUtils.showExample("Join Game", new GamesPanel());
+        ExamplesUtils.showExample("Join Game", new GamesPanel());    
     }
 
     private static void startEventPollingTask() {
