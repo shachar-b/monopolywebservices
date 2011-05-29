@@ -6,7 +6,6 @@ import java.util.Iterator;
 import src.listeners.innerChangeEventListener.InnerChangeListenableClass;
 import src.client.GameManager;
 import src.players.Player;
-import src.ui.OfferType;
 
 /**
  * abstract class AssetGroup extends InnerChangeListenableClass implements Collection<Asset>, Offerable
@@ -66,13 +65,6 @@ public abstract class AssetGroup extends InnerChangeListenableClass implements C
      */
     public Asset get(int index) {
         return assetsInGroup.get(index);
-    }
-
-    /* (non-Javadoc)
-     * @see assets.Offerable#getType()
-     */
-    public OfferType getType() {
-        return OfferType.Groups;
     }
 
     //collection functions

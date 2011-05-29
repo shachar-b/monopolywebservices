@@ -41,17 +41,6 @@ public class Player extends InnerChangeListenableClass {
     }
 
     /**
-     * method Boolean equals(Player other)
-     * @visibility public
-     * Checks if two player instances are identical.
-     * @param other A player to compare with.
-     * @return true IFF both players have the exact same name.
-     */
-    public Boolean equals(Player other) {
-        return Name.equals(other.getName());
-    }
-
-    /**
      * method String getName()
      * @visibility public
      * Getter for Name.

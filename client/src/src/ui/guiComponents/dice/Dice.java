@@ -9,7 +9,6 @@ import src.listeners.gameActions.GameActionEvent;
 import src.listeners.gameActions.GameActionEventListener;
 import src.listeners.gameActions.GameActionsListenableClass;
 import src.client.GameManager;
-
 import src.ui.utils.Utils;
 
 /**
@@ -62,11 +61,9 @@ public class Dice extends GameActionsListenableClass {
             @Override
             public void eventHappened(GameActionEvent innerChangeEvet) {
                 done();
-
             }
         };
         timer.scheduleAtFixedRate(new ThrowDice(dice1, dice2, text, performWhenDone), 0, 100);
-
     }
 
     /**

@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import src.client.GameManager;
-
 import src.ui.utils.Utils;
 
 /**

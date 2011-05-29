@@ -9,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent.EventType;
 import src.assets.Asset;
 import src.assets.City;
 import src.players.Player;
@@ -28,8 +27,6 @@ public class GameManager {
     public static int clientPlayerID = -1;
     public static String clientName = "not joined";
     public static String currentJoinedGame = "not joined";
-    public final static int SUBTRACT = -1;
-    public final static int ADD = 1;
     public static final int START_SQ_LOCATION = 0;
     public static final Player assetKeeper = null;
     public static final String IMAGES_FOLDER = "src/resources/images/";

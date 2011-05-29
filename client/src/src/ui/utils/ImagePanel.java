@@ -15,16 +15,12 @@ import javax.swing.JPanel;
  */
 public class ImagePanel extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     private Image image;
     private Image scaledImage;
     private int imageWidth = 0;
     private int imageHeight = 0;
     private String imagePath;
-    //private long paintCount = 0;
     private boolean retainAspectRatio = false;
 
     /**
@@ -134,14 +130,11 @@ public class ImagePanel extends JPanel {
             if (ih == 0) {
                 ih = -1;
             }
-
             scaledImage = image.getScaledInstance(
                     new Float(iw).intValue(), new Float(ih).intValue(), Image.SCALE_REPLICATE);
-
         } else {
             scaledImage = image;
         }
-
     }
 
     /**

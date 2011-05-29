@@ -1,7 +1,5 @@
 package src.squares;
 
-import src.squares.Square;
-
 /**
  * public class StartSquare extends Square
  * @see Square

@@ -23,15 +23,15 @@ public class RefreshGamePlayersTask extends TimerTask {
     @Override
     public void run() {
         if (gameName != null) {
-            final List<PlayerDetails> players = Server.getInstance().getPlayersDetails(gameName);
-            System.out.println("Running code on thread: " + Thread.currentThread().getName());
-            SwingUtilities.invokeLater(new Runnable() {
+                final List<PlayerDetails> players = Server.getInstance().getPlayersDetails(gameName);
+                System.out.println("Running code on thread: " + Thread.currentThread().getName());
+                SwingUtilities.invokeLater(new Runnable() {
 
-                public void run() {
-                    System.out.println("Running code on thread: " + Thread.currentThread().getName());
-                    gamePanel.setGamePlayers(players);
-                }
-            });
+                    public void run() {
+                        System.out.println("Running code on thread: " + Thread.currentThread().getName());
+                        gamePanel.setGamePlayers(players);
+                    }
+                });
         }
     }
 }
