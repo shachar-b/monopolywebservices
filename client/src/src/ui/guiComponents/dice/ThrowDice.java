@@ -13,9 +13,6 @@ import src.listeners.gameActions.GameActionEventListener;
  */
 class ThrowDice extends TimerTask {
 
-    private JLabel dice1;
-    private JLabel dice2;
-    private JLabel text;
     private Random rg = new Random();
     private int count;
     int dice1Outcome;
@@ -31,9 +28,6 @@ class ThrowDice extends TimerTask {
      * @param preformWhenDone- an valid non null GameActionEventListener to run when die roll is finished
      */
     public ThrowDice(JLabel dice1, JLabel dice2, JLabel text, GameActionEventListener preformWhenDone) {
-        this.dice1 = dice1;
-        this.dice2 = dice2;
-        this.text = text;
         count = NUM_OF_THROWS;
         this.preformWhenDone = preformWhenDone;
     }

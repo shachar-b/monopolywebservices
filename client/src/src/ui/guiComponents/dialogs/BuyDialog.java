@@ -16,8 +16,10 @@ import src.ui.guiComponents.Squares.SquarePanel;
 import src.ui.guiComponents.Squares.SqurePanelFactory;
 
 /**
- *
- * @author Shachar
+ *public class BuyDialog extends javax.swing.JDialog
+ * public
+ * this is used to prompt player to decide if he wants to buy somthing
+ * @author Omer Shenhar and Shachar Butnaro
  */
 public class BuyDialog extends javax.swing.JDialog {
 
@@ -25,7 +27,15 @@ public class BuyDialog extends javax.swing.JDialog {
     private Asset assetToOffer;
     java.awt.Frame parent;
 
-    /** Creates new form BuyDialog */
+    /**
+     * public BuyDialog(java.awt.Frame parent, boolean modal, Asset asset, boolean buyAsset, int eventID) 
+     * public
+     * @param parent - frame for super
+     * @param modal -is modal
+     * @param asset- the asset in qustion
+     * @param buyAsset- true if u want to buy the asset false for a house
+     * @param eventID - the event ID of the prompt event
+     */
     public BuyDialog(java.awt.Frame parent, boolean modal, Asset asset, boolean buyAsset, int eventID) {
         super(parent, modal);
         this.parent = parent;

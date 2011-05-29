@@ -35,6 +35,9 @@ public class GameManager {
     public static UI currentUI = null;
     public static HashMap<String, PlayerDetails> joined = new HashMap<String, PlayerDetails>();//name detailes
     public static final TimerTask feeder = new EventFeeder();
+    public static final int MIN_DIE_OUTCOME=1;
+     public static final int MAX_DIE_OUTCOME=6;
+    public static boolean hasResigned=false;
     private ArrayList<Player> gamePlayers;
     private ArrayList<Square> gameBoard;
     public static GameManager staticInstance;

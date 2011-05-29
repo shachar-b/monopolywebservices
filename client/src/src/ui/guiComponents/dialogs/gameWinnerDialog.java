@@ -6,12 +6,21 @@
 package src.ui.guiComponents.dialogs;
 
 /**
- *
- * @author Shachar
+ * public class gameWinnerDialog extends javax.swing.JDialog 
+ * public
+ * opens a game over dialog which states the game winner and lets the player exit
+ * @author Shachar Butnero and Omer Shenhar
  */
 public class gameWinnerDialog extends javax.swing.JDialog {
 
-    /** Creates new form gameWinnerDialog */
+   
+     
+   /**
+     * Creates new form gameWinnerDialog 
+     * @param parent- the owner frame for super
+     * @param modal- is modal
+     * @param winMessage - a proper message stating the winner
+     */ 
     public gameWinnerDialog(java.awt.Frame parent, boolean modal, String winMessage) {
         super(parent, modal);
         initComponents();

@@ -49,8 +49,10 @@ public class Dice extends GameActionsListenableClass {
     }
 
     /**
-     * public void makeItRoll()
+     * public void makeItRoll(int serverOutcome1, int serverOutcome2)
      * starts the dice roll outcome
+     * @param serverOutcome1 the dice outcome to set in die1
+     * @param serverOutcome2 the dice outcom to set in die2
      */
     public void makeItRoll(int serverOutcome1, int serverOutcome2) {
         this.serverOutcome1 = serverOutcome1;

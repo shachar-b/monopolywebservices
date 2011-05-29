@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import src.client.GameManager;
+import src.client.Server;
 
 /**
  * public class ExitDiaglog extends JDialog
