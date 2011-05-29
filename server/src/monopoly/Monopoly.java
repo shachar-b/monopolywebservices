@@ -498,7 +498,10 @@ public class Monopoly {
                         quitter = p;
                     }
                 }
-                quitters.add(quitter);
+                if(quitter!=null)///make sure no mis use due to invalid player ID(thou it should not happen)
+                {
+                    quitters.add(quitter);
+                }
             } else {
                 //do some error event becuse player cheated or ignore
             }
