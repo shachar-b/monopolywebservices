@@ -9,6 +9,7 @@ import comm.MonopolyGame;
 import comm.MonopolyGamePortType;
 import comm.MonopolyResult;
 import comm.PlayerDetailsResult;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
@@ -26,11 +27,11 @@ public class BackendService {
 
     private MonopolyGamePortType monopolyGamePortType;
 
-    public BackendService() {
+    public BackendService()throws ConnectException {
         monopolyGamePortType = new MonopolyGame().getMonopolyGameHttpSoap11Endpoint();   
     }
     
-    public BackendService(String url) throws MalformedURLException {
+    public BackendService(String url) throws MalformedURLException,ConnectException {
             this.monopolyGamePortType = new MonopolyGame(new URL(url)).getMonopolyGameHttpSoap11Endpoint();
     }
 
@@ -124,5 +125,9 @@ public class BackendService {
     public MonopolyResult resign(int playerID) {
         MonopolyResult result = monopolyGamePortType.resign(playerID);
         return result;
+    }
+
+    void testConnection() throws ConnectException {
+        monopolyGamePortType.getWaitingGames();
     }
 }

@@ -100,8 +100,12 @@ public class ServerChooser extends javax.swing.JDialog {
            }
            else
            {
-               NOTOK(url);
+               NOTOK(url+" is invalid");
            }
+        }
+        catch(ExceptionInInitializerError e)
+        {
+            NOTOK("an error occerd while attmpting connection");
         }
         
     }//GEN-LAST:event_submitButtonActionPerformed
@@ -132,7 +136,20 @@ public class ServerChooser extends javax.swing.JDialog {
 
     private void OK(String url) {
         boolean hasConnection;
-        hasConnection=Server.getInstance().setAdderss(url);
+        try
+        {
+            hasConnection=Server.getInstance().setAdderss(url);
+        }
+        catch(Exception e)
+        {
+            NOTOK("an error occared: try again");   
+            return;
+        }
+        catch(Error  e)
+        {
+            NOTOK("an error occared: try again");   
+            return;
+        }
         if(hasConnection)
         {
             this.dispose();
@@ -146,8 +163,8 @@ public class ServerChooser extends javax.swing.JDialog {
         
     }
 
-    private void NOTOK(String url) {
-                    JOptionPane.showMessageDialog(this, "URL invalid "+url, "Server Communication Error", JOptionPane.ERROR_MESSAGE);
+    private void NOTOK(String message) {
+                    JOptionPane.showMessageDialog(this, message, "Server Communication Error", JOptionPane.ERROR_MESSAGE);
 
     }
 }

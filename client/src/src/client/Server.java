@@ -2,6 +2,7 @@ package src.client;
 
 import comm.Event;
 import comm.MonopolyResult;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.List;
@@ -42,10 +43,13 @@ public class Server {
                 backendService = new BackendService(url);
             }
 
-            backendService.getActiveGames();
+            backendService.testConnection();
         } catch (HTTPException e) {
             return false;
         }
+       catch (ConnectException e) {
+            return false;
+        } 
         catch (MalformedURLException ex) {
                     return false;
         }
