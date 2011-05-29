@@ -52,7 +52,6 @@ public class AssetSquarePanel extends SquarePanel {
     public AssetSquarePanel(Asset representedAsset, boolean enableHoverMode) {
         super(representedAsset);
         this.representedAsset = representedAsset;
-        //to disallow editing
 
         AssetInformation = new TransparentTable();
 
@@ -135,6 +134,7 @@ public class AssetSquarePanel extends SquarePanel {
         AssetInformationModel.addRow(new String[]{"Current Rent Price:", ""
                     + ((hasOwner) ? representedAsset.getRentPrice() : 0)});
         if (representedAsset instanceof City) {
+            AssetInformationModel.addRow(new String[]{"Houses built:  " , ""+((City)representedAsset).getNumHouses()});
             int[] prices = ((City) representedAsset).getPrices();
             AssetInformationModel.addRow(new String[]{"Base rent Price :", "" + representedAsset.getRentPrice()});
             for (int i = 1; i < prices.length; i++) {

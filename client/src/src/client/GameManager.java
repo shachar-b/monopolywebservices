@@ -153,7 +153,8 @@ public class GameManager {
                     SwingUtilities.invokeLater(new Runnable() {
 
                         public void run() {
-                            BuyDialog diag = new BuyDialog((JFrame) currentUI.getFrame(), true, (Asset) gameBoard.get(eventBoardSquareID), true, eventID);
+                            boolean buyAsset = (eventID==12);
+                            BuyDialog diag = new BuyDialog((JFrame) currentUI.getFrame(), true, (Asset) gameBoard.get(eventBoardSquareID), buyAsset, eventID);
                             diag.setVisible(true);
                         }
                     });
