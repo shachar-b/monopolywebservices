@@ -144,7 +144,6 @@ public class UI {
             frame.addLineToConsole(message);
         } else {
             ; //Do nothing, Swing thread is being lazy and hasnt started yet.
-            //TODO : FIX BUG HERE (Ver. 2.0)
         }
 
     }

@@ -157,7 +157,7 @@ public class BuyDialog extends javax.swing.JDialog {
         if (buyAsset) {
             mes += " the Asset " + asset.getName() + " for " + asset.getCost() + "? ";
         } else { //Here buying house in asset
-            mes += " house number " + ((City) asset).getNumHouses() + " at " + asset.getName() + " for " + ((City) asset).getCostOfHouse() + "? ";
+            mes += " house number " + (((City) asset).getNumHouses()+1) + " at " + asset.getName() + " for " + ((City) asset).getCostOfHouse() + "? ";
         }
         this.setTitle(mes);
         titleLabel.setText(mes);
