@@ -36,6 +36,7 @@ public class GamesPanel extends javax.swing.JPanel {
     private ListSelectionListener listSelectionListener;
     private boolean clientAlreadyJoined = false;
 
+
     /** Creates new form GamesPanel */
     public GamesPanel() {
         GameManager.resetAllStaticVars();
@@ -143,7 +144,7 @@ public class GamesPanel extends javax.swing.JPanel {
             }
         }
         for (PlayerDetails player : GameManager.joined.values()) {
-            playersListModel.addElement(player.getName() + "(" + player.getAmount() + ")");
+            playersListModel.addElement(player.getName() + "(" + Server.getInstance().getInitialBalance() + ")");
         }
         playersList.setSelectedIndices(selectedIndicies);
         waitingGamesList.getSelectionModel().addListSelectionListener(listSelectionListener);
