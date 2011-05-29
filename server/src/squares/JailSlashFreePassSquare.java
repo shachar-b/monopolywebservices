@@ -64,6 +64,5 @@ public class JailSlashFreePassSquare extends Square {
         } else {
             player.setGoOnNextTurn(false);
         }
-        GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
     }
 }
