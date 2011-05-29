@@ -259,6 +259,7 @@ public abstract class Player extends InnerChangeListenableClass {
     }
 
     /**
+     * public void setActive(boolean isActive)
      * @param isActive the isActive to set
      */
     public void setActive(boolean isActive) {
