@@ -21,6 +21,7 @@ public class MonopolyGame {
 
     private MonopolyGameManager gameManager;
     static MonopolyGameManager gameManagerHandle;
+    static int gameID=0;
 
     public MonopolyGame() {
         gameManager = new MonopolyGameManager();
@@ -52,17 +53,18 @@ public class MonopolyGame {
     }
 
     public MonopolyResult startGame(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
+        gameID++;
         if (gameManager.getNumberOfGames() > 0) {
-            if (gameManager.isGameStarted(gameName)) {
-                return MonopolyResult.error("A game '" + gameName + "' has already been started");
+            if (gameManager.isGameStarted(gameID+"."+gameName)) {
+                return MonopolyResult.error("A game '" + gameID+"."+gameName + "' has already been started");
             } else {
                 return MonopolyResult.error("Only one game is supported, game " + gameManager.getGamesNames().toString() + " is on.");
             }
         } else {
-            gameManager.addGame(gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
+            gameManager.addGame(gameID+"."+gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
             if (checkGameLegitimacy(humanPlayers, computerizedPlayers)) {
                 for (int i = 0; i < computerizedPlayers; i++) {//Add computer players
-                    gameManager.joinPlayer(gameName, "Computer" + (i + 1), false);
+                    gameManager.joinPlayer(gameID+"."+gameName, "Computer" + (i + 1), false);
                 }
             }
             return new MonopolyResult();

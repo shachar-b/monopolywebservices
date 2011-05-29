@@ -131,12 +131,13 @@ public abstract class Player extends InnerChangeListenableClass {
         if (sign == GameManager.SUBTRACT) {
             if (amount > Balance)//Can have balance of zero - but not negative balance
             {
+                int balanceHelper = Balance;
                 Balance = BANKRUPT; //To signal that player has no money left.
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
                 GameManager.currentGame.eventDispatch(ID, "forfeit");
                 fireEvent("removed");
-                return Balance;//returns the amount of money taken
+                return ((balanceHelper==BANKRUPT)?0:balanceHelper);//returns the amount of money taken
             }
         }
         message = this.Name + ((sign == 1) ? " got " : " pays ") + amount + GameManager.MoneySign;
