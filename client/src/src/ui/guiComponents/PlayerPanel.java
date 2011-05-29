@@ -128,6 +128,7 @@ public class PlayerPanel extends GameActionsListenableClass {
         Dice.getGameDice().resetDiceListeners();
         Server.getInstance().resign(GameManager.clientPlayerID);
         Forfeit.setEnabled(false);
+        GameManager.hasResigned=true;
         revalidate();
         repaint();
     }

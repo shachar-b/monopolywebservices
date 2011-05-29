@@ -24,24 +24,41 @@ import src.client.GameManager;
 import src.client.Server;
 
 /**
- * @author Shachar
+ * public class manualDiceRollDialog extends JDialog
+ * the manualDiceRollDialog is used to prompt user for die- the die options min/max are as stated in GameMannger
+ * @author Omer Shenhar and Shachar Butnaro
  */
 public class manualDiceRollDialog extends JDialog {
 
     private int eventID;
     private static final long serialVersionUID = 1L;
-
+     /**
+     * public manualDiceRollDialog(Frame owner, int eventID)
+     * @param owner- the owner frame for Jdialogs constractor
+     * @param eventID - the event ID of the Dice Prompt event
+     */
     public manualDiceRollDialog(Frame owner, int eventID) {
         super(owner, true);
         this.eventID = eventID;
         initComponents();
     }
 
+    /**
+     * private void okButtonActionPerformed(ActionEvent e)
+     * private
+     * @param e - the click event
+     * this sets the die on the server and exit
+     */
     private void okButtonActionPerformed(ActionEvent e) {
         Server.getInstance().setDiceRollResults(GameManager.clientPlayerID, eventID, (Integer) dice1.getValue(), (Integer) dice2.getValue());
         this.dispose();
     }
 
+    /**
+     * private void initComponents()
+     * private
+     * init all components
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         dialogPane = new JPanel();
@@ -75,13 +92,12 @@ public class manualDiceRollDialog extends JDialog {
                 //======== spinnersPanel ========
                 {
                     spinnersPanel.setLayout(new BoxLayout(spinnersPanel, BoxLayout.X_AXIS));
-
                     //---- dice1 ----
-                    dice1.setModel(new SpinnerNumberModel(1, 0, 36, 1));
+                    dice1.setModel(new SpinnerNumberModel(1, GameManager.MIN_DIE_OUTCOME, GameManager.MAX_DIE_OUTCOME, 1));
                     spinnersPanel.add(dice1);
 
                     //---- dice2 ----
-                    dice2.setModel(new SpinnerNumberModel(1, 0, 36, 1));
+                    dice2.setModel(new SpinnerNumberModel(1, GameManager.MIN_DIE_OUTCOME, GameManager.MAX_DIE_OUTCOME, 1));
                     spinnersPanel.add(dice2);
                 }
                 contentPanel.add(spinnersPanel, BorderLayout.CENTER);
@@ -103,6 +119,7 @@ public class manualDiceRollDialog extends JDialog {
                         okButtonActionPerformed(e);
                     }
                 });
+                
                 buttonBar.add(okButton, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                         GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                         new Insets(0, 0, 0, 5), 0, 0));

@@ -29,6 +29,9 @@ public class UI {
 
     private MainWindow frame;
 
+    /**
+     * s constructor for the UI and start of main window
+     */
     public UI() {
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -42,12 +45,18 @@ public class UI {
         });
     }
 
+    /**
+     * 
+     * @return the main window
+     */
     public MainWindow getFrame() {
         return frame;
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLanded(players.Player, squares.Square)
+    /**
+     * 
+     * @param p- a non null player
+     * @param currSQ -the square on which the player is sitting
      */
     public void notifyPlayerLanded(Player p, Square currSQ) {
         String message = "Player " + p.getName() + " landed on square "
@@ -57,8 +66,8 @@ public class UI {
         frame.getPlayerPanel().setSquarePanelContent(currSQ, p);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#setPlayerPanel(players.Player, int, squares.Square)
+    /**
+     * sets the player Panel
      */
     public void setPlayerPanel() {
         frame.setPlayerPanel();
@@ -66,78 +75,90 @@ public class UI {
         frame.repaint();
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyGameWinner(players.Player)
+    /**
+     * notifys game winner
+     * @param message  a message to display
      */
     public void notifyGameWinner(String message) {
         gameWinnerDialog diag = new gameWinnerDialog(frame, true, message);
         diag.setVisible(true);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPassStartSquare(int)
+    /**
+     * notifys a player Passed StartSquare
+     * @param playerName - a valid non null player
      */
     public void notifyPassStartSquare(String playerName) {
         displayMessage("Player " + playerName + " passed through \"GO!\" square and will recieve a reward!");
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerPays(players.Player, assets.Asset, players.Player)
+    /**
+     * notify Player Pays
+     * @param message -the message to display
      */
     public void notifyPlayerPays(String message) {
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerBoughtAsset(players.Player, assets.Asset)
+    /**
+     * notifys a Player Bought an asset
+     * @param player- a valid non null player
+     * @param asset - a valid non null asset
      */
     public void notifyPlayerBoughtAsset(Player player, Asset asset) {
         String message = player.getName() + " bought " + asset.getName() + " for " + asset.getCost() + "!";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerBoughtHouse(players.Player, assets.City)
+    /**
+     * notifys a Player has Bought a House
+     * @param player - a valid non null player
+     * @param asset - a valid non null asset
      */
     public void notifyPlayerBoughtHouse(Player player, City asset) {
         String message = player.getName() + " bought house number " + asset.getNumHouses() + " in " + asset.getName() + " for " + asset.getCostOfHouse() + "!";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLandsOnParkingSquare(players.Player)
+    /**
+     * notifys that a Player Landed On Parking Square
+     * @param player a valid non null player
      */
     public void notifyPlayerLandsOnParkingSquare(Player player) {
         String message = player.getName() + " landed on parking, and will not move on the following round.!";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLandsOnStartSquare(players.Player)
+    /**
+     * notifys that a Player Landed On StartSquare
+     * @param playerName - the player name
      */
     public void notifyPlayerLandsOnStartSquare(String playerName) {
         String message = playerName + " has stepped on \"GO\" square and gets an additional bonus!";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLandsOnJailFreePass(players.Player)
+    /**
+     * notify Player Lands OnJailFreePass on free pass mode
+     * @param player - a valid non null player
      */
     public void notifyPlayerLandsOnJailFreePass(Player player) {
         String message = player.getName() + " is walking through the free pass.";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLandsOnGoToJail(players.Player)
+    /**
+     * notifys that a player was thrown to jail
+     * @param player - a valid not null player
      */
     public void notifyPlayerLandsOnGoToJail(Player player) {
         String message = player.getName() + " is thrown to Jail!";
         displayMessage(message);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#displayMessage(java.lang.String)
+    /**
+     * writes a message to console
+     * @param message - a non empty string 
      */
     public void displayMessage(String message) {
         if (frame != null) {
@@ -174,8 +195,9 @@ public class UI {
         cardDialog.setVisible(true);
     }
 
-    /* (non-Javadoc)
-     * @see ui.IUI#notifyPlayerLeftGame(players.Player)
+    /**
+     * notifys a player has left the game and removes him from the board
+     * @param p - a valid non null player
      */
     public void notifyPlayerLeftGame(Player p) {
         String message = "player " + p.getName() + " has left the game!";
@@ -183,11 +205,23 @@ public class UI {
         displayMessage(message);
     }
 
+    /**
+     * notifyes a player has got a card
+     * @param player- a non null valid player
+     * @param isSurprise- true for supprise false otherwise
+     * @param cardText - the card text to display
+     */
     public void notifyPlayerGotCard(Player player, boolean isSurprise, String cardText) {
         displayMessage("Player " + player.getName() + " got a card: " + cardText);
         displaySelfClosingCardDialog(player, cardText, isSurprise);
     }
 
+    /**
+     * mooves the player on the painted board
+     * @param p- a non null valid player 
+     * @param boardSquareID- the squre id player is currently on
+     * @param nextBoardSquareID - the next squre id the player moves to
+     */
     public void movePlayer(Player p, Integer boardSquareID, Integer nextBoardSquareID) {
         Square newSquare = GameManager.staticInstance.getGameBoard().get(nextBoardSquareID);
         p.setCurrentPosition(nextBoardSquareID);
@@ -198,11 +232,19 @@ public class UI {
         }
     }
 
+    /**
+     * opens a promt for dice dialog
+     * @param eventID - the prompt event id
+     */
     public void promptPlayerToChooseDice(int eventID) {
         manualDiceRollDialog diag = new manualDiceRollDialog(frame, eventID);
         diag.setVisible(true);
     }
 
+    /**
+     * notifyis that a player has used the GOJF card
+     * @param value - the message to display
+     */
     public void notifyPlayerUsedJailCard(String value) {
         displayMessage(value);
     }
