@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent.EventType;
 import src.assets.Asset;
 import src.assets.City;
 import src.players.Player;
@@ -96,6 +97,7 @@ public class GameManager {
 
     public void handelEvent(Event event) {
         final int eventID = event.getEventID();
+        final int eventType = event.getEventType().intValue();
         final int eventBoardSquareID = event.getBoardSquareID();
         final int eventNextBoardSquareID = event.getNextBoardSquareID();
         Player pl = null;
@@ -103,7 +105,7 @@ public class GameManager {
             pl = getPlayerByName(event.getPlayerName().getValue());
 
         }
-        switch (event.getEventType().intValue()) {
+        switch (eventType) {
 
 
             /*
@@ -153,7 +155,7 @@ public class GameManager {
                     SwingUtilities.invokeLater(new Runnable() {
 
                         public void run() {
-                            boolean buyAsset = (eventID==12);
+                            boolean buyAsset = (eventType==12);
                             BuyDialog diag = new BuyDialog((JFrame) currentUI.getFrame(), true, (Asset) gameBoard.get(eventBoardSquareID), buyAsset, eventID);
                             diag.setVisible(true);
                         }
