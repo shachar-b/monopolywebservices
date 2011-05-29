@@ -50,7 +50,12 @@ public class UtilOrTranspoAsset extends Asset {
             }
         });
     }
-
+    /**
+     *  public int getBasicRent()
+     * public
+     * 
+     * @return the basic rent price for this group
+     */
     public int getBasicRent() {
         return basicRental;
     }
@@ -71,6 +76,9 @@ public class UtilOrTranspoAsset extends Asset {
         }
     }
 
+    /**
+     * 
+     */
     protected void update() {
         this.fireEvent("an item of this group has changed owner update all");
     }

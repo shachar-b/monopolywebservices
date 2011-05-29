@@ -15,27 +15,42 @@ import monopoly.results.PlayerDetailsResult;
 
 /**
  *
- * @author blecherl
+ * @author blec
  */
 public class MonopolyGame {
 
     private MonopolyGameManager gameManager;
     static MonopolyGameManager gameManagerHandle;
-    static int gameID=0;
+    static int gameID = 0;
 
+    /**
+     * a constructor for this game
+     */
     public MonopolyGame() {
         gameManager = new MonopolyGameManager();
         gameManagerHandle = gameManager;
     }
-
+/**
+     * 
+     * @return the game board schema file as string
+     */
     public String getGameBoardSchema() {
         return getFileAsString(GameManager.SchemaFile);
     }
 
+    /**
+     * 
+     * @return the game bored XML as string
+     */
     public String getGameBoardXML() {
         return getFileAsString(GameManager.DataFile);
     }
 
+    /**
+     * 
+     * @param path a path of a valid text file
+     * @return the file as string
+     */
     public String getFileAsString(String path) {
         InputStream is = null;
         try {
@@ -52,25 +67,38 @@ public class MonopolyGame {
         }
     }
 
+    /**
+     * if a game can be started a new game whould be started with the given name plus a uniqe number
+     * @param gameName- a name for the game
+     * @param humanPlayers- the number of human players 
+     * @param computerizedPlayers- the number of computer players
+     * @param useAutomaticDiceRoll- true to use auto dice roll false to promot
+     * @return an error or approval of game start
+     */
     public MonopolyResult startGame(String gameName, int humanPlayers, int computerizedPlayers, boolean useAutomaticDiceRoll) {
         gameID++;
         if (gameManager.getNumberOfGames() > 0) {
-            if (gameManager.isGameStarted(gameID+"."+gameName)) {
-                return MonopolyResult.error("A game '" + gameID+"."+gameName + "' has already been started");
+            if (gameManager.isGameStarted(gameID + "." + gameName)) {
+                return MonopolyResult.error("A game '" + gameID + "." + gameName + "' has already been started");
             } else {
                 return MonopolyResult.error("Only one game is supported, game " + gameManager.getGamesNames().toString() + " is on.");
             }
         } else {
-            gameManager.addGame(gameID+"."+gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
+            gameManager.addGame(gameID + "." + gameName, humanPlayers, computerizedPlayers, useAutomaticDiceRoll);
             if (checkGameLegitimacy(humanPlayers, computerizedPlayers)) {
                 for (int i = 0; i < computerizedPlayers; i++) {//Add computer players
-                    gameManager.joinPlayer(gameID+"."+gameName, "Computer" + (i + 1), false);
+                    gameManager.joinPlayer(gameID + "." + gameName, "Computer" + (i + 1), false);
                 }
             }
             return new MonopolyResult();
         }
     }
-
+    /**
+     * 
+     * @param humanPlayers- a number of human players
+     * @param computerizedPlayers- the number of computerized Players
+     * @return true if the given numbers are valid false otherwise
+     */
     private boolean checkGameLegitimacy(int humanPlayers, int computerizedPlayers) {
         int totalPlayers = humanPlayers + computerizedPlayers;
         if (totalPlayers >= GameManager.MIN_NUMBER_OF_PLAYERS && totalPlayers <= GameManager.MAX_NUMBER_OF_PLAYERS) {
@@ -82,6 +110,11 @@ public class MonopolyGame {
         return false;
     }
 
+    /**
+     * 
+     * @param gameName- the game name 
+     * @return the game details if it is alive false otherwise
+     */
     public GameDetailsResult getGameDetails(String gameName) {
         if (!gameManager.isGameStarted(gameName)) {
             return GameDetailsResult.error("Game '" + gameName + "' has not been started");
@@ -92,7 +125,10 @@ public class MonopolyGame {
                     gameManager.getJoinedHumanPlayers(gameName), gameManager.isAutomaticDiceRoll(gameName));
         }
     }
-
+/**
+     * 
+     * @return  the names of the waiting games
+     */
     public String[] getWaitingGames() {
         List<String> results = new LinkedList<String>();
         for (String gameName : gameManager.getGamesNames()) {
@@ -102,7 +138,10 @@ public class MonopolyGame {
         }
         return results.toArray(new String[results.size()]);
     }
-
+/**
+     * 
+     * @return the names of the Active games
+     */
     public String[] getActiveGames() {
         List<String> results = new LinkedList<String>();
         for (String gameName : gameManager.getGamesNames()) {
@@ -112,7 +151,12 @@ public class MonopolyGame {
         }
         return results.toArray(new String[results.size()]);
     }
-
+/**
+     * 
+     * @param gameName the name of the game
+     * @param playerName the name of the player
+     * @return an id if the player joined error otherwise
+     */
     public IDResult joinGame(String gameName, String playerName) {
         if (gameManager.isGameStarted(gameName)
                 && !gameManager.isGameActive(gameName)) {
@@ -122,6 +166,12 @@ public class MonopolyGame {
         }
     }
 
+    
+    /**
+     * 
+     * @param gameName- the name of the game
+     * @return the details of all players
+     */
     public PlayerDetailsResult getPlayersDetails(String gameName) {
         if (!gameManager.isGameStarted(gameName)) {
             return PlayerDetailsResult.error("Game '" + gameName + "' has not been started");
@@ -134,6 +184,11 @@ public class MonopolyGame {
         }
     }
 
+    /**
+     * 
+     * @param eventID- the event Id of the first id to get
+     * @return a list of all events from ID to the end (or an error)
+     */
     public EventArrayResult getAllEvents(int eventID) {
         //validate evendID against last eventID
         if (eventID <= Monopoly.getCurrentEventID() && eventID >= 0) {
@@ -147,6 +202,14 @@ public class MonopolyGame {
         }
     }
 
+    /**
+     * 
+     * @param playerID- the player for whome to set the dice
+     * @param eventID- the event who we responded
+     * @param dice1- the first dice res
+     * @param dice2- the second dice res
+     * @return an error or sucssess message
+     */
     public MonopolyResult setDiceRollResults(int playerID, int eventID, int dice1, int dice2) {
         //validate evendID against last eventID
         //validate playerID against games players and players state
@@ -164,6 +227,11 @@ public class MonopolyGame {
         }
     }
 
+    /**
+     * 
+     * @param playerID- the ID of the player who want to resign
+     * @return an error on fail or succuss message
+     */
     public MonopolyResult resign(int playerID) {
         //validate playerID against games players and players state
         if (GameManager.currentGame == null) {
@@ -174,6 +242,13 @@ public class MonopolyGame {
         return new MonopolyResult();
     }
 
+    /**
+     * 
+     * @param playerID- the sender ID
+     * @param eventID- the event id this relates to
+     * @param buy - should the asset be boght
+     * @return an error on fail or succuss message
+     */
     public MonopolyResult buy(int playerID, int eventID, boolean buy) {
         //validate evendID against last eventID
         //validate playerID against games players and players state
@@ -195,13 +270,19 @@ public class MonopolyGame {
                     throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
                 }
             } else {
-                
+
                 GameManager.currentGame.eventDispatch(playerID, "endTurn");
                 return new MonopolyResult(false, "asset have not been bougnt");
             }
         }
     }
-
+    /**
+     * 
+     * @param playerID-the player ID who was given
+     * @param eventID - the event ID which was given
+     * @param AlowedEventTypes-the event types which are allowed (1 or more)
+     * @return true if the last event is the ID is of the given player the eventID is for last event and the type fits
+     */
     private MonopolyResult validatePlayerAndEventID(int playerID, int eventID, EventImpl.EventTypes... AlowedEventTypes) {
         if (GameManager.currentGame == null) {
             return new MonopolyResult(true, "no game is active");

@@ -45,6 +45,12 @@ public class Monopoly {
     public final int ENDTURN = 2;
     private final boolean useAutoDiceRoll;
 
+    /**
+     * a constructor for the monopoly game
+     * @param gameName- a non null name
+     * @param players- a list of 2-6 players
+     * @param useAutoDiceRoll -true to enable auto dice roll false to prompt
+     */
     public Monopoly(String gameName, ArrayList<Player> players, boolean useAutoDiceRoll) {
         //eventList = new ArrayList<Event>();
         this.gameName = gameName;
@@ -71,7 +77,10 @@ public class Monopoly {
         surprise = gameInitializer.initSurprise();
         callUp = gameInitializer.initCallUp();
     }
-
+/**
+     * 
+     * @return the name of this game
+     */
     public String getGameName() {
         return gameName;
     }
@@ -83,7 +92,9 @@ public class Monopoly {
     public void play() {
         eventDispatch(currentActivePlayer.getID(), "start");
     }
-
+/**
+     * this should be called once a game is over in order to make the server take more games in the futare
+     */
     private void endGameSequence() {
         TimeOutTasks.stopTimer();
         String winner = getCurrentActivePlayer().getName();
@@ -98,11 +109,8 @@ public class Monopoly {
     }
 
     /**
-     * private void doComputerRound()
-     * Computers are controlled by a state machine, on a separate Thread.
-     * The run() function of the Thread directs the computer player to take appropriate
-     * actions, depending on the current state (depicted by the field "state".
-     * The function also resets the state when the player is done.
+     * private void doRound()
+     * starts the round for all players
      */
     private void doRound() {
         currentPlayerSquare = gameBoard.get(currentActivePlayer.getCurrentPosition());
@@ -174,6 +182,10 @@ public class Monopoly {
         }
     }
 
+    /**
+     * 
+     * @return the event id of the last event in the queue
+     */
     public static int getCurrentEventID() {
         if (eventList.isEmpty()) {
             return -1;
@@ -181,7 +193,11 @@ public class Monopoly {
             return eventList.get(eventList.size() - 1).getEventID();
         }
     }
-
+    /**
+     *  
+     * @param ID an int
+     * @return ture if the last event in the queue has the given ID
+     */
     public static boolean isLastEventID(int ID) {
         if (Monopoly.eventList.isEmpty()) {
             return false;
@@ -195,6 +211,11 @@ public class Monopoly {
         }
     }
 
+    /**
+     * 
+     * @param type the type to look for
+     * @return true if the last evet of this type
+     */
     static boolean isLastEventIDType(EventTypes type) {
         if (Monopoly.eventList.isEmpty()) {
             return false;
@@ -207,7 +228,10 @@ public class Monopoly {
             }
         }
     }
-
+    /**
+     * addes a new event to the queue
+     * @param e - the event to be added- a valid event
+     */
     public static void addEvent(Event e) {
         try {
             Thread.currentThread().sleep(300);
@@ -217,10 +241,21 @@ public class Monopoly {
         eventList.add(e);
     }
 
+    /**
+     * 
+     * @param id- the location of the nedded event(must be a valid location)
+     * @return the event at the place
+     */
     public static Event getEventAt(int id) {
         return eventList.get(id);
     }
 
+    /**
+     * 
+     * @param id gets all events after the given place
+     * @return a list of event which are after the given place
+     * 
+     * */
     public static ArrayList<Event> getEventsFrom(int id) {
         ArrayList<Event> returnVal = new ArrayList<Event>();
         for (int i = id; i < eventList.size(); i++) {
@@ -510,7 +545,10 @@ public class Monopoly {
         playerIndex--;
         removePlayerFromGame(getCurrentActivePlayer());
     }
-
+/**
+     * this function buys a asset or a house at the current place(must be called from a Asset with no owner or 
+     * a city where houses can be built)
+     */
     public void buyWhatYouAreSittingOn() {
         Asset curr = (Asset) gameBoard.get(currentActivePlayer.getCurrentPosition());
         if (curr.getOwner() == GameManager.assetKeeper) {
@@ -520,6 +558,10 @@ public class Monopoly {
         }
     }
 
+    /**
+     * makes sure the current asset can be bought and that a house can be built
+     * @return true if a buy is legal at this time
+     */
     public boolean isLegalBuyOP() {
         Square curr = gameBoard.get(currentActivePlayer.getCurrentPosition());
         boolean retVal = false;
@@ -530,11 +572,19 @@ public class Monopoly {
         }
         return retVal;
     }
-
+/**
+     * 
+     * @return true if the game is auto roll false otherwise
+     */
     public boolean isAutoDiceRoll() {
         return useAutoDiceRoll;
     }
-
+/**
+     * 
+     * 
+     * @param ID an id
+     * @return true if there is a player with the given id false otherwise
+     */
     boolean isValidPlayerID(int ID) {
         for (Player p : gamePlayers) {
             if (p.isActive() && p.getID() == ID) {

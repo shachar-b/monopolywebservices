@@ -14,7 +14,7 @@ import players.Player;
 
 /**
  *
- * @author blecherl
+ * @author blecherl -as given by liron
  */
 public class MonopolyGameManager {
 

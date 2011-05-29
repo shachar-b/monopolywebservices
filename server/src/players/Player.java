@@ -34,7 +34,7 @@ public abstract class Player extends InnerChangeListenableClass {
      * @visibility public
      * Creates a new player and sets his position and balance, and makes him active.
      * @param name A String containing the name of the new player.
-     * @param playerIcon2 an ImagePanel holding the player's icon
+     * @param ID the player ID
      */
     public Player(String name, int ID) {
         Name = name;
@@ -58,9 +58,8 @@ public abstract class Player extends InnerChangeListenableClass {
 
     /** method void buyDecision(Asset asset)
      * @visibility public
-     * Lets a player choose whether to buy an asset or not.
+     * pompts a player to choose whether to buy an asset or not.
      * @param asset The asset that the player can buy
-     * @return true - player chooses to buy an asset by clicking the appropriate button in the GUI.
      */
     public void buyDecision(Asset asset) {
         Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName(), EventImpl.EventTypes.PromptPlayerToBuyAsset, getName() + ",buy asset " + asset.getName() + "?", getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
@@ -72,7 +71,6 @@ public abstract class Player extends InnerChangeListenableClass {
      * @visibility public
      * Lets a player choose whether to buy a house in a city or not.
      * @param asset The city the player is on.
-     * @return true - player chooses to buy a house by clicking the appropriate button in the GUI.
      */
     public void buyHouseDecision(City asset) {
         Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName(), EventImpl.EventTypes.PromptPlayerToBuyHouse, this.getName() + ",buy House at " + asset.getName() + "?", getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
@@ -124,6 +122,8 @@ public abstract class Player extends InnerChangeListenableClass {
      * Changes the player's balance.
      * @param amount An integer containing the amount of money to be added/subtracted from player.
      * @param sign An integer specifying the direction of the change (Add/Subtract)
+     * @param isPaymentToOrFromTrsry 
+     * @param isPaymentFromUser
      * @return An integer containing the amount that actually moved.
      */
     public int ChangeBalance(int amount, int sign, boolean isPaymentToOrFromTrsry, boolean isPaymentFromUser) {
