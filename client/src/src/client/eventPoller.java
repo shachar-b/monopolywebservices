@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.TimerTask;
 
 /**
- *
- * @author Shachar
+ *  An event poller class, handles getting the events from the server, and putting them in an event queue.
+ * @author Shachar Butnaro and Omer Shenhar
  */
 public class eventPoller extends TimerTask {
 
@@ -17,6 +17,12 @@ public class eventPoller extends TimerTask {
     }
 
     @Override
+    /**
+     * Gets events from server, from after the lastEvent received.
+     * If events were indeed receives, increments the lastEvent appropriately
+     * and adds them to the event queue.
+     * Also yields so that the event feeder can take priority in handling them.
+     */
     public void run() {
         System.out.println("Running code on thread: " + Thread.currentThread().getName());
         List<Event> events = Server.getInstance().getAllEvents(lastEvent);

@@ -15,7 +15,7 @@ import src.players.Player;
  * @author Omer Shenhar and Shachar Butnaro
  *
  */
-public abstract class AssetGroup extends InnerChangeListenableClass implements Collection<Asset>, Offerable {
+public abstract class AssetGroup extends InnerChangeListenableClass implements Collection<Asset> {
 
     protected ArrayList<Asset> assetsInGroup;
     protected String nameOfGroup;

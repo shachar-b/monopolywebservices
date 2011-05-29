@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import src.listeners.innerChangeEventListener.InnerChangeListenableClass;
 import src.ui.utils.ImagePanel;
 import src.assets.Asset;
-import src.assets.Offerable;
+import src.assets.AssetGroup;
 import src.client.GameManager;
 
 /**
@@ -31,6 +31,7 @@ public class Player extends InnerChangeListenableClass {
      * Creates a new player and sets his position and balance, and makes him active.
      * @param name A String containing the name of the new player.
      * @param playerIcon2 an ImagePanel holding the player's icon
+     * @param  initalFunds an int stating the starting amount of money the player has.
      */
     public Player(String name, ImagePanel playerIcon2, int initalFunds) {
         Name = name;
@@ -60,6 +61,9 @@ public class Player extends InnerChangeListenableClass {
         return playerIcon;
     }
 
+    /**
+     * Removes the assets the player had from his possesion and returns them to the treasury.
+     */
     public void remove() {
         ArrayList<Asset> assetListToClear = getAssetList();
         while (!assetListToClear.isEmpty())//remove ownership from all remaining assets
@@ -69,10 +73,17 @@ public class Player extends InnerChangeListenableClass {
         fireEvent("removed");
     }
 
+    /**
+     * Setter for the boolean wantsToQuit.
+     */
     public void setWantsToQuit() {
         this.wantsToQuit = true;
     }
 
+    /**
+     * Getter for wantsToQuit
+     * @return true IFF wantsToQuit is set.
+     */
     public boolean getWantsToQuit() {
         return wantsToQuit;
     }
@@ -166,8 +177,8 @@ public class Player extends InnerChangeListenableClass {
      * Returns a list of all groups that the player holds.
      * @return a list containing all groups that the player holds.
      */
-    public ArrayList<Offerable> getGroups() {
-        ArrayList<Offerable> result = new ArrayList<Offerable>();
+    public ArrayList<AssetGroup> getGroups() {
+        ArrayList<AssetGroup> result = new ArrayList<AssetGroup>();
         for (Asset current : assetList) {
             if (!result.contains(current.getGroup())) {
                 if (current.getGroup().isOfSoleOwnership()) {

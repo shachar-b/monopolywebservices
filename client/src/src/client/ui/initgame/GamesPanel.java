@@ -36,13 +36,10 @@ public class GamesPanel extends javax.swing.JPanel {
     private ListSelectionListener listSelectionListener;
     private boolean clientAlreadyJoined = false;
 
-
     /** Creates new form GamesPanel */
     public GamesPanel() {
-        GameManager.resetAllStaticVars();
         gamesListModel = new DefaultListModel();
         playersListModel = new DefaultListModel();
-
         listSelectionListener = new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
@@ -120,6 +117,11 @@ public class GamesPanel extends javax.swing.JPanel {
         playersRefrshTimer = Server.getInstance().startPolling("Game Players Timer", new RefreshGamePlayersTask(this, gameName), 0, 1);
     }
 
+    /**
+     * Starts the game monitor task, which checks when a game has started and starts the GUI.
+     * @param gameName
+     * @param playerName 
+     */
     private void startGameMonRefreshTask(String gameName, String playerName) {
         if (gameMonRefreshTimer != null) {
             gameMonRefreshTimer.cancel();

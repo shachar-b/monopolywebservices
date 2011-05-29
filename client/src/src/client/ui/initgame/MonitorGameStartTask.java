@@ -8,8 +8,8 @@ import src.client.Server;
 import src.client.ui.utils.EventTypes;
 
 /**
- *
- * @author Shachar
+ *  A class to monitor when a game has started, which then starts the GUI.
+ * @author Shachar Butnaro and Omer Shenhar
  */
 public class MonitorGameStartTask extends TimerTask {
 
@@ -24,6 +24,11 @@ public class MonitorGameStartTask extends TimerTask {
     }
 
     @Override
+    /**
+     * Checks the event queue - If events are present, pops them until reaching one that is 
+     * of the correct game, and that is of a GameStart type.
+     * Upon such an event, the GUI is started and the game begins on the client side.
+     */
     public void run() {
         System.out.println("Running code on thread: " + Thread.currentThread().getName());
         if (!Server.getInstance().isEventQueueEmpty()) {
