@@ -12,16 +12,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.xml.ws.http.HTTPException;
 
 /**
- *
- * @author blecherl
+ *  An encapsulation layer for the backend service. Allows for the definition of 
+ * a game server, and managing the relevant game functions on it.
+ * @author blecherl, modified by Shachar Butnaro and Omer Shenhar
  */
 public class Server {
 
     private static Server instance = null;
     private BackendService backendService;
-    private String serverURL;
     private ConcurrentLinkedQueue<Event> eventQueue = new ConcurrentLinkedQueue<Event>();
     private boolean hasConnetion = false;
+    private final int SERVER_INITIAL_AMOUNT=1500;
 
     static {
         instance = new Server();
@@ -32,7 +33,7 @@ public class Server {
     }
 
     private Server() {
-        hasConnetion = setAdderss("");
+        //Creation of a localhost server is being managed by setAddress in the backend Service.
     }
 
     public boolean setAdderss(String url) {
@@ -129,5 +130,18 @@ public class Server {
 
     public boolean hasConnection() {
         return hasConnetion;
+    }
+
+    /**
+     * As the server continues autonomously and the client catches up, there might be changes
+     * in the players' balance, prior to the GUI opening and the game starting on the client side.
+     * We have consulted with Amir Kirsh, and he confirmed it is a design flaw, therefore, we assume
+     * that the starting balance is 1500 (can be changed by the appropriate const), until a change
+     * in the design occurs (wsdl and everything) sometime in the future.
+     * @return The player's initial balance.
+     */
+    public int getInitialBalance() {
+        //Doesnt consult Backend.
+        return SERVER_INITIAL_AMOUNT;
     }
 }

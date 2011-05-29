@@ -68,7 +68,7 @@ public abstract class AssetGroup extends InnerChangeListenableClass implements C
     }
 
     //collection functions
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see java.util.Collection#add(java.lang.Object)
      */
     @Override

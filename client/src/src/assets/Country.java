@@ -6,7 +6,6 @@ package src.assets;
  * public
  * @see AssetGroup
  * @author Omer Shenhar and Shachar Butnaro
- *
  */
 public class Country extends AssetGroup {
 

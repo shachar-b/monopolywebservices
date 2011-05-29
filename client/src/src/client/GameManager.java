@@ -65,11 +65,12 @@ public class GameManager {
     }
 
     private ArrayList<Player> convertPlayerDetailsToPlayers(Collection<PlayerDetails> list) {
+        int initialBalance = Server.getInstance().getInitialBalance();
         PlayerDetails[] helper = new PlayerDetails[list.size()];
         helper = list.toArray(helper);
         ArrayList<Player> result = new ArrayList<Player>();
         for (int i = 0; i < helper.length; i++) {
-            result.add(new Player(helper[i].getName(), new ImagePanel(PLAYER_ICONS_PATH + (i + 1) + ".png"), helper[i].getAmount()));
+            result.add(new Player(helper[i].getName(), new ImagePanel(PLAYER_ICONS_PATH + (i + 1) + ".png"), initialBalance));
         }
 
         return result;
@@ -150,7 +151,7 @@ public class GameManager {
             case 13://PromptPlayerToBuyHouse
                 if (event.getPlayerName().getValue().equals(GameManager.clientName) && pl.getWantsToQuit() == false) {
                     SwingUtilities.invokeLater(new Runnable() {
-
+                        //Update player's details here. It's ugly, but it could work.
                         public void run() {
                             boolean buyAsset = (eventType==12);
                             BuyDialog diag = new BuyDialog((JFrame) currentUI.getFrame(), true, (Asset) gameBoard.get(eventBoardSquareID), buyAsset, eventID);
