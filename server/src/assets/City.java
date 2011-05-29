@@ -52,15 +52,15 @@ public class City extends Asset {
     @Override
     public void playerArrived(Player player) {
         super.playerArrived(player); //Check for the other options
-        if (canHouseBeBuilt(player)) {
-            player.buyHouseDecision(this);
-        } else if (owner == player) //the player owns this but isnt able to do anything
+        if (GameManager.currentGame != null) //Comes back here after game closes - if game has closed, do nothing.
         {
-            GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+            if (canHouseBeBuilt(player)) {
+                player.buyHouseDecision(this);
+            } else if (owner == player) //the player owns this but isnt able to do anything
+            {
+                GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+            }
         }
-
-
-
     }
 
     /**
@@ -70,8 +70,8 @@ public class City extends Asset {
      * Deducts money from player, increases number of houses in city, and fires a notifier event to the listeners.
      */
     public void BuyHouse(Player player) {
-        Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
-                "house numer " + numHouses + 1 + " has been built at " + name, player.getName(), player.getCurrentPosition()));
+        Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.HouseBoughtMessage,
+                "house number " + numHouses + 1 + " has been built at " + name, player.getName(), player.getCurrentPosition()));
         player.ChangeBalance(costOfHouse, GameManager.SUBTRACT, true, false);
         numHouses++;
         fireEvent("user bought house at " + this.getName()); // if anything changed notify Listeners

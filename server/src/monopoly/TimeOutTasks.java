@@ -17,10 +17,7 @@ public class TimeOutTasks {
         stopTimer();
         if (GameManager.currentGame.getGamePlayers().contains(P)) {
             timer = new Timer();
-            Date currDate = new Date();
-            System.err.println("Starting at - " + currDate.toString());
-            System.err.println(GameManager.TIMEOUT_IN_SECONDS + " RECEIVED!");
-            timer.schedule(new PlayerPromptTimeOutTimerTask(P), (long) (GameManager.TIMEOUT_IN_SECONDS * GameManager.CONVERT_MS_TO_SECONDS));
+            timer.schedule(new PlayerPromptTimeOutTimerTask(), (long) (GameManager.TIMEOUT_IN_SECONDS * GameManager.CONVERT_MS_TO_SECONDS));
         }
     }
 
@@ -29,23 +26,12 @@ public class TimeOutTasks {
             timer.cancel();
         }
         timer = null;
-
     }
 
     private static class PlayerPromptTimeOutTimerTask extends TimerTask {
 
-        private Player player;
-
-        public PlayerPromptTimeOutTimerTask(Player p) {
-            this.player = p;
-        }
-
         public void run() {
-            Date currDate = new Date();
-            System.err.println("Ending at  - " + currDate.toString());
-            GameManager.currentGame.eventDispatch(player.getID(), "forfeit");            
-            //TODO : This is a problem when a played has resigned, but still has a pending timer.
-            //When the timer expires, the turn will end, allowing the continuation of the game.
+            GameManager.currentGame.forfeit();
         }
     }
 }

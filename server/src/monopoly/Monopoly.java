@@ -501,11 +501,11 @@ public class Monopoly {
     }
 
     /**
-     * method private void forfeit()
+     * method  void forfeit()
      * This method removes the current player from the game.
      * As a by-product, ends his turn.
      */
-    private void forfeit() {
+    void forfeit() {
         TimeOutTasks.stopTimer();
         playerIndex--;
         removePlayerFromGame(getCurrentActivePlayer());
