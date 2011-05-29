@@ -195,7 +195,7 @@ public class MonopolyGame {
                     throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
                 }
             } else {
-
+                
                 GameManager.currentGame.eventDispatch(playerID, "endTurn");
                 return new MonopolyResult(false, "asset have not been bougnt");
             }
