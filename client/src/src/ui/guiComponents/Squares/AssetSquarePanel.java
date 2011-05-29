@@ -76,7 +76,6 @@ public class AssetSquarePanel extends SquarePanel {
             DataArea.add(SaleOrRentPrice, BorderLayout.CENTER);
             DataArea.add(owner, BorderLayout.CENTER);
             this.setToolTipText("click the square for more details");
-
         } else {
             DataArea.add(AssetInformation, BorderLayout.CENTER);
         }
@@ -85,13 +84,10 @@ public class AssetSquarePanel extends SquarePanel {
             @Override
             public void eventHappened(InnerChangeEvet innerChangeEvet) {
                 UpdateTable();
-
             }
         });
-
         this.validate();
         this.repaint();
-
     }
 
     /**
@@ -99,11 +95,8 @@ public class AssetSquarePanel extends SquarePanel {
      * opens an hover window with the info table 
      */
     private void makeHover() {
-
         hoverDialog hoverInfo = new hoverDialog(this);
         hoverInfo.setVisible(true);
-
-
     }
 
     /**
@@ -134,12 +127,11 @@ public class AssetSquarePanel extends SquarePanel {
         AssetInformationModel.addRow(new String[]{"Current Rent Price:", ""
                     + ((hasOwner) ? representedAsset.getRentPrice() : 0)});
         if (representedAsset instanceof City) {
-            AssetInformationModel.addRow(new String[]{"Houses built:  " , ""+((City)representedAsset).getNumHouses()});
+            AssetInformationModel.addRow(new String[]{"Houses built:  ", "" + ((City) representedAsset).getNumHouses()});
             int[] prices = ((City) representedAsset).getPrices();
             AssetInformationModel.addRow(new String[]{"Base rent Price :", "" + representedAsset.getRentPrice()});
             for (int i = 1; i < prices.length; i++) {
                 AssetInformationModel.addRow(new String[]{"Rent Price with " + i + " houses:", "" + prices[i]});
-
             }
 
         } else if (representedAsset instanceof UtilOrTranspoAsset) {
@@ -147,7 +139,6 @@ public class AssetSquarePanel extends SquarePanel {
             UtilOrTranspoAssetGroup tempGroup = ((UtilOrTranspoAssetGroup) temp.getGroup());
             AssetInformationModel.addRow(new String[]{"Rent for single Asset:", "" + temp.getBasicRent()});
             AssetInformationModel.addRow(new String[]{"Rent for entire group:", "" + tempGroup.getFullRental()});
-
         }
         AssetInformation.setFont(new Font("Tahoma", Font.PLAIN, 8));
     }

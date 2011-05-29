@@ -22,7 +22,6 @@ public class ImageOnlySquarePanel extends SquarePanel {
      */
     public ImageOnlySquarePanel(Square representedSquare, String path) {
         super(representedSquare);
-        //JLabel imageLabel = new JLabel(imageIcon);
         ImagePanel imageLabel = new ImagePanel(path);
         this.add(imageLabel, BorderLayout.CENTER);
     }

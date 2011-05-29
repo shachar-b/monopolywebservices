@@ -46,7 +46,6 @@ public class TransparentTable extends JTable {
                 return false;
             }
         });
-
     }
 
     /* (non-Javadoc)

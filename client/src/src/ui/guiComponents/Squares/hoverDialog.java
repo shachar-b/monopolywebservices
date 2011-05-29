@@ -64,6 +64,5 @@ public class hoverDialog extends JDialog {
         this.dispose();
         owner.validate();
         owner.repaint();
-
     }
 }

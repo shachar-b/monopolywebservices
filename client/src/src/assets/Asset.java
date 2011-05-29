@@ -3,7 +3,6 @@ package src.assets;
 import src.client.GameManager;
 import src.players.Player;
 import src.squares.Square;
-import src.ui.OfferType;
 
 /**
  * public abstract class Asset extends Square implements Offerable
@@ -82,14 +81,7 @@ public abstract class Asset extends Square {
     public AssetGroup getGroup() {
         return group;
     }
-
-    /* (non-Javadoc)
-     * @see assets.Offerable#getType()
-     */
-    public OfferType getType() {
-        return OfferType.Assets;
-    }
-
+    
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */

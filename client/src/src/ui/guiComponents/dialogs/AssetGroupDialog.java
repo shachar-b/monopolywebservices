@@ -105,7 +105,6 @@ public class AssetGroupDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 dispose();
-
             }
         });
         cardsPane = new JPanel(new GridLayout(1, 0));
@@ -119,7 +118,5 @@ public class AssetGroupDialog extends JDialog {
         contentPane.add(buttonBar, BorderLayout.SOUTH);
         pack();
         setLocationRelativeTo(getOwner());
-
-
     }
 }
