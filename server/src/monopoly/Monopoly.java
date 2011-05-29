@@ -346,6 +346,7 @@ public class Monopoly {
             surprise.add(player.getGetOutOfJailFreeCardPlaceHolder());
         }
         gamePlayers.remove(player);
+        player.setActive(false);
 
         if (player.getBalance() == Player.BANKRUPT) {
             type = EventTypes.PlayerLost;
