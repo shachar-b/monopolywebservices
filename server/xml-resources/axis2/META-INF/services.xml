@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serviceGroup>
-    <service name="MonopolyGame" scope="application">
+    <service name="MonopolyGame039339155" scope="application">
         <description>MonopolyGame service</description>
         <messageReceivers>
             <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"/>
