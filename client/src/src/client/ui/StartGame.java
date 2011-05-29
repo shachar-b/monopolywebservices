@@ -16,6 +16,10 @@ public class StartGame {
 
     static Timer eventPollerTimer = null;
 
+    /*
+     * This is the entry point of the client.
+     * Launches a server chooser window.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -26,6 +30,9 @@ public class StartGame {
         });
     }
     
+    /**
+     * Launches the game creation, selection and joining window.
+     */
     public static void StartGame()
     {
         ExamplesUtils.setNativeLookAndFeel();
@@ -33,11 +40,17 @@ public class StartGame {
         ExamplesUtils.showExample("Join Game", new GamesPanel());    
     }
 
+    /**
+     * Starts the event polling task
+     */
     private static void startEventPollingTask() {
         eventPoller.resetEventPoller();
         eventPollerTimer = Server.getInstance().startPolling("Event polling timer", new eventPoller(), 0, 2);
     }
 
+    /**
+     * Stops the event polling task
+     */
     public static void stopEventPollingTask() {
         if (eventPollerTimer != null) {
             eventPollerTimer.cancel();

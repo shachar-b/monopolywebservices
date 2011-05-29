@@ -22,7 +22,6 @@ public class ActionCardSquare extends Square {
         sign = sign1;
     }
 
-
     /* (non-Javadoc)
      * @see squares.Square#getName()
      */
@@ -36,6 +35,5 @@ public class ActionCardSquare extends Square {
      */
     public boolean IsCallUp() {
         return sign == -1;
-
     }
 }

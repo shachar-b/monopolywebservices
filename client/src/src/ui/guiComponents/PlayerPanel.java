@@ -18,7 +18,7 @@ import src.listeners.gameActions.GameActionEvent;
 import src.listeners.gameActions.GameActionEventListener;
 import src.listeners.gameActions.GameActionsListenableClass;
 import src.assets.Asset;
-import src.assets.Offerable;
+import src.assets.AssetGroup;
 import src.client.GameManager;
 import src.client.Server;
 import src.players.Player;
@@ -105,8 +105,8 @@ public class PlayerPanel extends GameActionsListenableClass {
         }
 
         DefaultMutableTreeNode groupsNode = new DefaultMutableTreeNode("Groups");
-        ArrayList<Offerable> groupsList = representedPlayer.getGroups();
-        for (Offerable group : groupsList) {
+        ArrayList<AssetGroup> groupsList = representedPlayer.getGroups();
+        for (AssetGroup group : groupsList) {
             groupsNode.add(new DefaultMutableTreeNode(group.getName()));
         }
 

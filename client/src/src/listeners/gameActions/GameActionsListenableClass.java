@@ -1,7 +1,6 @@
 package src.listeners.gameActions;
 
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
 /**

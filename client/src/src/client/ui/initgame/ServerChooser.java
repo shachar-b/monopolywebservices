@@ -12,16 +12,15 @@ package src.client.ui.initgame;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import src.client.Server;
 import src.client.ui.StartGame;
 
 /**
- *
- * @author omer
+ *  A Dialog which allows you to choose the server to which you want to
+ * connect. If no address was input, uses the default URL which is:
+ * http://localhost:8080/axis2/services/MonopolyGame
+ * @author Shachar Butnaro and Omer Shenhar
  */
 public class ServerChooser extends javax.swing.JDialog {
 
@@ -95,8 +94,7 @@ public class ServerChooser extends javax.swing.JDialog {
         } catch (URISyntaxException ex) {
            if(url.equals(""))
            {
-               OK(url);
-               
+               OK(url);           
            }
            else
            {
@@ -105,9 +103,8 @@ public class ServerChooser extends javax.swing.JDialog {
         }
         catch(ExceptionInInitializerError e)
         {
-            NOTOK("an error occerd while attmpting connection");
+            NOTOK("An error occured while attempting connection");
         }
-        
     }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
@@ -134,6 +131,11 @@ public class ServerChooser extends javax.swing.JDialog {
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Check the URL. if connection is possible, dispose of the Dialog,
+     * and start the game selection window.
+     * @param url 
+     */
     private void OK(String url) {
         boolean hasConnection;
         try
@@ -142,29 +144,30 @@ public class ServerChooser extends javax.swing.JDialog {
         }
         catch(Exception e)
         {
-            NOTOK("an error occared: try again");   
+            NOTOK("An error occured: try again.");   
             return;
         }
         catch(Error  e)
         {
-            NOTOK("an error occared: try again");   
+            NOTOK("An error occured: try again.");   
             return;
         }
         if(hasConnection)
         {
             this.dispose();
             StartGame.StartGame();
-            
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "could not start connection to given URL", "Server Communication Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Could not start connection to given URL", "Server Communication Error", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
 
+    /**
+     * If connection is not available, issue a proper error message.
+     * @param message 
+     */
     private void NOTOK(String message) {
                     JOptionPane.showMessageDialog(this, message, "Server Communication Error", JOptionPane.ERROR_MESSAGE);
-
     }
 }

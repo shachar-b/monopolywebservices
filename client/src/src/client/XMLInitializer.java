@@ -24,6 +24,9 @@ public class XMLInitializer {
     generated.jaxb.Monopoly monopolyCollection;
     private final int NUMBER_OF_SQUARES = 36;
 
+    /**
+     * Unmarshalls the XML file using JAXB, so the game will be ready to be initialized.
+     */
     public XMLInitializer() {
         String xmlData = Server.getInstance().getGameBoardXML();
         InputStream xmlFile = new ByteArrayInputStream(xmlData.getBytes());
@@ -38,6 +41,12 @@ public class XMLInitializer {
         }
     }
 
+        /**
+     * method ArrayList<Square> initBoard()
+     * public
+     * Initializes the game board
+     * @return an Initialized game board
+     */
     public ArrayList<Square> initBoard() {
         UtilOrTranspoAssetGroup utilities = initUtilities(); //Inits the utils assets, and returns the group, which is a list.
         UtilOrTranspoAssetGroup transportation = initTransportation(); //Inits the transportation assets, and returns the group, which is a list.
@@ -78,6 +87,10 @@ public class XMLInitializer {
         return gameBoard;
     }
 
+    /**
+     * Initializes the utiliy assets and puts the in them correct group.
+     * @return The utilities group
+     */
     private UtilOrTranspoAssetGroup initUtilities() {
         long stayCost = monopolyCollection.getAssets().getUtilities().getStayCost();
         UtilOrTranspoAssetGroup utilGroup = new UtilOrTranspoAssetGroup("Utilities", (int) stayCost);
@@ -87,6 +100,10 @@ public class XMLInitializer {
         return utilGroup;
     }
 
+    /**
+     * Initializes the transportation assets and puts them in the correct group.
+     * @return The transportation group
+     */
     private UtilOrTranspoAssetGroup initTransportation() {
         long stayCost = monopolyCollection.getAssets().getTransportations().getStayCost();
         UtilOrTranspoAssetGroup transpoGroup = new UtilOrTranspoAssetGroup("Transportation", (int) stayCost);
@@ -96,6 +113,10 @@ public class XMLInitializer {
         return transpoGroup;
     }
 
+    /**
+     *  Initializes the cities, and puts each city in the correct country.
+     * @return A list of initialized countries
+     */
     private ArrayList<Country> initCountries() {
         ArrayList<Country> countriesList = new ArrayList<Country>();
         for (generated.jaxb.Monopoly.Assets.Countries.Country currentCountry : monopolyCollection.getAssets().getCountries().getCountry()) {
@@ -108,7 +129,12 @@ public class XMLInitializer {
         }
         return countriesList;
     }
-
+    
+  /**
+     * Returns a list of all the cities in the game.
+     * @param countries The list of countries in the game.
+     * @return List containing the cities.
+     */
     private ArrayList<City> getCitiesList(ArrayList<Country> countries) {
         ArrayList<City> result = new ArrayList<City>();
         for (Country country : countries) {

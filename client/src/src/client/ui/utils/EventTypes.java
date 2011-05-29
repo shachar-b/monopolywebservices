@@ -1,8 +1,8 @@
 package src.client.ui.utils;
 
 /**
- *
- * @author Shachar
+ *  An enumerated type to make using the different event type codes more convinient.
+ * @author Shachar Butnaro and Omer Shenhar.
  */
 public enum EventTypes {
 
