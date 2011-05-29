@@ -65,7 +65,12 @@ public abstract class Asset extends Square {
             GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
         }
     }
-
+    /**
+     * public void buyAsset(Player player)
+     * public
+     * 
+     * @param player - the player who want to buy the asset
+     */
     public void buyAsset(Player player) {
         Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
                 name + " has been bougnt", player.getName(), player.getCurrentPosition()));

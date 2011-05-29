@@ -36,7 +36,9 @@ import java.io.InputStream;
 public class XMLInitializer implements MonopolyInitilizer {
 
     generated.jaxb.Monopoly monopolyCollection;
-
+   /**
+     * a constructor for the XML initilizer
+     */
     public XMLInitializer() {
         InputStream xmlFile = getClass().getClassLoader().getResourceAsStream(GameManager.DataFile);
         JAXBContext jc;
