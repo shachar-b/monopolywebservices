@@ -132,7 +132,7 @@ public abstract class Player extends InnerChangeListenableClass {
             if (amount > Balance)//Can have balance of zero - but not negative balance
             {
                 int balanceHelper = Balance;
-                Balance = BANKRUPT; //To signal that player has no money left.
+                Balance = BANKRUPT; //To signal that player has no money left - and will be exempt from the game on his next turn.
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
                 GameManager.currentGame.eventDispatch(ID, "forfeit");
