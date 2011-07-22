@@ -114,16 +114,27 @@ public class Monopoly {
      */
     private void doRound() {
         currentPlayerSquare = gameBoard.get(currentActivePlayer.getCurrentPosition());
+        
         switch (state) {
             case START:
                 state++;//next state is roll die
 
                 for (int i = 0; i < quitters.size(); i++) { //Handle quitters
                     Player quitter = quitters.get(i);
-                    if (currentActivePlayer == quitter) {
-                        quitters.remove(i);
-                        forfeit();
-                        return;
+                    if(quitter.getBalance()==Player.BANKRUPT)
+                    {
+                         quitters.remove(i);
+                         i-=1;
+                         removePlayerFromGame(quitter);
+                    }
+                }
+                 for (int i = 0; i < quitters.size(); i++) { //Handle quitters
+                    Player quitter = quitters.get(i);
+                    if(quitter==currentActivePlayer)
+                    {
+                         quitters.remove(i);
+                         forfeit();
+                         return;
                     }
                 }
 
@@ -345,19 +356,30 @@ public class Monopoly {
         if (player.getGetOutOfJailFreeCardPlaceHolder() != null) {
             surprise.add(player.getGetOutOfJailFreeCardPlaceHolder());
         }
+        if(player!=currentActivePlayer)
+        {
+            int i=0;
+            for(i=0; i<gamePlayers.size(); i++)
+                if(gamePlayers.get(i)==player)
+                    break;
+            if(playerIndex>i)//otherwise do nothing
+                playerIndex--;
+        }
+        
         gamePlayers.remove(player);
         player.setActive(false);
 
-        if (player.getBalance() == Player.BANKRUPT) {
-            type = EventTypes.PlayerLost;
-            message = player.getName() + " has lost due to the fact he had no money";
-        } else {
+        if (player.getBalance() != Player.BANKRUPT) {//on any other case a player loses on bunkrupsy and a message is sent
             type = EventTypes.PlayerResigned;;
             message = player.getName() + " has left the game due to the fact he choose forfeit or did not respond to the game requests in a timely manner";
+            Monopoly.addEvent(EventImpl.createNewGroupB(gameName, type, message, player.getName()));
+             endTurn();
         }
-        Monopoly.addEvent(EventImpl.createNewGroupB(gameName, type, message, player.getName()));
-
-        endTurn();
+        else if(player==currentActivePlayer)
+        {
+            endTurn();
+        }
+       
     }
 
     /**
