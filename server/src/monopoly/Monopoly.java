@@ -177,7 +177,7 @@ public class Monopoly {
                     }
                 } else {
                     TimeOutTasks.StartTimer(currentActivePlayer);
-                    Monopoly.addEvent(EventImpl.createNewPromptRollEvent(gameName, EventImpl.EventTypes.PromptPlayerToRollDice, "please roll the die or die :)", currentActivePlayer.getName(), GameManager.TIMEOUT_IN_SECONDS));
+                    Monopoly.addEvent(EventImpl.createNewPromptRollEvent(gameName, EventImpl.EventTypes.PromptPlayerToRollDice,currentActivePlayer.getName() + ", please roll the die or die :)", currentActivePlayer.getName(), GameManager.TIMEOUT_IN_SECONDS));
                     break;
                 }
 
@@ -446,8 +446,8 @@ public class Monopoly {
     }
 
     void throwDie(int die1, int die2) {
-        String message = "Rolled: " + die1 + "," + die2 + ".";
         String playerName = GameManager.currentGame.getCurrentActivePlayer().getName();
+        String message = playerName + " rolled: " + die1 + "," + die2 + ".";
         EventImpl.EventTypes typeCode = EventImpl.EventTypes.DiceRoll;
         Monopoly.addEvent(EventImpl.createNewDiceRollEvent(GameManager.currentGame.getGameName(), typeCode, message, playerName, die1, die2));
 
