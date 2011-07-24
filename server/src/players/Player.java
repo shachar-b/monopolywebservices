@@ -74,7 +74,7 @@ public abstract class Player extends InnerChangeListenableClass {
      */
     public void buyHouseDecision(City asset) {
         int price = asset.getCostOfHouse();
-        Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName(), EventImpl.EventTypes.PromptPlayerToBuyHouse, this.getName() + ",buy House at " + asset.getName() + " for a price of "+price+" ?", getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
+        Monopoly.addEvent(EventImpl.createNewGroupC(GameManager.currentGame.getGameName(), EventImpl.EventTypes.PromptPlayerToBuyHouse, this.getName() + ",buy House at " + asset.getName() + " for a price of " + price + " ?", getName(), GameManager.TIMEOUT_IN_SECONDS, getCurrentPosition()));//Prompt player to buy asset
     }
 
     /**
@@ -134,11 +134,14 @@ public abstract class Player extends InnerChangeListenableClass {
             {
                 int balanceHelper = Balance;
                 Balance = BANKRUPT; //To signal that player has no money left - and will be exempt from the game on his next turn.
+                message = this.Name + (" pays ") + amount + GameManager.MoneySign;
+                Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
+                        EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name, sign * balanceHelper));
                 Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                         EventImpl.EventTypes.PlayerLost, "the player " + Name + " is out of funds so he lost", Name));
                 GameManager.currentGame.eventDispatch(ID, "forfeit");
                 fireEvent("removed");
-                return ((balanceHelper==BANKRUPT)?0:balanceHelper);//returns the amount of money taken
+                return ((balanceHelper == BANKRUPT) ? 0 : balanceHelper);//returns the amount of money taken
             }
         }
         message = this.Name + ((sign == 1) ? " got " : " pays ") + amount + GameManager.MoneySign;
