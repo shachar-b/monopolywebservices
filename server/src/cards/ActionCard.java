@@ -103,7 +103,7 @@ public class ActionCard {
             } else { // get from Treasury
                 player.ChangeBalance(amount, sign, true, false);
             }
-            if (goOnNext == null && player!=null) {  //Added player!=null for resign inconvinience.
+            if (goOnNext == null) {
                 GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
             }
         }
