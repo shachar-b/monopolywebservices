@@ -147,7 +147,7 @@ public abstract class Player extends InnerChangeListenableClass {
         message = this.Name + ((sign == 1) ? " got " : " pays ") + amount + GameManager.MoneySign;
         Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
                 EventImpl.EventTypes.Payment, message, this.Name, isPaymentToOrFromTrsry, isPaymentFromUser, this.Name, sign * amount));
-        Balance -= amount;
+        Balance += (amount*sign);
         fireEvent("balance");
         return amount;
 
