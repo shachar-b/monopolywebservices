@@ -21,10 +21,10 @@ public class StartSquare extends Square {
     @Override
     public void playerArrived(Player player) {
         //3 events: first is the step on start second is the payment last is a call to end turn
-        String message = "player " + player.getName() + " landed on start and would recieve a bonus";
+        String message = "player " + player.getName() + " landed on start and would receive a bonus";
         Monopoly.addEvent(EventImpl.createNewGroupB(GameManager.currentGame.getGameName(),
                 EventImpl.EventTypes.LandedOnStartSquare, message, player.getName()));
-        message = "player " + player.getName() + " recieved " + GameManager.START_LAND_BONUS + GameManager.MoneySign;
+        message = "player " + player.getName() + " received " + GameManager.START_LAND_BONUS + GameManager.MoneySign;
         Monopoly.addEvent(EventImpl.createNewPaymentEvent(GameManager.currentGame.getGameName(),
                 EventImpl.EventTypes.Payment, message, player.getName(), true, false,
                 player.getName(), GameManager.START_LAND_BONUS));

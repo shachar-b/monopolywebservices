@@ -60,9 +60,12 @@ public abstract class Asset extends Square {
         if (owner == GameManager.assetKeeper) {
             player.buyDecision(this);
         } else if (owner != player) {
-            int amountRcvd = player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT, false, true);
+           boolean willGoBankrupt = player.getBalance()<getRentPrice();
+            int amountRcvd = willGoBankrupt? player.getBalance() : getRentPrice();
             this.owner.ChangeBalance(amountRcvd, GameManager.ADD, false, true);
-            GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
+            player.ChangeBalance(getRentPrice(), GameManager.SUBTRACT, false, true);
+            if (!willGoBankrupt) //If player went bankrupt - forfeit will call endTurn.
+                GameManager.currentGame.eventDispatch(player.getID(), "endTurn");
         }
     }
     /**
@@ -73,7 +76,7 @@ public abstract class Asset extends Square {
      */
     public void buyAsset(Player player) {
         Monopoly.addEvent(EventImpl.createNewGroupD(GameManager.currentGame.getGameName(), EventImpl.EventTypes.AssetBoughtMessage,
-                name + " has been bougnt", player.getName(), player.getCurrentPosition()));
+                name + " has been bought", player.getName(), player.getCurrentPosition()));
         player.ChangeBalance(cost, GameManager.SUBTRACT, true, false);
         setOwner(player);
     }
