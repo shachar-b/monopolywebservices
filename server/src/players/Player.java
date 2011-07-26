@@ -150,8 +150,6 @@ public abstract class Player extends InnerChangeListenableClass {
         Balance += (amount*sign);
         fireEvent("balance");
         return amount;
-
-
     }
 
     /**

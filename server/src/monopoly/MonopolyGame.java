@@ -273,7 +273,7 @@ public class MonopolyGame {
             } else {
 
                 GameManager.currentGame.eventDispatch(playerID, "endTurn");
-                return new MonopolyResult(false, "asset have not been bougnt");
+                return new MonopolyResult(false, "asset have not been bought");
             }
         }
     }

@@ -69,7 +69,7 @@
   </assets>
 
   <surprise>
-    <monetary num="2" text="Get %s NIS from treasury becuase you are cute" who="TREASURY" sum="400" />
+    <monetary num="2" text="Get %s NIS from treasury because you are cute" who="TREASURY" sum="400" />
     <monetary num="1" text="Get %s NIS from each player, gift for your Bar-Mizva" who="PLAYERS" sum="50" />
     <monetary num="1" text="You were selected as the best Monopoly player, get %s NIS from each player" who="PLAYERS" sum="10" />
     <goto num="2" text="Go to Start and get 400 NIS" to="START" />
