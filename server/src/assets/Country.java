@@ -35,7 +35,7 @@ public class Country extends AssetGroup {
                     return true;
                 }
             } catch (ClassCastException e) {//could only get here if the class has been handled incorrectly- could not recover
-                throw new RuntimeErrorException(null, "the Contry " + this.nameOfGroup + " has been added a non City object");
+                System.err.println("the Contry " + this.nameOfGroup + " has been added a non City object");
             }
         }
         return false;
