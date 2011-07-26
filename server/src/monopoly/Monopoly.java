@@ -144,7 +144,7 @@ public class Monopoly {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-                            throw new RuntimeException("state machine problem");
+                              System.err.println("state machine problem-sleep interapted");
                         }
                         state = ENDTURN;//nothing more to do in this turn
                         eventDispatch(currentActivePlayer.getID(), "getOutOfJail");
@@ -170,7 +170,7 @@ public class Monopoly {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-                            throw new RuntimeException("state machine problem");
+                            System.err.println("state machine problem-sleep interapted");
                         }
                         eventDispatch(currentActivePlayer.getID(), "throwDie");
                         break;
@@ -185,7 +185,7 @@ public class Monopoly {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException("state machine problem");
+                      System.err.println("state machine problem-sleep interapted");
                 }
                 state = START;//restart state machine for next player
                 eventDispatch(currentActivePlayer.getID(), "endTurn");

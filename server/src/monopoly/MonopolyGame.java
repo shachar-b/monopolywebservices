@@ -61,7 +61,7 @@ public class MonopolyGame {
                 try {
                     is.close();
                 } catch (IOException ex) {
-                    throw new RuntimeException("Encountered error while closing file: " + path);
+                   System.err.println("Encountered error while closing file: " + path);
                 }
             }
         }
@@ -267,7 +267,8 @@ public class MonopolyGame {
                     return new MonopolyResult(false, "asset bought");
                 } else {
 
-                    throw new RuntimeException("an falty attampt to buy was made-this is a fatal error ");
+                    System.err.println("an falty attampt to buy was made-this is a fatal error ");
+                    return new MonopolyResult("an falty attampt to buy was made-this is a fatal error ");
                 }
             } else {
 

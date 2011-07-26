@@ -69,7 +69,8 @@ public class UtilOrTranspoAsset extends Asset {
             try {
                 return ((UtilOrTranspoAssetGroup) group).getFullRental();
             } catch (ClassCastException e) {//could only get here if the class has been handled incorrectly- could not recover
-                throw new RuntimeErrorException(null, "The utility " + this.name + " has been added to a non Utility object");
+                System.err.println( "The utility " + this.name + " has been added to a non Utility object");
+                return basicRental;
             }
         } else {
             return basicRental;
