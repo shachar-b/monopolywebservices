@@ -175,7 +175,14 @@ public class MonopolyGameManager {
             currPlayerID++;
 
             if (isGameActive()) {
-                initNewGameSequence();
+                (new Thread() {
+
+                    @Override
+                    public void run() {
+                        initNewGameSequence();
+                    }
+                }).start();
+
             }
 
             return currPlayerID - 1;
