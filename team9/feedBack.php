@@ -7,17 +7,36 @@
 class FeedBack
 {
 
+    /**
+     * the conversation id(long)
+     * @var long
+     */
     private $m_ConversationID;
+
+    /**
+     * the ID of the user who have submited the feedback (long)
+     * @var long
+     */
     private $m_UserID;
+
+    /**
+     * the service rating given by the user(from a scale of 1 to 10)
+     * @var byte
+     */
     private $m_Grade;
+
+    /**
+     * if the user has submited any comments- the comments should be placed here
+     * @var string
+     */
     private $m_Comments;
 
     /**
      *  public constractor for feedback
-     * @param type $i_ConversationID - the conversation id in qustion (long)
-     * @param type $i_UserID - the ID of the user who have submited the feedback (long)
-     * @param type $i_Grade - the service rating given by the user(from a scale of 1 to 10)
-     * @param type $i_Comments  - if the user has submited any comments- the comments should be placed here
+     * @param long $i_ConversationID - the conversation id in qustion (long)
+     * @param long $i_UserID - the ID of the user who have submited the feedback (long)
+     * @param byte $i_Grade - the service rating given by the user(from a scale of 1 to 10)
+     * @param string $i_Comments  - if the user has submited any comments- the comments should be placed here
      */
     public function __construct($i_ConversationID, $i_UserID, $i_Grade, $i_Comments)
     {
@@ -60,7 +79,7 @@ class FeedBack
 
     /**
      * getter for the user given grade
-     * @return int a number from 1 to 10
+     * @return byte a number from 1 to 10
      */
     public function getGrade()
     {
@@ -71,7 +90,7 @@ class FeedBack
     //setters
     /**
      * sets the conversationID
-     * @param type $i_ConversationID - the conversation id in qustion (long)
+     * @param long $i_ConversationID - the conversation id in qustion (long)
      */
     public function setConversationID($i_ConversationID)
     {
@@ -81,7 +100,7 @@ class FeedBack
 
     /**
      * sets the UserID
-     * @param type $i_UserID - the ID of the user who have submited the feedback (long)
+     * @param long $i_UserID - the ID of the user who have submited the feedback (long)
      */
     public function setUserID($i_UserID)
     {
@@ -91,7 +110,7 @@ class FeedBack
 
     /**
      * sets the free text section
-     * @param type $i_Comments  - if the user has submited any comments- the comments should be placed here
+     * @param string $i_Comments  - if the user has submited any comments- the comments should be placed here
      */
     public function setComments($i_Comments)
     {
@@ -101,7 +120,7 @@ class FeedBack
 
     /**
      * sets the coversation rating
-     * @param type $i_Grade - the service rating given by the user(from a scale of 1 to 10)
+     * @param byte $i_Grade - the service rating given by the user(from a scale of 1 to 10)
      */
     public function setGrade($i_Grade)
     {
