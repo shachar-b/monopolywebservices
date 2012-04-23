@@ -11,12 +11,12 @@
  */
 interface IDBSerlizebleClass
 {
-
     /**
      *
      * @return IDBSerlizebleClass - returns an instance of the class
+     * @param array $i_row
      */
-    public  function initInstanceFromDBRow($i_row);
+    public static function initInstanceFromDBRows($i_row);
 
     /**
      * @return string

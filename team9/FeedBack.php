@@ -1,5 +1,7 @@
 <?php
 
+require_once("IDBSerlizebleClass.php");
+
 /**
  * @author omer shenhar
  * @version 1.0
@@ -31,12 +33,12 @@ class FeedBack implements IDBSerlizebleClass
      */
     private $m_Comments;
 
-      /**
-        *  public constractor for feedback- dose nothing- an init function must be called
-        */
+    /**
+     *  public constractor for feedback- dose nothing- an init function must be called
+     */
     public function __construct()
     {
-      //do nothing
+
     }
 
     /**
@@ -54,13 +56,15 @@ class FeedBack implements IDBSerlizebleClass
         $this->m_UserID = $i_UserID;
     }
 
-    public function initInstanceFromDBRow($i_row)
+    public static function initInstanceFromDBRows($i_row)
     {
-        $conversationID = $row['conversation_code'];
-        $userID = $row['feedback_code'];
-        $grade = $row['servise_grade'];
-        $comments = $row['comments'];
-        return new FeedBack($conversationID, $userID, $grade, $comments);
+        $conversationID = $i_row['conversation_code'];
+        $userID = $i_row['feedback_code'];
+        $grade = $i_row['servise_grade'];
+        $comments = $i_row['comments'];
+        $Obj = new FeedBack();
+        $Obj->init($conversationID, $userID, $grade, $comments);
+        return $Obj;
     }
 
     //getters
@@ -149,6 +153,14 @@ class FeedBack implements IDBSerlizebleClass
     {
         return "(`feedback_code`, `conversation_code`, `servise_grade`, `comments`) VALUES" .
                 "(\'" . $this->m_ConversationID .
+                "\', \'" . $this->m_ConversationID .
+                "\', \'" . $this->m_Grade .
+                "\', \'" . $this->m_Comments . "\')'";
+    }
+
+    public function __toString()
+    {
+        return "(\'" . $this->m_ConversationID .
                 "\', \'" . $this->m_ConversationID .
                 "\', \'" . $this->m_Grade .
                 "\', \'" . $this->m_Comments . "\')'";
