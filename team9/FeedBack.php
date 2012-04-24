@@ -1,6 +1,6 @@
 <?php
 
-require_once("IDBSerlizebleClass.php");
+require_once("IDBSerializableClass.php");
 
 /**
  * @author omer shenhar

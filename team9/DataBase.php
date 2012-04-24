@@ -86,7 +86,6 @@ class Database
         $myquary = $this->insert_start . $sqlTable . $classInstance->getInstanceAsDBInsetString();
         echo $myquary;
         echo '<br/>';
-        echo $this->query($myquary);
     }
 
     /**
@@ -133,9 +132,9 @@ class Database
 
 }
 $db = Database::getInstance();
-$feedback = new FeedBack('333', '444', '555', '666');
+$feedback = new FeedBack('777', '444', '555', '7777');
 $db->insertObjectIntoDB('Client_feedback', $feedback);
-$res = $db->getObjectArrayForClass("true", Datab, 'FeedBack');
+$res = $db->getObjectArrayForClass("true", Database::ClientFeedbackTable, 'FeedBack');
 echo $res[0];
 echo '<br/>';
 echo $res[1];
