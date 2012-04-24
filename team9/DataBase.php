@@ -1,18 +1,11 @@
 <?php
 
-include "FeedBack.php";
+include_once "FeedBack.php";
 
 /**
- * Database access class.
- * Used in applications where one point of database access is required
  *
- * Typical Usage:
- * $db = Database::getInstance();
- * $results = $db->query("SELECT * FROM test WHERE name = :name",array(":name" => "matthew"));
- * print_r($results);
- *
- * @author Matthew Elliston <matt@e-titans.com>
- * @version 1.0
+ * @author omer Shenahr
+ * @version 1.1
  */
 class Database
 {
@@ -26,8 +19,14 @@ class Database
     private $quary_start = "select * from ";
     private $insert_start = "insert into ";
     private $quary_where = "where ";
-    private $Client_feedback_table_name = 'Client_feedback ';
-
+    const CilentTable = 'Client';
+    const ClientFeedbackTable = 'Client_feedback';
+    const  BODoumentationTable = ' BO_doumentation';
+    const ConversationTable = 'Conversation';
+    const ManagerTable = 'Manager';
+    const MessageTable = 'Message';
+    const RepresentativeTable='Representative';
+    const requestManagerToConversationTable='request_Manager_to_conversation';
     /**
      * Constructor
      * @param $dsn The Data Source Name. eg, "mysql:dbname=testdb;host=127.0.0.1"
@@ -79,12 +78,15 @@ class Database
     /**
      *
      * @param string $sqlTable
-     * @param IDBSerlizebleClass $classInstance
+     * @param IDBSerializableClass $classInstance
      */
     public function insertObjectIntoDB($sqlTable, $classInstance)
     {
-        $quary = $this->insert_start . $sqlTable . $classInstance->getInstanceAsDBInsetString();
-        $this->query($quary);
+        echo 'insert statment: ';
+        $myquary = $this->insert_start . $sqlTable . $classInstance->getInstanceAsDBInsetString();
+        echo $myquary;
+        echo '<br/>';
+        echo $this->query($myquary);
     }
 
     /**
@@ -130,13 +132,13 @@ class Database
     }
 
 }
-
 $db = Database::getInstance();
-$feedback = new FeedBack();
-$feedback->init('33', '44', '55', '66');
+$feedback = new FeedBack('333', '444', '555', '666');
 $db->insertObjectIntoDB('Client_feedback', $feedback);
-$res = $db->getObjectArrayForClass("true", 'Client_feedback', 'FeedBack');
+$res = $db->getObjectArrayForClass("true", Datab, 'FeedBack');
 echo $res[0];
 echo '<br/>';
 echo $res[1];
+echo '<br/>';
+echo $res[2];
 ?>

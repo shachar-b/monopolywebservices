@@ -6,7 +6,7 @@ require_once("IDBSerlizebleClass.php");
  * @author omer shenhar
  * @version 1.0
  */
-class FeedBack implements IDBSerlizebleClass
+class FeedBack implements IDBSerializableClass
 {
 
     /**
@@ -35,20 +35,12 @@ class FeedBack implements IDBSerlizebleClass
 
     /**
      *  public constractor for feedback- dose nothing- an init function must be called
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
-     *
      * @param long $i_ConversationID - the conversation id in qustion (long)
      * @param long $i_UserID - the ID of the user who have submited the feedback (long)
      * @param byte $i_Grade - the service rating given by the user(from a scale of 1 to 10)
      * @param string $i_Comments  - if the user has submited any comments- the comments should be placed here
      */
-    public function init($i_ConversationID, $i_UserID, $i_Grade, $i_Comments)
+    public function __construct($i_ConversationID, $i_UserID, $i_Grade, $i_Comments)
     {
         $this->m_ConversationID = $i_ConversationID;
         $this->m_Comments = $i_Comments;
@@ -62,8 +54,7 @@ class FeedBack implements IDBSerlizebleClass
         $userID = $i_row['feedback_code'];
         $grade = $i_row['servise_grade'];
         $comments = $i_row['comments'];
-        $Obj = new FeedBack();
-        $Obj->init($conversationID, $userID, $grade, $comments);
+        $Obj = new FeedBack($conversationID, $userID, $grade, $comments);
         return $Obj;
     }
 
@@ -152,18 +143,18 @@ class FeedBack implements IDBSerlizebleClass
     public function getInstanceAsDBInsetString()
     {
         return "(`feedback_code`, `conversation_code`, `servise_grade`, `comments`) VALUES" .
-                "(\'" . $this->m_ConversationID .
-                "\', \'" . $this->m_ConversationID .
-                "\', \'" . $this->m_Grade .
-                "\', \'" . $this->m_Comments . "\')'";
+                "('" . $this->m_ConversationID .
+                "', '" . $this->m_ConversationID .
+                "', '" . $this->m_Grade .
+                "', '" . $this->m_Comments . "')";
     }
 
     public function __toString()
     {
-        return "(\'" . $this->m_ConversationID .
-                "\', \'" . $this->m_ConversationID .
-                "\', \'" . $this->m_Grade .
-                "\', \'" . $this->m_Comments . "\')'";
+        return "('" . $this->m_ConversationID .
+                "', '" . $this->m_ConversationID .
+                "', '" . $this->m_Grade .
+                "', '" . $this->m_Comments . "')";
     }
 
 }
