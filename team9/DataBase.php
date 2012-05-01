@@ -3,6 +3,7 @@
 include_once "FeedBack.php";
 include_once 'DBAttribute.php';
 include_once 'DBPrime.php';
+include_once 'DBTableRepresntionOf.php';
 include_once 'addendum/annotations.php';
 
 /**
@@ -226,7 +227,7 @@ class Database
         echo "initAnnotatedObjectFromDBRow: read object" . $instance . "</br>";
         return $instance;
     }
-    
+
     /**
      * public function isUserIDValid($i_userID)
      * Queries the database to see if the user identified by the given
@@ -282,7 +283,9 @@ class Database
     }
 
 }
-
+$run=false;
+if($run)
+{
 $db = Database::getInstance();
 $feedback = new FeedBack('12', '395', '295', '195');
 $db->insertObjectIntoDB('Client_feedback', $feedback);
@@ -300,4 +303,5 @@ echo '<br/>';
 //$db->readObject($feedback);
 echo '<br/>';
 //$db->readObject($res[2])
+}
 ?>
