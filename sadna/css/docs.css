@@ -1,0 +1,26 @@
+body {
+	position:relative;
+	padding-top: 90px;
+}
+
+.form-container {
+	margin:0 auto;
+	width:300px;
+}
+
+.messages {
+	height:140px;
+	background-color:#fff;
+}
+
+.error {
+	color: red;
+}
+
+.sender {
+	color:blue;
+}
+
+.receiver {
+	color:red;
+}

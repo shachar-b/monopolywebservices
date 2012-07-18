@@ -1,0 +1,22 @@
+<script type='text/javascript'>
+
+    $(document).ready(function(){
+        $.get("ClientsList.php", function(data){
+
+        $.each(data, function(i, value){
+            var client = "<div class='client'>" + i + ")" + value + "</div>";
+            $(".client-list").prepend(client);
+        });
+
+
+        })
+    });
+
+</script>
+
+
+<div class="client-list">
+
+
+
+</div>

@@ -1,0 +1,47 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            <form action="testing.php" > 
+                <?php
+                include 'Employee.php';
+
+
+                $newEmployee = new Employee("Vika", "Rudman", "054", "abc", "b");
+                $userN = $newEmployee->getPassword();
+                if($userN === ""){
+                echo 'user = nothing';
+                }
+                else {
+                print $userN;
+                echo '<br>';
+
+                }
+
+                $p = $newEmployee->getUserName();
+                if($p === ""){
+                echo 'user = nothing';
+                }
+                else {
+                echo $p;
+                }
+
+                echo $newEmployee->getPermissionsLevel();
+
+
+
+
+                ?>
+            </form>
+        </div>
+    </body>
+</html>

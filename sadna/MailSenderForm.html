@@ -1,0 +1,65 @@
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $("#send_btn").click(function(){
+            var rcv=$("#receiver").val();
+            var sbj=$("#subject").val();
+            var msg=$("#message").val();
+            if(sbj=='' || msg == ''){
+
+                $("#response").html("Please fill out all the fields");
+                return false;
+            }
+            else{
+                var datastr= "receiver"+ rcv + "subject=" + sbj + "message" + msg;
+                $.ajax({
+                    type:'POST',
+                    url: 'mailSenderLogic.php',
+                    data:datastr,
+                    success:function(r){
+                        $("#response").html(r);
+                        return false;
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+</script>
+ 
+
+<div id="mailForm">
+    <fieldset>
+        <form action ="" name="mailForm">
+    <!--            <p id="feedback"> <?php //echo $feedback; ?></p>-->
+            <div id="response"></div>
+            <ul>                
+                <li>
+                    <label for="Receiver" id="mail_label">Mail to all:</label>
+                    <select id="receiver" name ="receiver">
+                        <option value="Representatives" >Representatives</option>
+                        <option value="Clients" >Clients</option>
+                    </select>
+                </li>                    
+                <li>
+                    <label for="Subject" id="subject_label">Subject:</label>
+                    <input type ="text" name="subject" id="subject"/>                    
+                </li>
+
+                <li>
+                    <label for="Message" id="message_label">Message:</label>
+                    <textarea id="message" name ="message" cols="42" rows="9"></textarea>
+                </li>
+
+                <li>
+                    <input type="submit" id="send_btn" class="btn btn-primary"  value ="Send">
+                </li>
+            </ul>
+
+        </form>
+    </fieldset>
+</div>
+
+
