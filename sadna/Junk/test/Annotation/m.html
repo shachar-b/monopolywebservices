@@ -1,0 +1,114 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+
+"http://www.w3.org/TR/html4/loose.dtd">
+<head>
+
+	<title>JQuery Example</title>
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+	
+	<script type=”text/javascript”>
+	
+	$(“document”).ready(function() {
+	
+	// Bind click events on buttons to trigger specified functions
+	
+	$(‘#oneButton’).bind(‘click’,getInfoFromServer);
+	
+	$(‘#twoButton’).bind(‘click’,getDblFromServer);
+	
+
+	});
+	
+	// Pull text from a text file on the server
+	
+	// Type defines the type of request to make being GET or POST
+	
+	// Success defines the function to call if the request succeeds
+	
+	// Error could be defined to specify the function to call if an error happens
+	
+	function getInfoFromServer() {
+	
+	$.ajax({
+	
+	type: “GET”,
+	
+	url: “sometext.txt”,
+	
+	success: postToPage});
+	
+	}
+	
+	// Function called to display the message from the server
+	
+	// Receives the text and the server status
+	
+	function postToPage(data, status) {
+	
+	$(‘#first’).text(data);
+	
+	}
+	
+	// Load a value into a span
+	
+	// I define that the program getDouble.php should be executed
+	
+	// getDouble is sent the information in the form and then it stores the returned // info in the span
+	
+	function getDblFromServer() {
+	
+	$(“span”).load(“m.php”,
+	
+	$(“#theForm”).serializeArray());
+	
+	}
+	
+	
+	</script>
+
+</head>
+
+<body id=”theBody”>
+
+<div><h3>Playing with Server Data</h3></div>
+	
+	<div>
+	
+	<h4><strong>Message from the Server:</strong></h4>
+	
+	<p id="first">Waiting for Message</p>
+	
+	</div>
+	
+	<form id="theForm">
+	
+		<button type="button" id="oneButton">Get Text</button><br />
+		
+		<div>
+		
+		<h4>Double Number on the Server:</h4>
+		
+		<span></span><br />
+		
+		</div>
+		
+		<input type="text" name="data" id="data"></input>
+		
+		<button type="button" id="twoButton">Double Number</button><br /><br />
+
+	
+	</form>
+	
+	<div>
+	
+	<h4><strong>XML Data from the Server:</strong></h4>
+	
+	</div>
+	
+	<div id="customers">Customer Information</div>
+
+</body>
+
+</html>

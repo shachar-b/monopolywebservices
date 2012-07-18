@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Feedback Form</title>
+        <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+
+        <script type="text/javascript">
+            // wait for the DOM to be loaded
+            $(document).ready(function() {
+                $('#submit').click(function(){
+                    $('submissionConfirmation').text("");
+                    var conversationCode = <?php echo $_POST["conversationCode"]; ?>;
+                    var chosenGrade = $('#rank :selected').val();
+                    var userText = $('#message').val();
+                    var JSONData = {
+                        conversationCode:conversationCode,
+                        grade: chosenGrade,
+                        comments: userText
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: 'FeedBackFormSubmit.php',
+                        data: JSONData,
+                        success: onSubmitSuccess,
+                        error: onSubmitError
+                    });
+                });
+                
+                function onSubmitSuccess(data,status){
+                    var message = "";
+                    if (data == "Success"){
+                        message = "Thank you for submitting feedback, you opinion is important to us!";
+                        $('#submit').attr("disabled",true);
+                    }
+                    else{
+                        message= "Something went wrong, please try again. If problem persists, contact support.";
+                    }
+                    $("#submissionConfirmation").text(message);
+                }
+                
+                function onSubmitError(data,status){
+                    var message = "A technical error has occured, contact support."
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div id="submissionForm">
+            <form id="feedBackForm" action="" method="post">
+                <h3>please insert feedback for your conversation:</h3>
+                <br>
+                <label for="rank">Please select a grade for the conversation:</label>
+                <select id="rank" name="Grade_select_box">
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>                
+                </select>
+                <br>
+                <label for="message">Do you have anything you would like to tell us? Please insert it here:</label>
+                <br>
+                <textarea id="message" ></textarea>
+                <br>
+                <input id="submit" type="button" value="Send feedback" />
+            </form>
+        </div>
+        <div id="submissionConfirmation"></div>
+    </body>
+</html>

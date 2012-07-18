@@ -1,0 +1,34 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            <form action="testing.php" > 
+            <?php
+            include 'testing.php';
+            
+
+            
+            $newEmployee = new Employee("Vika", "Rudman", "054", "abc", "b");
+$userN = $newEmployee->getUserName();
+     $pass = $newEmployee->getPassword();
+     print $userN;
+     
+     print $pass;
+foo::username();
+ foo::createPassword();
+
+
+?>
+            </form>
+        </div>
+    </body>
+</html>

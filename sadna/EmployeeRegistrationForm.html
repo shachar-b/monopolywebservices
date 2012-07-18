@@ -1,0 +1,110 @@
+<?php
+include_once 'Employee.php';
+include_once 'User.php';
+include_once 'DataBase.php';
+
+
+$firstName = $_POST['firstname'];
+$lastName = $_POST['lastname'];
+$phone = $_POST['phone'];
+$mail= $_POST['mail'];
+$permission= $_POST['permission'];
+
+if($_POST){
+    if($firstName!='' && $lastName!='' && $phone!='' && $permission != ''){
+        //add data to database
+
+            $newEmployee = new Employee($firstName, $lastName, $phone, $mail, $permission);
+            $newEmployee->createPassword();
+
+
+            $db = Database::getInstance();
+
+
+            if($permission === 'a')
+            {
+                $db->insertObjectIntoDB(DataBase::ManagerTable, $newEmployee) ;
+                $query = "Update `Manager` Set `Permission` = 'a' where `LastName`= '".$lastName."' and `FirstName`= '".$firstName."' and `Phone` = '".$phone."' and `E-mail` = '".$mail."' ";
+                $db->query($query);
+                $feedback = 'A new Manager was added succesfully';
+            }
+            else if($permission === 'b')
+            {
+                $db->insertObjectIntoDB(DataBase::RepresentativeTable, $newEmployee);     
+                $query = "Update `Representative` Set `Permission` = 'b' where `LastName`= '".$lastName."' and `FirstName`= '".$firstName."' and `Phone` = '".$phone."' and `E-mail` = '".$mail."' ";
+                $db->query($query); // update permission of a new employee
+                $feedback = 'A new Representative was added succesfully';
+            }
+            else {
+                $feedback = 'There is no '.$permission.' permission!';
+ 
+            echo '<script type="text/javascript">'
+            , 'reloadPage()'
+            , '</script>';
+
+            }
+    }
+    else{
+        //echo 'Fill out all the fields';
+        $feedback="Fill out all the fields";
+    }
+}
+?>
+        
+<script type="text/javascript">
+function reloadPage()
+  {
+  location.replace("http://sadnateam9.net23.net/EmployeeRegistrationForm.html")
+  }
+</script>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <script type="text/javascript" src ="js/jquery-1.7.1.js"></script>
+        
+    </head>
+    <body>
+        <div>
+         <h1>New Employee Registration</h1>
+         <p id="feedback"><?php echo $feedback;  ?></p>
+
+        <form action="?" method="post">
+        <fieldset>
+            <ul>
+                <li>
+                    <label for="FirstName">First name:</label>
+                    <input type="text" name="firstname" id="firstname"/>
+                </li>
+                <li>
+                    <label for="LastName">Last name:</label>
+                    <input type="text" name="lastname" id="lastname"/>
+                </li>
+                <li>
+                    <label for="Phone">Phone:</label>
+                    &nbsp &nbsp &nbsp <input type="text" name="phone" id="phone"/>
+                </li>
+                <li>
+                    <label for="mail">E-mail:</label>
+                    &nbsp &nbsp &nbsp <input type="text" name="mail" id="mail"/>
+                </li>
+                <li>
+                    <label for="permission">Permission:</label>
+                    <input type="text" name="permission" id="permission"/>
+                </li>
+                <li>
+                    <input type="submit" name="formSubmit"  value="Register">                    
+                </li>
+                <li>
+                    <input type="button" onclick="window.close()" value="Close Window">
+                </li>
+            </ul>
+
+        </fieldset>
+        </form> 
+            
+        </div>
+    </body>
+</html>

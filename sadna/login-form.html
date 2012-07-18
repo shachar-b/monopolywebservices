@@ -1,0 +1,25 @@
+<!-- compelete action -->
+<form id="login-form" action="'login.php" method="post">
+    <label for="email">User Name:</label>
+    <input type="email" name="email" required placeholder="email@example.com" />
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required placeholder="your password" />
+
+    <input type="hidden" name="login" value="true"/>
+
+    <input type="submit" value="Log in" />
+</form>
+<script type="text/javascript">
+
+    $("body").on("submit", "#login-form", function(e){
+        console.log("ASD");
+        e.preventDefault();
+        $chat.utils.submitForm({
+            form : "#login-form",
+            url: "login-authentication.php"
+        });
+    });
+
+
+</script>

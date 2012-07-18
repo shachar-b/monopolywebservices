@@ -1,0 +1,18 @@
+<div class="chat-console">
+    <!-- option panel -->
+    <!-- messages -->
+    <div class="messages"></div>
+    <!-- message input and send button -->
+    <textarea></textarea><input type="'button" value="send" />
+</div>
+
+<script type="text/javascript">
+
+    function openChatConsole(userId){
+        //append new container to chat area
+        $("container").load("chat-console.html");
+        //add the userid to the chatConsole
+        $("container").chatConsole();
+    }
+
+</script>

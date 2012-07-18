@@ -1,0 +1,28 @@
+<?php
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+?>
+
+<script type='text/javascript'>
+    
+    $(document).ready(function(){
+        $.get("ConversationsList.php", function(data){
+            
+        $.each(data, function(i, value){
+            var conversation = "<div class='conversation'>" + i + ")" + value + "</div>";
+            $(".conversationsScreen").prepend(conversation);
+        });
+            
+            
+        })
+    });
+    
+</script>
+
+<div class="conversationsScreen">
+
+
+</div>

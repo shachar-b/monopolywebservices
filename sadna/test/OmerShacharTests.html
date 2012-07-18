@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Tests by Omer and Shachar</title>
+        <script type="text/javascript" src="../jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src ="../bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src ="../bootstrap/js/bootstrap-tab.js"></script>
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#personalInfoBtn').click(function(){
+                    $('<form />')
+                    .hide()
+                    .attr({ method : "post" })
+                    .attr({ action : "../PersonalInfo.php"})
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "queriedUserID" })
+                    .val($("#queriedUser").val())
+                )
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "queryingUserID" })
+                    .val($("#queryingUser").val())
+                )
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "fullHtml" })
+                    .val(true)
+                )
+                    .append('<input type="submit" />')
+                    .appendTo($("body"))
+                    .submit();
+                });
+
+                $('#feedBackBtn').click(function(){
+                    $('<form />')
+                    .hide()
+                    .attr({ method : "post" })
+                    .attr({ action : "../FeedBackForm.php"})
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "conversationCode" })
+                    .val($("#conversationCode").val())
+                )
+                    .append('<input type="submit" />')
+                    .appendTo($("body"))
+                    .submit();
+                });
+                $('#EmpScreenBtn').click(function(){
+                    $('<form />')
+                    .hide()
+                    .attr({ method : "post" })
+                    .attr({ action : "../EmployeeScreen.php"})
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "ID" })
+                    .val($("#userID").val())
+                )
+                    .append($('<input />')
+                    .attr("type","hidden")
+                    .attr({ "name" : "fullHtml" })
+                    .val(true)
+                )
+                    .append('<input type="submit" />')
+                    .appendTo($("body"))
+                    .submit();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">Feedback Flow Testing</a></li>
+                <li><a href="#tab2" data-toggle="tab">Personal Info Testing</a></li>
+                <li><a href="#tab3" data-toggle="tab">Employee screen testing</a></li>
+                <li><a href="#tab4" data-toggle="tab">Further unknown tests...</a></li>
+            </ul>
+            <div class="tab-content" id="testingPage">
+                <div class="tab-pane active" id="tab1">
+                    <p>
+                        Choose conversation number (1,2,3 works, others do not work) :
+                        <input type="text" id="conversationCode" value="3"/>
+                    </p>
+                    <p>
+                        Click the next button to test:
+                        <input class="btn" id="feedBackBtn" type="button" value="Test feedback" />
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <p>Note: User "38" is Shachar(Client), "1","2","11","12" Managers, "10","16" Representatives.</p>
+                    <p>
+                        Choose querying user ID number:
+                        <input type="text" id="queryingUser" value="1"/>
+                    </p>
+                    <p>
+                        Choose queried user ID number:
+                        <input type="text" id="queriedUser" value="38"/>
+                    </p>
+                    <p>
+                        Click the next button to test:
+                        <input class="btn" id="personalInfoBtn" type="button" value="Test personal info"/>
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab3">
+                    <p>
+                        Choose ID to geneate For :
+                        <input type="text" id="userID" value="1"/>
+                    </p>
+                    <p>
+                        Click the next button to test:
+                        <input class="btn" id="EmpScreenBtn" type="button" value="Test Screen" />
+                    </p>
+                </div>
+                <div class="tab-pane" id="tab4">
+                    <p>Enter new tests...</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

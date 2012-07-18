@@ -1,0 +1,41 @@
+
+
+<html>
+    <head>
+        <title>BOD Form</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src ="js/jquery-1.7.1.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                $('#submit_item').click(function()
+                {
+                    var content = $('#comments').val();
+                   alert(content);
+                });                
+            });            
+        </script>
+    </head>
+    <body>
+        <h1>Back Office Documentation</h1>
+        <div>
+                        
+            <select name="BOD Type" >
+                <option>General</option>
+                <option>Complaints</option>
+            </select> 
+            
+            <br>            
+            <br>
+            
+            <textarea name ="comments" id="comments" cols="40" rows="10"></textarea>
+            <br>
+            <p> 
+                <input type ="submit" name ="submit"  id ="submit_item" value="Save"/>  
+            </p>
+              
+            
+                
+        </div>
+    </body>
+</html>
