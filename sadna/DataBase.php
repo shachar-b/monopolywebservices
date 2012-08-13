@@ -28,6 +28,9 @@ class DataBase {
     const BODoumentationTable = ' BO_doumentation';
     const ConversationTable = 'Conversation';
     const ManagerTable = 'Manager';
+    const SelectManagersQuary = '(Select * from employees, users where user_id=id and permission_code=1) as Managers';
+    const SelectEmpQuary = '(Select * from employees, users where user_id=id and permission_code=2) as rep';
+    const SelectClientQuary = '(Select * from clients, users where user_id=id and permission_code=3) as usr';
     const MessageTable = 'Message';
     const RepresentativeTable = 'Representative';
     const requestManagerToConversationTable = 'request_Manager_to_conversation';
@@ -107,6 +110,10 @@ class DataBase {
      * @param IDBSerializableClass $classInstance
      */
     public function insertObjectIntoDB($sqlTable, $classInstance) {
+        if($sqlTable== DataBase::CilentTable || $sqlTable== DataBase::ManagerTable || $sqlTable== DataBase::RepresentativeTable)
+        {
+            $sqlTable= 'users';
+        }
         //echo 'insertObjectIntoDB : insert statment: ';
         $insertBody = self::makeInsertBodyFromAnnotatedClass($classInstance);
         $myquary = $this->insert_start . $sqlTable . $insertBody;
@@ -124,6 +131,19 @@ class DataBase {
      * @return array
      */
     public function getObjectArrayForClass($sqlCondtion, $sqlTable, $class_name) {
+        if($sqlTable== DataBase::CilentTable)
+        {
+            $sqlTable= DataBase::SelectClientQuary;
+        }
+        else if($sqlTable== DataBase::RepresentativeTable)
+        {
+            $sqlTable= DataBase::SelectEmpQuary;
+        }
+        else if($sqlTable == DataBase::ManagerTable)
+        {
+            $sqlTable=  DataBase::SelectManagersQuary;
+        }
+
         $sqlQuary = $this->quary_start . $sqlTable;
         /**
          *
@@ -191,6 +211,10 @@ class DataBase {
     }
 
     public function updateObjectInDB($obj, $tableName) {
+        if($tableName== DataBase::CilentTable || $tableName== DataBase::ManagerTable || $tableName== DataBase::RepresentativeTable)
+        {
+            $tableName= 'users';
+        }
         $reflect = new ReflectionClass($obj);
         $methods = $reflect->getMethods();
         $isFirst = true;
@@ -252,7 +276,7 @@ class DataBase {
      * @return boolean - signals if userID is valid
      */
     public function isUserIDValid($i_userID) {
-        return $this->isColumnValueExists($i_userID, DataBase::CilentTable, "ID");
+        return $this->isColumnValueExists($i_userID, DataBase::CilentTable, "user_id");
     }
 
     /**
@@ -264,7 +288,7 @@ class DataBase {
      * @return boolean - signals if userID is valid
      */
     public function isManngerIDValid($i_userID) {
-        return $this->isColumnValueExists($i_userID, DataBase::ManagerTable, "ID");
+        return $this->isColumnValueExists($i_userID, DataBase::SelectManagersQuary, "user_id");
     }
 
     /**
@@ -276,7 +300,7 @@ class DataBase {
      * @return boolean - signals if userID is valid
      */
     public function isRepresentativeIDValid($i_userID) {
-        return $this->isColumnValueExists($i_userID, DataBase::RepresentativeTable, "ID");
+        return $this->isColumnValueExists($i_userID, DataBase::SelectEmpQuary, "user_id");
     }
 
     public function isColumnValueExists($i_value, $i_table, $i_column) {
